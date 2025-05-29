@@ -1,0 +1,57 @@
+@use 'colors' as *;
+
+@mixin highlight($direction: to left, $hover: false) {
+    $color1: #3f2fa7;
+    $color2: #385b8f;
+    background-image: linear-gradient(#{$direction}, $color1, $color2);
+
+    @if $hover {
+        &:hover {
+            background-image: none;
+            background-color: $color1;
+        }
+    }
+}
+
+@mixin inner-shadow {
+    box-shadow: inset 5px 5px 15px #000000b3,
+        inset -3px -2px 15px #ffffff40;
+}
+
+@mixin after_triangle {
+    content: ' ';
+    clip-path: polygon(0% 0%, 50% 100%, 100% 0%);
+    padding: 5px;
+    position: absolute;
+    bottom: -10px;
+    left: 20px;
+}
+
+@mixin border($property) {
+    #{$property}: solid 1px $grey2;
+}
+
+@mixin border_smooth($property) {
+    #{$property}: solid 0.5px $dark;
+}
+
+@keyframes rotating {
+    to {
+        transform: rotate(1turn);
+    }
+}
+
+@keyframes bounce {
+    50% {
+        transform: translateY(-5px);
+    }
+
+    90% {
+        height: 0.9em;
+        transform: translateY(0px);
+    }
+
+    to {
+        height: 1em;
+    }
+}

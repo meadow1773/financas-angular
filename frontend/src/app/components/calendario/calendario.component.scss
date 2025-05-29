@@ -1,0 +1,50 @@
+@use '../../../resources/scss/colors' as *;
+@use '../../../resources/scss/mixin' as *;
+
+.calendario {
+    background-color: #000;
+    position: absolute;
+    z-index: 1;
+    width: 200px;
+    padding: 40px 10px 20px 10px;
+    text-align: center;
+    border-radius: 10%;
+    opacity: 0;
+    transition: all linear 0.2s;
+    flex-flow: row wrap;
+    box-shadow: #000 1px 1px 10px;
+    top: 50px;
+    left: 150px;
+
+    .ano {
+        width: min-content;
+        font-weight: bold;
+        position: absolute;
+        top: 10px;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+    }
+
+    .month-item {
+        @include highlight(to left, true);
+        padding: 5px;
+        width: 40px;
+        height: 40px;
+        border-radius: 20%;
+        margin: 2px;
+        cursor: pointer;
+        line-height: 0.8em;
+    }
+
+    .cal-close {
+        position: absolute;
+        right: 15px;
+        top: 10px;
+        cursor: pointer;
+
+        &:hover {
+            color: $grey2;
+        }
+    }
+}

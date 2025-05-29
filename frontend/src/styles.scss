@@ -1,0 +1,25 @@
+@use './resources/scss/fonts' as *;
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #000;
+    min-height: 100vh;
+    font-family: 'Inter Tight', sans-serif;
+    font-size: 80%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+main {
+    max-width: 1280px;
+    width: min-content;
+    margin: 0 auto;
+    padding: 50px 0;
+    display: grid;
+    grid-template-columns: 1.5fr 2fr;
+    font-size: 1.5em;
+}

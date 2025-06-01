@@ -1,4 +1,5 @@
 CREATE TABLE categorias (
   id SERIAL PRIMARY KEY,
-  nome VARCHAR(50) NOT NULL
+  nome VARCHAR(50) NOT NULL,
+  fk_tipo_id INTEGER NOT NULL REFERENCES tipos(id)
 );

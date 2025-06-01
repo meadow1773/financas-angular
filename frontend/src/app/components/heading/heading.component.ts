@@ -1,20 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { GlobalService } from '../../services/global.service';
+import { CalendarioComponent } from '../calendario/calendario.component';
 
 @Component({
   selector: 'app-heading',
-  imports: [],
+  imports: [CalendarioComponent],
   templateUrl: './heading.component.html',
   styleUrl: './heading.component.scss'
 })
 
-export class HeadingComponent implements OnInit {
-  mes!: string;
+export class HeadingComponent {
+  mes: string;
+  abrirCalendario: boolean = false;
 
-  constructor(public global: GlobalService) {}
-  
-  ngOnInit() {
-    this.mes = this.global.mesAtualStr
+  constructor(public global: GlobalService) {
+    this.mes = this.global.mesAtualStr;
+  }
+  public toggleCalendario() {
+    this.abrirCalendario = !this.abrirCalendario;
   }
 }
 

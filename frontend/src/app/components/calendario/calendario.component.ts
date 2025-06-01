@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
+import { GlobalService } from '../../services/global.service';
 
 @Component({
   selector: 'app-calendario',
@@ -6,6 +7,15 @@ import { Component } from '@angular/core';
   templateUrl: './calendario.component.html',
   styleUrl: './calendario.component.scss'
 })
-export class CalendarioComponent {
 
+export class CalendarioComponent {
+  ano: number;
+  @Output() toggleEvent = new EventEmitter();
+
+  constructor(public global: GlobalService) {
+    this.ano = global.anoAtual;
+  }
+  chamarToggle() {
+    this.toggleEvent.emit();
+  }
 }

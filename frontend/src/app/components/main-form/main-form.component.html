@@ -1,16 +1,3 @@
 <form [formGroup]="mainDados" (ngSubmit)="onSubmit(mainDados)">
-    <div class="sub-wrapper">
-        <span class="sub-title">
-            <i class="bi bi-graph-up-arrow" alt="Receitas"></i>
-            Receitas
-        </span>
-    </div>
-    <div class="content receita">
-        <span class="item parcial">
-            
-        </span>
-        <span class="valores parcial">
-            <input formControlName="saldoAnterior">
-        </span>
-    </div>
+    <app-grupo-transacoes></app-grupo-transacoes>
 </form>

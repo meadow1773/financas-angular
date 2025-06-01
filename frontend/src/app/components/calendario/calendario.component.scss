@@ -2,6 +2,7 @@
 @use '../../../resources/scss/mixin' as *;
 
 .calendario {
+    display: flex;
     background-color: #000;
     position: absolute;
     z-index: 1;

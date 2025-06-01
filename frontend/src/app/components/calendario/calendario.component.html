@@ -1,5 +1,7 @@
-<div class="calendario" style="display:none;">
-    <span class="cal-close">x</span>
+<!-- [style.opacity] ="abrir ? 1 : 0" [style.pointer-events]="abrir ? 'auto' : 'none'" -->
+<div class="calendario" >
+    <i class="bi bi-x-circle cal-close" (click)="chamarToggle()"></i>
+    <span class="ano">{{ global.anoAtual }}</span>
     <span class="month-item">jan</span>
     <span class="month-item">fev</span>
     <span class="month-item">mar</span>

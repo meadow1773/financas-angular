@@ -1,0 +1,100 @@
+@use '../../../resources/scss/_mixin.scss' as *;
+@use '../../../resources/scss/colors' as *;
+
+.content {
+    background-color: #000;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+
+    .item {
+        @include border_smooth(border-right);
+    }
+}
+
+.item,
+.valores {
+    padding: 5px 10px 5px 15px;
+    position: relative;
+}
+
+.item {
+    @include border(border-left);
+    cursor: pointer;
+
+    &:hover {
+        img:not(.detalhar, .update, .drag) {
+            animation: bounce 0.3s ease 1;
+        }
+
+        .detalhar,
+        .update:hover {
+            background-color: #ffffff50;
+        }
+
+        .drag {
+            display: block;
+        }
+    }
+
+    .detalhar {
+        float: right;
+        background: none;
+        border-radius: 50%;
+        padding: 2px;
+        width: 25px !important;
+        transition: all 0.2s;
+    }
+
+    img {
+        width: 1em;
+        height: auto;
+
+        &:not(.drag) {
+            margin-right: 5px;
+        }
+    }
+
+    .drag {
+        display: none;
+        width: 15px;
+        position: absolute;
+        left: 0;
+        top: 7px;
+        cursor: grab;
+    }
+}
+
+.valores {
+    position: relative;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    @include border(border-right);
+
+    &:not(.saldo-anterior, .saldo) input:not(.detail) {
+        &[type=image] {
+            height: 25px;
+            width: auto;
+            padding: 2px;
+            background: none;
+            border-radius: 50%;
+            transition: background-color 0.2s;
+
+            &:hover {
+                background-color: #ffffff50;
+            }
+        }
+    }
+
+    input {
+        width: 100%;
+        max-height: 30px;
+        background-color: $dark;
+        color: #fff;
+
+        &:where(.detail, .update) {
+            width: auto !important;
+            margin-left: 1px;
+        }
+    }
+}

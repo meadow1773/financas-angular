@@ -1,0 +1,16 @@
+@use '../../../resources/scss/_mixin.scss' as *;
+
+.sub-wrapper {
+    background-color: #fff;
+}
+
+.sub-title {
+    @include highlight();
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    display: block;
+    width: 100%;
+    text-align: center;
+    font-weight: 800;
+    padding: 7px;
+}

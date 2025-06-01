@@ -1,46 +1,40 @@
 {
-  "hash": "a15aff97",
-  "configHash": "902cd0cb",
+  "hash": "96f9b88f",
+  "configHash": "c1dc4edc",
   "lockfileHash": "d55a137c",
-  "browserHash": "0d6302a9",
+  "browserHash": "05c4c6e8",
   "optimized": {
     "@angular/core": {
       "src": "../../../../../../node_modules/@angular/core/fesm2022/core.mjs",
       "file": "@angular_core.js",
-      "fileHash": "372bc9e5",
-      "needsInterop": false
-    },
-    "@angular/platform-browser": {
-      "src": "../../../../../../node_modules/@angular/platform-browser/fesm2022/platform-browser.mjs",
-      "file": "@angular_platform-browser.js",
-      "fileHash": "c8ab62e9",
-      "needsInterop": false
-    },
-    "@angular/router": {
-      "src": "../../../../../../node_modules/@angular/router/fesm2022/router.mjs",
-      "file": "@angular_router.js",
-      "fileHash": "6e2c19a5",
+      "fileHash": "7e77629f",
       "needsInterop": false
     },
     "@angular/forms": {
       "src": "../../../../../../node_modules/@angular/forms/fesm2022/forms.mjs",
       "file": "@angular_forms.js",
-      "fileHash": "ae74d82c",
+      "fileHash": "fe33ede7",
       "needsInterop": false
     },
-    "@angular/common": {
-      "src": "../../../../../../node_modules/@angular/common/fesm2022/common.mjs",
-      "file": "@angular_common.js",
-      "fileHash": "3144fafe",
+    "@angular/platform-browser": {
+      "src": "../../../../../../node_modules/@angular/platform-browser/fesm2022/platform-browser.mjs",
+      "file": "@angular_platform-browser.js",
+      "fileHash": "858f5292",
+      "needsInterop": false
+    },
+    "@angular/router": {
+      "src": "../../../../../../node_modules/@angular/router/fesm2022/router.mjs",
+      "file": "@angular_router.js",
+      "fileHash": "d79b895f",
       "needsInterop": false
     }
   },
   "chunks": {
-    "chunk-BPI6XKF2": {
-      "file": "chunk-BPI6XKF2.js"
+    "chunk-SRLSLDNU": {
+      "file": "chunk-SRLSLDNU.js"
     },
-    "chunk-VUYRZGJS": {
-      "file": "chunk-VUYRZGJS.js"
+    "chunk-EQAG4ESX": {
+      "file": "chunk-EQAG4ESX.js"
     },
     "chunk-PUPFYMDY": {
       "file": "chunk-PUPFYMDY.js"

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { GlobalService } from '../../services/global.service';
 
 @Component({
@@ -10,12 +10,10 @@ import { GlobalService } from '../../services/global.service';
 
 export class CalendarioComponent {
   ano: number;
-  @Output() toggleEvent = new EventEmitter();
-
+  @Input() aberto: boolean = false;
+  @Output() toggle = new EventEmitter<void>();
+  
   constructor(public global: GlobalService) {
     this.ano = global.anoAtual;
-  }
-  chamarToggle() {
-    this.toggleEvent.emit();
   }
 }

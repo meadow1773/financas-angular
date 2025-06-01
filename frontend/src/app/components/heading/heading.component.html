@@ -1,7 +1,7 @@
-<app-calendario (toggleEvent)="toggleCalendario()"></app-calendario>
+<app-calendario [aberto]="calendarioAberto" (toggle)="toggleCalendario()"></app-calendario>
 <div class="heading">
     <i class="bi bi-arrow-left-circle seletor prev" alt="Mês anterior"></i>
     <i class="bi bi-calendar3 opencal" alt="Calendário" (click)="toggleCalendario()"></i>
-    <span class="mes"> {{ global.mesAtualStr }}</span>
+    <span class="mes">{{ global.mesAtualStr }}</span>
     <i class="bi bi-arrow-right-circle seletor next" alt="Próximo mês"></i>
 </div>

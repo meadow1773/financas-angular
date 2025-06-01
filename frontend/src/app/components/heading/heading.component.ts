@@ -11,13 +11,14 @@ import { CalendarioComponent } from '../calendario/calendario.component';
 
 export class HeadingComponent {
   mes: string;
-  abrirCalendario: boolean = false;
+  calendarioAberto: boolean = false;
 
   constructor(public global: GlobalService) {
     this.mes = this.global.mesAtualStr;
   }
-  public toggleCalendario() {
-    this.abrirCalendario = !this.abrirCalendario;
+
+  toggleCalendario() {
+    this.calendarioAberto = !this.calendarioAberto;
   }
 }
 

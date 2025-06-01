@@ -11,7 +11,7 @@ import { CalendarioComponent } from '../calendario/calendario.component';
 
 export class HeadingComponent {
   mes: string;
-  calendarioAberto: boolean = false;
+  calendarioAberto = false;
 
   constructor(public global: GlobalService) {
     this.mes = this.global.mesAtualStr;

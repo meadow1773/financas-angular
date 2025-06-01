@@ -11,10 +11,12 @@ export class ItemComponent {
   public itemTipo: string;
   public itemNome: string;
   public itemNomeClass: string;
+  public zero: string;
 
   constructor(public global: GlobalService) {
     this.itemTipo = 'Receita';
     this.itemNome = 'Salário';
     this.itemNomeClass = global.toClass(this.itemNome);
+    this.zero = global.zeroFormat;
   }
 }

@@ -1,7 +1,19 @@
 <div class="sub-wrapper">
     <span class="sub-title">
         <i class="bi bi-graph-up-arrow"></i>
-        {{ nomeGrupo }}
+        {{nomeGrupo}}
     </span>
 </div>
 <app-item></app-item>
+<div class="content create">
+    <button alt="Criar" tabindex="-1"><i class="bi bi-plus"></i></button>
+</div>
+<div class="content {{nomeGrupoClass}}">
+    <span class="item parcial">
+        <i class="bi bi-cash-stack" [attr.alt]="nomeGrupo"></i>
+        Total
+    </span>
+    <span class="valores parcial">
+        <input type="text" name="total-{{nomeGrupoClass}}" tabindex="-1" readonly>
+    </span>
+</div>

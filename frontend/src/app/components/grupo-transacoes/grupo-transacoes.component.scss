@@ -14,3 +14,29 @@
     font-weight: 800;
     padding: 7px;
 }
+
+.create {
+    display: block;
+    @include border(border-right);
+    @include border(border-left);
+    @include border-smooth(border-top);
+    @include border-smooth(border-bottom);
+
+    button {
+        background-color: black;
+        color: white;
+        display: block;
+        margin: 0 auto;
+        padding: 2.5px;
+        height: 25px;
+        border-radius: 50%;
+    }
+
+    &:hover {
+        cursor: pointer;
+
+        button {
+            background-color: #ffffff50;
+        }
+    }
+}

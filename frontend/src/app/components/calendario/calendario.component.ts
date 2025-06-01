@@ -10,7 +10,7 @@ import { GlobalService } from '../../services/global.service';
 
 export class CalendarioComponent {
   ano: number;
-  @Input() aberto: boolean = false;
+  @Input() aberto = false;
   @Output() toggle = new EventEmitter<void>();
   
   constructor(public global: GlobalService) {

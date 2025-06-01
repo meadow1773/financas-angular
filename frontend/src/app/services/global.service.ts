@@ -9,11 +9,14 @@ import { Injectable } from '@angular/core';
 })
 
 export class GlobalService {
-  dataObj: Date = new Date();
-  anoAtual: number = this.dataObj.getFullYear();
-  mesAtualNum: number = this.dataObj.getMonth();
+  // Datas
+  dataObj = new Date();
+  anoAtual = this.dataObj.getFullYear();
+  mesAtualNum = this.dataObj.getMonth();
+  mesAtualStr = this.dataObj.toLocaleString(undefined, { month: 'long' });
 
-  mesAtualStr: string = this.dataObj.toLocaleString(undefined, { month: 'long' });
+  // Valores
+  zeroFormat = 'R$ 0,00';
 
   constructor() { }
 

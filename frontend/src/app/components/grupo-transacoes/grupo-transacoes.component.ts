@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ItemComponent } from '../item/item.component';
+import { GlobalService } from '../../services/global.service';
 
 @Component({
   selector: 'app-grupo-transacoes',
@@ -9,8 +10,10 @@ import { ItemComponent } from '../item/item.component';
 })
 export class GrupoTransacoesComponent {
   public nomeGrupo:string;
+  public nomeGrupoClass: string;
 
-  constructor() {
+  constructor(public global: GlobalService) {
     this.nomeGrupo = 'Teste';
+    this.nomeGrupoClass = global.toClass(this.nomeGrupo);
   }
 }

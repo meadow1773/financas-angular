@@ -1,7 +1,7 @@
 <app-calendario [aberto]="calendarioAberto" (toggle)="toggleCalendario()"></app-calendario>
 <div class="heading">
-    <i class="bi bi-arrow-left-circle seletor prev" alt="Mês anterior"></i>
-    <i class="bi bi-calendar3 opencal" alt="Calendário" (click)="toggleCalendario()"></i>
-    <span class="mes">{{ global.mesAtualStr }}</span>
-    <i class="bi bi-arrow-right-circle seletor next" alt="Próximo mês"></i>
+    <mat-icon class="seletor prev" alt="Mês anterior" (click)="mesAnt()">arrow_circle_left</mat-icon>
+    <mat-icon class="opencal" alt="Calendário" (click)="toggleCalendario()">calendar_month</mat-icon>
+    <span class="mes">{{ mesSelecionado }}</span>
+    <mat-icon class="seletor next" alt="Próximo mês" (click)="proxMes()">arrow_circle_right</mat-icon>
 </div>

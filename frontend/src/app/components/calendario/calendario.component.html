@@ -1,16 +1,5 @@
 <div class="calendario" [style.opacity]="aberto ? 1 : 0" [style.pointer-events]="aberto ? 'auto' : 'none'">
-    <i class="bi bi-x-circle cal-close" alt="Fechar" (click)="toggle.emit()"></i>
-    <span class="ano">{{ global.anoAtual }}</span>
-    <span class="month-item">jan</span>
-    <span class="month-item">fev</span>
-    <span class="month-item">mar</span>
-    <span class="month-item">abr</span>
-    <span class="month-item">mai</span>
-    <span class="month-item">jun</span>
-    <span class="month-item">jul</span>
-    <span class="month-item">ago</span>
-    <span class="month-item">set</span>
-    <span class="month-item">out</span>
-    <span class="month-item">nov</span>
-    <span class="month-item">dez</span>
+    <mat-icon class="cal-close" alt="Fechar" (click)="toggle.emit()">cancel</mat-icon>
+    <span class="ano">{{ Data.anoAtual }}</span>
+    <span class="month-item" *ngFor="let mes of meses" (click)="selecionaMes(mes)">{{ mes }}</span>
 </div>

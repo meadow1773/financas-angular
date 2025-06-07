@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { GrupoTransacoesComponent } from '../grupo-transacoes/grupo-transacoes.component';
 
+
 @Component({
   selector: 'app-main-form',
   imports: [ReactiveFormsModule, GrupoTransacoesComponent],

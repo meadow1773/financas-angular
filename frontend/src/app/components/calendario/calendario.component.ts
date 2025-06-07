@@ -1,19 +1,31 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { GlobalService } from '../../services/global.service';
+import { DataHandlerService } from '../../services/data-handler.service';
+import { MatIconModule } from '@angular/material/icon';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-calendario',
-  imports: [],
+  imports: [MatIconModule, CommonModule],
+  providers: [DataHandlerService],
   templateUrl: './calendario.component.html',
   styleUrl: './calendario.component.scss'
 })
 
 export class CalendarioComponent {
-  ano: number;
-  @Input() aberto = false;
-  @Output() toggle = new EventEmitter<void>();
+  @Input() aberto = false
+  @Output() toggle = new EventEmitter<void>()
   
-  constructor(public global: GlobalService) {
-    this.ano = global.anoAtual;
+  Data = new DataHandlerService()
+  meses: string[]
+
+  constructor() {
+    this.meses = Object.keys(this.Data.mesesObj)
+  }
+  /**
+   * Método que busca o mês a partir da chave do mês abreviado
+   * @param mesKey Mês abreviado
+   */
+  async selecionaMes(mesKey:string) {
+    console.log(this.Data.mesesObj[mesKey])
   }
 }

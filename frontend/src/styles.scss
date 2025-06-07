@@ -1,4 +1,17 @@
-@use './resources/scss/fonts' as *;
+@use '@angular/material' as mat;
+
+html {
+  height: 100%;
+  @include mat.theme((
+    color: (
+      theme-type: light,
+      primary: mat.$azure-palette,
+      tertiary: mat.$blue-palette,
+      ),
+      typography: Roboto,
+      density: 0,
+      ));
+}
 
 * {
     box-sizing: border-box;
@@ -7,9 +20,10 @@
 body {
     background-color: #000;
     min-height: 100vh;
-    font-family: 'Inter Tight', sans-serif;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
     font-size: 80%;
     width: 100%;
+    height: 100%;
     margin: 0;
     padding: 0;
 }
@@ -38,4 +52,14 @@ input[type=text] {
 
 button {
     cursor: pointer;   
+}
+
+mat-icon {
+  font-family: 'Material Icons Outlined' !important;
+  font-size: 1em !important;
+  vertical-align: middle !important;
+  line-height: 1 !important; 
+  display: inline-flex !important;
+  width: unset !important;
+  height: unset !important;
 }

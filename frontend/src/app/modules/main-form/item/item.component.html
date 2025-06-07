@@ -1,0 +1,15 @@
+<div class="content receita">
+    <span class="item {{itemNomeClass}}">
+        <mat-icon class="drag" alt="Mover">drag_indicator</mat-icon>
+        <mat-icon>attach_money</mat-icon>
+        {{itemNome}}
+        <mat-icon class="detalhar">keyboard_arrow_down</mat-icon>
+    </span>
+    <span class="valores {{ itemNomeClass}}">
+        <input type="text" name="{{itemNomeClass}}" [attr.aria-label]="itemNome" placeholder="{{zero}}">
+        <button class="detail" tabindex="-1"><mat-icon>info</mat-icon></button>
+        <button class="add" tabindex="-1"><mat-icon>add_circle</mat-icon></button>
+        <button class="rmv" tabindex="-1"><mat-icon>do_not_disturb_on</mat-icon></button>
+        <input type="text" name="{{itemNomeClass}}-soma" tabindex="-1" readonly>
+    </span>
+</div>

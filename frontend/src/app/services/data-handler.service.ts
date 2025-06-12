@@ -9,7 +9,7 @@ export class DataHandlerService {
    */
   dataObj = new Date()
   /**
-   * Ano atuaL
+   * Ano atual
    */
   anoAtual = this.dataObj.getFullYear()
   /**

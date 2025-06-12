@@ -1,21 +1,19 @@
 import { Component } from '@angular/core';
 import { SharedService } from '../../../services/shared.service';
-import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-item',
-  imports: [MatIconModule],
-  providers: [SharedService],
   templateUrl: './item.component.html',
-  styleUrl: './item.component.scss'
+  styleUrl: './item.component.scss',
+  standalone: false
 })
 export class ItemComponent {
-  public itemTipo: string;
-  public itemNome: string;
-  public itemNomeClass: string;
-  public zero: string;
+  itemTipo: string;
+  itemNome: string;
+  itemNomeClass: string;
+  zero: string;
 
-  constructor(public global: SharedService) {
+  constructor(global: SharedService) {
     this.itemTipo = 'Receita';
     this.itemNome = 'Salário';
     this.itemNomeClass = global.toClass(this.itemNome);

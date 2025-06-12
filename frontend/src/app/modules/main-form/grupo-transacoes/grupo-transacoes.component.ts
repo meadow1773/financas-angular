@@ -1,21 +1,25 @@
 import { Component } from '@angular/core';
-import { ItemComponent } from '../item/item.component';
-import { MatIconModule } from '@angular/material/icon';
 import { SharedService } from '../../../services/shared.service';
 
 @Component({
   selector: 'app-grupo-transacoes',
-  imports: [ItemComponent, MatIconModule],
-  providers: [SharedService],
   templateUrl: './grupo-transacoes.component.html',
-  styleUrl: './grupo-transacoes.component.scss'
+  styleUrl: './grupo-transacoes.component.scss',
+  standalone: false
 })
 export class GrupoTransacoesComponent {
-  public nomeGrupo:string;
-  public nomeGrupoClass: string;
+  nomeGrupo:string;
+  nomeGrupoClass: string;
+  tipo!: "receita" | "despesa";
 
   constructor(global:SharedService) {
     this.nomeGrupo = 'Teste';
     this.nomeGrupoClass = global.toClass(this.nomeGrupo);
+    this.tipo = "receita"; //TESTE
   }
+
+  getTipo() { return this.tipo; }
+
+  setTipo(tipo:"receita" | "despesa") { this.tipo = tipo; }
+
 }

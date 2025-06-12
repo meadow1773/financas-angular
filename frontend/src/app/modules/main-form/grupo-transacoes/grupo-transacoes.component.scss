@@ -16,7 +16,7 @@
 }
 
 .create {
-    display: block;
+    display: block !important;
     @include border(border-right);
     @include border(border-left);
     @include border-smooth(border-top);

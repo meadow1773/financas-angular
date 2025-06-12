@@ -1,3 +1,42 @@
-<form [formGroup]="mainDados" (ngSubmit)="onSubmit(mainDados)">
+<form [formGroup]="form.formularioPrincipal">
     <app-grupo-transacoes></app-grupo-transacoes>
+    <div class="content despesa">
+        <span class="item">
+            <mat-icon>payments</mat-icon>
+            Total
+        </span>
+        <span class="valores">
+            <input type="text" name="total-geral" formControlName="totalGeral" tabindex="-1" readonly>
+        </span>
+        <span class="item">
+            <mat-icon>savings</mat-icon>
+            Investimentos
+        </span>
+        <span class="valores">
+            <input type="text" name="total-geral" formControlName="investimentos" tabindex="-1">
+        </span>
+    </div>
+    <div class="content saldo">
+        <span class="item">
+            <mat-icon>payments</mat-icon>
+            Saldo
+        </span>
+        <span class="valores">
+            <input type="text" name="saldo" formControlName="saldo" tabindex="-1" readonly>
+        </span>
+    </div>
+    <div class="content botoes">
+        <button type="reset" id="apagar">
+            <mat-icon>ink_eraser</mat-icon>
+            Apagar alterações
+        </button>
+        <button type="send" id="submit">
+            <mat-icon>send</mat-icon>
+            Enviar valores
+        </button>
+        <button id="close">
+            <mat-icon>free_cancellation</mat-icon>
+            Fechar mês
+        </button>
+    </div>
 </form>

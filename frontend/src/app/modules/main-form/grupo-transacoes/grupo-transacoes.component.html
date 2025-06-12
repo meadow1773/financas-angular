@@ -4,14 +4,24 @@
         {{nomeGrupo}}
     </span>
 </div>
+<div *ngIf="getTipo() === 'receita'" class="content {{getTipo()}}">
+    <span class="item saldo-anterior">
+        <mat-icon>account_balance</mat-icon>
+        Saldo Anterior
+    </span>
+    <span class="valores">
+        <input type="text" name="saldo-anterior" formControlName="saldoAnterior" aria-label="Saldo Anterior" tabindex="-1">
+        <button class="update" tabindex="-1"><mat-icon>sync</mat-icon></button>
+    </span>
+</div>
 <app-item></app-item>
 <div class="content create">
     <button alt="Criar" tabindex="-1"><mat-icon>add</mat-icon></button>
 </div>
-<div class="content {{nomeGrupoClass}}">
+<div class="content {{getTipo()}} {{nomeGrupoClass}}">
     <span class="item parcial">
         <mat-icon [attr.alt]="nomeGrupo">payments</mat-icon>
-        Total
+        Total de {{nomeGrupo}}
     </span>
     <span class="valores parcial">
         <input type="text" name="total-{{nomeGrupoClass}}" tabindex="-1" readonly>

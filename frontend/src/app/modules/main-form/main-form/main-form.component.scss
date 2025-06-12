@@ -1,3 +1,91 @@
+@use '../../../../resources/scss/mixin' as *;
+@use '../../../../resources/scss/colors' as *;
+
 #dados {
     position: relative;
+}
+
+:host ::ng-deep app-grupo-transacoes{
+    .content {
+        background-color: #000;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    
+        .item {
+            @include border_smooth(border-right);
+        }
+    }
+    
+    .item,
+    .valores {
+        padding: 5px 10px 5px 15px;
+        position: relative;
+    }
+    
+    .item {
+        @include border(border-left);
+        cursor: pointer;
+    
+        &:hover {
+            img:not(.detalhar, .update, .drag) {
+                animation: bounce 0.3s ease 1;
+            }
+    
+            .detalhar,
+            .update:hover {
+                background-color: #ffffff50;
+            }
+    
+            .drag {
+                display: block;
+            }
+        }
+    
+        .detalhar {
+            float: right;
+            background: none;
+            border-radius: 50%;
+            padding: 2px;
+            width: 25px !important;
+            transition: all 0.2s;
+        }
+    
+        img {
+            width: 1em;
+            height: auto;
+    
+            &:not(.drag) {
+                margin-right: 5px;
+            }
+        }
+    
+        .drag {
+            display: none;
+            width: 15px;
+            position: absolute;
+            left: 0;
+            top: 7px;
+            cursor: grab;
+        }
+    }
+    
+    .valores {
+        position: relative;
+        text-align: center;
+        display: flex;
+        flex-direction: row;
+        @include border(border-right);
+        
+        input, button {
+            width: auto;
+            max-height: 30px;
+            margin-left: 1px;
+            background-color: $dark;
+            color: #fff;
+    
+            &:where([type=text]) {
+                width: 100% !important;
+            }
+        }
+    }
 }

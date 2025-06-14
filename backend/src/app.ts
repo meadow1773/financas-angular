@@ -1,20 +1,15 @@
-import express from "express"
-import { router } from "./routes/router"
+import express from 'express';
+import cors from 'cors';
+import morgan from 'morgan';
+import apiRoutes from './routes/apiRoutes';
 
-export class App {
-    public server: express.Application
+export function createApp() {
+    const app = express();
 
-    constructor() {
-        this.server = express()
-        this.middleware()
-        this.router()
-    }
+    app.use(cors());
+    app.use(morgan('dev'));
+    app.use(express.json());
+    app.use('/api', apiRoutes);
 
-    private middleware() {
-        this.server.use(express.json())
-    }
-
-    private router() {
-        this.server.use(router);
-    }
+    return app;
 }

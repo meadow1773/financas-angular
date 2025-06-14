@@ -1,11 +1,30 @@
-@use '../../../../resources/scss/mixin' as *;
-@use '../../../../resources/scss/colors' as *;
+@use '../../../../variables' as *;
 
 #dados {
     position: relative;
 }
 
-:host ::ng-deep app-grupo-transacoes{
+
+.botoes {
+    grid-template-columns: repeat(3, 1fr) !important;
+    border-radius: 0 0 0 20px;
+    @include border(border);
+    border-top: solid 3px #fff;
+    padding: 10px;
+
+    button {
+        @include highlight();
+        margin: 0 auto;
+        text-align: center;
+        color: white;
+
+        &:hover {
+            @include inner-shadow();
+        }
+    }
+}
+
+:host ::ng-deep {
     .content {
         background-color: #000;
         display: grid;
@@ -27,7 +46,7 @@
         cursor: pointer;
     
         &:hover {
-            img:not(.detalhar, .update, .drag) {
+            mat-icon:not(.detalhar, .update, .drag) {
                 animation: bounce 0.3s ease 1;
             }
     
@@ -50,7 +69,7 @@
             transition: all 0.2s;
         }
     
-        img {
+        mat-icon {
             width: 1em;
             height: auto;
     

@@ -1,27 +1,12 @@
-<form [formGroup]="form.formularioPrincipal">
-    <app-grupo-transacoes></app-grupo-transacoes>
-    <div class="content despesa">
-        <span class="item">
-            <mat-icon>payments</mat-icon>
-            Total
-        </span>
-        <span class="valores">
-            <input type="text" name="total-geral" formControlName="totalGeral" tabindex="-1" readonly>
-        </span>
-        <span class="item">
-            <mat-icon>savings</mat-icon>
-            Investimentos
-        </span>
-        <span class="valores">
-            <input type="text" name="total-geral" formControlName="investimentos" tabindex="-1">
-        </span>
-    </div>
+<form [formGroup]="formularioPrincipal" (ngSubmit)="testSubmit()">
+    <app-grupo-transacoes [form]="formularioPrincipal"></app-grupo-transacoes>
+    <app-item [itemNome]="'Investimentos'" [form]="formularioPrincipal"></app-item>
     <div class="content saldo">
         <span class="item">
             <mat-icon>payments</mat-icon>
             Saldo
         </span>
-        <span class="valores">
+        <span class="valores saldo">
             <input type="text" name="saldo" formControlName="saldo" tabindex="-1" readonly>
         </span>
     </div>

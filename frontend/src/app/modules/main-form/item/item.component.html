@@ -1,15 +1,15 @@
-<div class="content receita">
-    <span class="item {{itemNomeClass}}">
+<div class="content receita" [formGroup]="form">
+    <span class="item {{getItemNome(true)}}">
         <mat-icon class="drag" alt="Mover">drag_indicator</mat-icon>
         <mat-icon>attach_money</mat-icon>
-        {{itemNome}}
+        {{getItemNome()}}
         <mat-icon class="detalhar">keyboard_arrow_down</mat-icon>
     </span>
-    <span class="valores {{ itemNomeClass}}">
-        <input type="text" name="{{itemNomeClass}}" [attr.aria-label]="itemNome" placeholder="{{zero}}">
+    <span class="valores {{getItemNome(true)}}">
+        <input type="text" name="{{getItemNome(true)}}" formControlName="{{getItemNome(true)}}" [attr.aria-label]="getItemNome()" placeholder="{{zero}}">
         <button class="detail" tabindex="-1"><mat-icon>info</mat-icon></button>
         <button class="add" tabindex="-1"><mat-icon>add_circle</mat-icon></button>
         <button class="rmv" tabindex="-1"><mat-icon>do_not_disturb_on</mat-icon></button>
-        <input type="text" name="{{itemNomeClass}}-soma" tabindex="-1" readonly>
+        <input type="text" name="{{getItemNome(true)}}-soma" formControlName="{{getItemNome(true)}}-soma" tabindex="-1" readonly>
     </span>
 </div>

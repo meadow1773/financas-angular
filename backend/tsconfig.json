@@ -1,15 +1,19 @@
 {
-  "compilerOptions": {
-    "target": "es2022",
-    "module": "es2022",
-    "strict": true,
-    "removeComments": true,
-    "moduleResolution": "node",
-    "rootDir": "./",
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true
-  },
-  "include": ["**/*.ts"],
-  "exclude": ["node_modules"],
-  "compileOnSave": true
+    "compilerOptions": {
+        "target": "es2020",
+        "module": "es2020",
+        "moduleResolution": "node",
+        "outDir": "./dist",
+        "rootDir": "./src",
+        "esModuleInterop": true,
+        "strict": true,
+        "skipLibCheck": true,
+        "baseUrl": "."
+    },
+    "ts-node": {
+        "esm": true,
+        "experimentalSpecifierResolution": "node"
+    },
+    "include": ["src/**/*"],
+    "exclude": ["node_modules"]
 }

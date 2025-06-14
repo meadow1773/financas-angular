@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { SharedService } from '../../../services/shared.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-item',
@@ -7,16 +8,41 @@ import { SharedService } from '../../../services/shared.service';
   styleUrl: './item.component.scss',
   standalone: false
 })
+
 export class ItemComponent {
-  itemTipo: string;
-  itemNome: string;
-  itemNomeClass: string;
+  @Input() form!: FormGroup;
+  @Input() itemNome!: string;
+
   zero: string;
 
-  constructor(global: SharedService) {
-    this.itemTipo = 'Receita';
-    this.itemNome = 'Salário';
-    this.itemNomeClass = global.toClass(this.itemNome);
+  /**
+   * Método construtor do componente.
+   * @param nome Nome do item.
+   */
+  constructor(public global:SharedService) {
     this.zero = global.zeroFormat;
+  }
+  
+  /**
+   * Getter para o nome do item.
+   * @param classe Se 'true', retorna o nome em formato de classe HTML.
+   * @returns Nome do item.
+   */
+  getItemNome(classe?:boolean) {
+    if (classe) return this.global.toClass(this.itemNome);
+    return this.itemNome;
+  }
+
+  /**
+   * Método OnInit.
+   */
+  ngOnInit() {
+    // Criação de campos.
+    this.form.addControl(
+      this.getItemNome(true), new FormControl('', Validators.pattern(''))
+    );
+    this.form.addControl(
+      `${this.getItemNome(true)}-soma`, new FormControl()
+    );
   }
 }

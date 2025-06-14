@@ -3,10 +3,11 @@ import { RouterOutlet } from '@angular/router';
 import { Title } from  '@angular/platform-browser';
 import { MatIconModule } from '@angular/material/icon';
 import { DataHandlerService } from './services/data-handler.service';
+import { HomeModule } from './modules/home/home.module';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, MatIconModule, ],
+  imports: [RouterOutlet, MatIconModule, HomeModule],
   providers: [],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'

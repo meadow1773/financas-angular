@@ -1,0 +1,27 @@
+@use '../../../../variables' as *;
+
+main {
+    max-width: 1280px;
+    width: min-content;
+    margin: 0 auto;
+    padding: 50px 0;
+    display: grid;
+    grid-template-columns: 1.5fr 2fr;
+    font-size: 1.5em;
+}
+
+section {
+    background-color: $dark;
+    min-width: 70px;
+    border-radius: 0 20px 20px 0;
+    @include border(border);
+    margin-left: -20px;
+    z-index: 1;
+}
+
+aside {
+    color: #fff;
+    position: relative;
+    min-width: 500px;
+    z-index: 2;
+}

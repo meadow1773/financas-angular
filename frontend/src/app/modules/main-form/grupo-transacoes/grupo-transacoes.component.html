@@ -1,29 +1,29 @@
 <div class="sub-wrapper">
     <span class="sub-title">
         <mat-icon>trending_up</mat-icon>
-        {{nomeGrupo}}
+        {{getNomeGrupo()}}
     </span>
 </div>
-<div *ngIf="getTipo() === 'receita'" class="content {{getTipo()}}">
+<div *ngIf="getTipo() === 'receita'" class="content {{getTipo()}}" [formGroup]="form">
     <span class="item saldo-anterior">
         <mat-icon>account_balance</mat-icon>
         Saldo Anterior
     </span>
     <span class="valores">
-        <input type="text" name="saldo-anterior" formControlName="saldoAnterior" aria-label="Saldo Anterior" tabindex="-1">
+        <input type="text" name="saldo-anterior" formControlName="saldo-anterior" aria-label="Saldo Anterior" tabindex="-1">
         <button class="update" tabindex="-1"><mat-icon>sync</mat-icon></button>
     </span>
 </div>
-<app-item></app-item>
+<app-item [itemNome]="'Salário'" [form]="form"></app-item> <!--TESTE-->
 <div class="content create">
     <button alt="Criar" tabindex="-1"><mat-icon>add</mat-icon></button>
 </div>
-<div class="content {{getTipo()}} {{nomeGrupoClass}}">
+<div class="content {{getTipo()}} {{getNomeGrupo(true)}}" [formGroup]="form">
     <span class="item parcial">
-        <mat-icon [attr.alt]="nomeGrupo">payments</mat-icon>
-        Total de {{nomeGrupo}}
+        <mat-icon [attr.alt]="getNomeGrupo()">payments</mat-icon>
+        Total de {{getNomeGrupo()}}
     </span>
     <span class="valores parcial">
-        <input type="text" name="total-{{nomeGrupoClass}}" tabindex="-1" readonly>
+        <input type="text" name="total-{{getNomeGrupo(true)}}" formControlName="total-{{getNomeGrupo(true)}}" tabindex="-1" readonly>
     </span>
 </div>

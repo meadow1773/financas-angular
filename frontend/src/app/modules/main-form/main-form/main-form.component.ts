@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { FormService } from '../../../services/form.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { SharedService } from '../../../services/shared.service';
 
 @Component({
   selector: 'app-main-form',
@@ -8,5 +9,18 @@ import { FormService } from '../../../services/form.service';
   standalone: false
 })
 export class MainFormComponent {
-  constructor(public form: FormService) {}
+  zero!:string;
+
+  formularioPrincipal = new FormGroup({
+    "saldo-anterior": new FormControl(),
+    saldo: new FormControl()
+  })
+
+  constructor(public global:SharedService) {
+    this.zero = global.zeroFormat;
+  }
+
+  testSubmit() {
+    console.log(this.formularioPrincipal.value);
+  }
 }

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "start": "NODE_OPTIONS='--loader ts-node/esm --no-warnings=ExperimentalWarning' node src/server.ts",
+    "start": "node --loader ts-node/esm --no-warnings=ExperimentalWarning src/server.ts",
     "dev": "nodemon --exec npm start",
     "build": "tsc",
     "serve": "npm run build && node dist/server.js"

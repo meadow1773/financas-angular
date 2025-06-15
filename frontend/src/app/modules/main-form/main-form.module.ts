@@ -6,6 +6,7 @@ import { GrupoTransacoesComponent } from './grupo-transacoes/grupo-transacoes.co
 import { ItemComponent } from './item/item.component';
 import { MatIconModule } from '@angular/material/icon';
 import { SharedService } from '../../services/shared.service';
+import { ApiService } from '../../services/api.service';
 
 @NgModule({
   declarations: [MainFormComponent, ItemComponent, GrupoTransacoesComponent],
@@ -14,7 +15,7 @@ import { SharedService } from '../../services/shared.service';
     ReactiveFormsModule,
     MatIconModule
   ],
-  providers: [SharedService],
+  providers: [SharedService, ApiService],
   exports: [MainFormComponent]
 })
 export class MainFormModule {

@@ -8,6 +8,7 @@ export function createApp() {
 
     app.use(cors());
     app.use(morgan('dev'));
+
     app.use(express.json());
     app.use('/api', apiRoutes);
 

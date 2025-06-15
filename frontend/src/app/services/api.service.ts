@@ -12,7 +12,7 @@ export class ApiService {
   constructor(private http: HttpClient) { }
 
   // Getters para Transações.
-  getTransacoes(): Observable<any[]> {
+  getTransacoes(): Observable<any> {
     return this.http.get<any[]>(`${this.apiUrl}/transacoes`);
   }
 
@@ -21,7 +21,7 @@ export class ApiService {
   }
 
   // Getters para Categorias.
-  getCategorias(): Observable<any[]> {
+  getCategorias(): Observable<any> {
     return this.http.get<any[]>(`${this.apiUrl}/categorias`);
   }
 

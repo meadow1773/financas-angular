@@ -1,24 +1,21 @@
 import { pool } from "../config/database";
-import dotenv from 'dotenv';
 import { Categoria } from "../models/categoriaModel";
-
-dotenv.config();
 
 export class CategoriaRepository {
     async retornaTodos(): Promise<Categoria[]> {
-        const query = `SELECT * FROM ${process.env.DB_NAME}.categorias`;
+        const query = `SELECT * FROM categorias`;
         const { rows } = await pool.query(query);
         return rows.map(row => new Categoria(
             row.id,
             row.nome,
-            row.tipo,
-            row.dataCriacao,
-            row.dataAlteracao
+            row.fk_tipo_id,
+            row.data_cadastro,
+            row.data_alteracao
         ));
     }
 
     async retornaPorId(id: number): Promise<Categoria | null> {
-        const query = `SELECT * FROM ${process.env.DB_NAME}.categorias WHERE id = $1`;
+        const query = `SELECT * FROM categorias WHERE id = $1`;
         const { rows } = await pool.query(query, [id]);
         if (rows.length === 0) return null;
         const row = rows[0];
@@ -26,8 +23,8 @@ export class CategoriaRepository {
             row.id,
             row.nome,
             row.tipo,
-            row.dataCriacao,
-            row.dataAlteracao
-        )
+            row.data_cadastro,
+            row.data_alteracao
+        );
     }
 }

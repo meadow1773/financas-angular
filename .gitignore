@@ -5,12 +5,13 @@
 */tmp
 */out-tsc
 */bazel-out
+*.js
 
 # Node
-*/node_modules
-*/npm-debug.log
-*/yarn-error.log
-*/package-lock.json
+node_modules
+npm-debug.log
+yarn-error.log
+package-lock.json
 .env
 
 # Visual Studio Code
@@ -33,6 +34,3 @@ typings
 # System files
 .DS_Store
 Thumbs.db
-
-# Arquivos compilados
-*.js

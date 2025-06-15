@@ -1,19 +1,23 @@
 import { Router } from "express";
-import { ApiController } from "../controllers/apiController";
+import { TransacaoController } from "../controllers/transacaoController";
+import { CategoriaController } from "../controllers/categoriaController";
+import { TipoController } from "../controllers/tipoController";
 
 const router = Router();
-const controller = new ApiController();
 
 // Rotas para Transações
-router.get('/transacoes', controller.getTransacoes.bind(controller));
-router.get('/transacoes/:id', controller.getTransacoesPorId.bind(controller));
+const transacaoController = new TransacaoController();
+router.get('/transacoes', transacaoController.getTransacoes.bind(transacaoController));
+router.get('/transacoes/:id', transacaoController.getTransacaoPorId.bind(transacaoController));
 
 // Rotas para Categorias
-router.get('/categorias', controller.getCategorias.bind(controller));
-router.get('/categorias/:id', controller.getCategoriasPorId.bind(controller));
+const categoriaController = new CategoriaController()
+router.get('/categorias', categoriaController.getCategorias.bind(categoriaController));
+router.get('/categorias/:id', categoriaController.getCategoriaPorId.bind(categoriaController));
 
 // Rotas para Tipos
-router.get('/tipos', controller.getTipos.bind(controller));
-router.get('/tipos/:id', controller.getTipoPorId.bind(controller));
+const tipoController = new TipoController()
+router.get('/tipos', tipoController.getTipos.bind(tipoController));
+router.get('/tipos/:id', tipoController.getTipoPorId.bind(tipoController));
 
 export default router;

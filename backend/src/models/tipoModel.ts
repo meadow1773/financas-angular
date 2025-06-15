@@ -1,8 +1,8 @@
 export class Tipo {
     constructor(
-        id: number,
-        nome: string,
-        dataCriacao: Date,
-        dataAlteracao: Date
+        public id: number,
+        public nome: string,
+        public dataCriacao: Date,
+        public dataAlteracao: Date
     ) {}
 }

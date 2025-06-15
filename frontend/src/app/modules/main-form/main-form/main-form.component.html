@@ -1,5 +1,5 @@
 <form [formGroup]="formularioPrincipal" (ngSubmit)="testSubmit()">
-    <app-grupo-transacoes [form]="formularioPrincipal"></app-grupo-transacoes>
+    <app-grupo-transacoes [form]="formularioPrincipal" *ngFor="let grupo of grupos | async" [nomeGrupo]="grupo.nome"></app-grupo-transacoes>
     <app-item [itemNome]="'Investimentos'" [form]="formularioPrincipal"></app-item>
     <div class="content saldo">
         <span class="item">
@@ -12,7 +12,7 @@
     </div>
     <div class="content botoes">
         <button type="reset" id="apagar">
-            <mat-icon>ink_eraser</mat-icon>
+            <mat-icon>undo</mat-icon>
             Apagar alterações
         </button>
         <button type="send" id="submit">

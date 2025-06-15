@@ -2,12 +2,12 @@ import { Categoria } from "./categoriaModel";
 
 export class Transacao {
     constructor(
-        id: number,
-        categoria: Categoria,
-        mes: number,
-        ano: number,
-        valor: number,
-        dataCriacao: Date,
-        dataAlteracao: Date
+        public id: number,
+        public categoria: Categoria,
+        public mes: number,
+        public ano: number,
+        public valor: number,
+        public dataCriacao: Date,
+        public dataAlteracao: Date
     ) { }
 }

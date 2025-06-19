@@ -1,8 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { SharedService } from '../../../services/shared.service';
-import { Observable } from 'rxjs';
 import { ApiService } from '../../../services/api.service';
+import { Categoria } from '../../../../interfaces/models';
 
 @Component({
   selector: 'app-grupo-transacoes',
@@ -13,9 +13,8 @@ import { ApiService } from '../../../services/api.service';
 export class GrupoTransacoesComponent {
   @Input() form!: FormGroup;
   @Input() nomeGrupo!:string;
-  @Input() tipo!: number;//"receita" | "despesa";
-  items!: Observable<any[]>
-
+  items!: Categoria[];
+  
   /**
    * Método construtor do componente
    */
@@ -32,22 +31,14 @@ export class GrupoTransacoesComponent {
   }
 
   /**
-   * Getter para o tipo de transações.
-   * @returns Tipo de transação.
-   */
-  getTipo() { return this.tipo; }
-
-  /**
-   * Setter para o tipo de transações.
-   * @param tipo "receita" | "despesa"
-   */
-  // setTipo(tipo:"receita" | "despesa") { this.tipo = tipo; }
-
-  /**
    * Método OnInit
    */
   ngOnInit() {
-    this.items = this.api.getCategorias();
+    const categorias = this.api.getCategorias();
+    categorias.subscribe(array => {
+      this.items = array.filter(item => item.tipo.nome === this.nomeGrupo);
+    });
+    
     // Criação de campos
     this.form.addControl(`total-${this.getNomeGrupo(true)}`, new FormControl());
   }

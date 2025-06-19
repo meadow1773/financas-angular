@@ -1,3 +1,4 @@
+import { Icone } from "./iconeModel";
 import { Tipo } from "./tipoModel";
 
 export class Categoria {
@@ -5,6 +6,7 @@ export class Categoria {
         public id: number,
         public nome: string,
         public tipo: Tipo,
+        public icone: Icone | null,
         public dataCadastro: Date,
         public dataAlteracao: Date
     ) { }

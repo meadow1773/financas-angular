@@ -13,8 +13,8 @@ export class CategoriaService {
             const categorias = await this.repository.retornaTodos();
             return categorias;
         } catch(error) {
-            console.error('Erro no serviço ao buscar transações:', error);
-            throw new Error('Falha ao obter transações');
+            console.error('Erro no serviço ao buscar categorias:', error);
+            throw new Error('Falha ao obter categorias');
         }
     }
 
@@ -23,8 +23,8 @@ export class CategoriaService {
             const categoria = await this.repository.retornaPorId(id);
             return categoria;
         } catch(error) {
-            console.error(`Erro no serviço ao buscar transações com o ID ${id}:`, error);
-            throw new Error(`Falha ao obter entidade com ID ${id}`);
+            console.error(`Erro no serviço ao buscar categorias com o ID ${id}:`, error);
+            throw new Error(`Falha ao obter categoria com ID ${id}`);
         }
     }
 }

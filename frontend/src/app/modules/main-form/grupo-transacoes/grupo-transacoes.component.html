@@ -4,7 +4,7 @@
         {{getNomeGrupo()}}
     </span>
 </div>
-<!-- <div *ngIf="getTipo() === 'receita'" class="content {{getTipo()}}" [formGroup]="form">
+<div *ngIf="getNomeGrupo() === 'Receitas'" class="content {{getNomeGrupo(true)}}" [formGroup]="form">
     <span class="item saldo-anterior">
         <mat-icon>account_balance</mat-icon>
         Saldo Anterior
@@ -13,12 +13,12 @@
         <input type="text" name="saldo-anterior" formControlName="saldo-anterior" aria-label="Saldo Anterior" tabindex="-1">
         <button class="update" tabindex="-1"><mat-icon>sync</mat-icon></button>
     </span>
-</div> -->
-<app-item [form]="form" *ngFor="let item of items | async" [itemNome]="item.nome" ></app-item> <!--TESTE-->
+</div>
+<app-item [form]="form" *ngFor="let item of items" [itemNome]="item.nome" ></app-item> <!--TESTE-->
 <div class="content create">
     <button alt="Criar" tabindex="-1"><mat-icon>add</mat-icon></button>
 </div>
-<div class="content {{getTipo()}} {{getNomeGrupo(true)}}" [formGroup]="form">
+<div class="content {{getNomeGrupo(true)}}" [formGroup]="form">
     <span class="item parcial">
         <mat-icon [attr.alt]="getNomeGrupo()">payments</mat-icon>
         Total de {{getNomeGrupo()}}

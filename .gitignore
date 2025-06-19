@@ -5,7 +5,7 @@
 */tmp
 */out-tsc
 */bazel-out
-*.js
+.generation-hash
 
 # Node
 node_modules

@@ -3,8 +3,10 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
+    "migrate": "node --loader ts-node/esm --no-warnings=ExperimentalWarning src/config/migrate.ts",
+    "generate-interfaces": "node --loader ts-node/esm --no-warnings=ExperimentalWarning src/config/generateInterfaces.ts",
     "start": "node --loader ts-node/esm --no-warnings=ExperimentalWarning src/server.ts",
-    "dev": "nodemon --exec npm start",
+    "dev": "npm run migrate && npm run generate-interfaces && nodemon --exec npm start",
     "build": "tsc",
     "serve": "npm run build && node dist/server.js"
   },
@@ -26,6 +28,7 @@
     "@types/pg": "^8.15.4",
     "morgan": "^1.10.0",
     "nodemon": "^3.1.10",
+    "ts-morph": "^26.0.0",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.8.3"

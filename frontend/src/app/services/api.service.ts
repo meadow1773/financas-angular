@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Transacao } from '../../interfaces/models';
+import { Categoria } from '../../interfaces/models';
+import { Tipo } from '../../interfaces/models';
 
 @Injectable({
   providedIn: 'root'
@@ -12,29 +15,29 @@ export class ApiService {
   constructor(private http: HttpClient) { }
 
   // Getters para Transações.
-  getTransacoes(): Observable<any> {
+  getTransacoes(): Observable<Transacao[]> {
     return this.http.get<any[]>(`${this.apiUrl}/transacoes`);
   }
 
-  getTransacoesPorId(id: number): Observable<any> {
+  getTransacoesPorId(id: number): Observable<Transacao> {
     return this.http.get<any>(`${this.apiUrl}/transacoes/${id}`)
   }
 
   // Getters para Categorias.
-  getCategorias(): Observable<any> {
+  getCategorias(): Observable<Categoria[]> {
     return this.http.get<any[]>(`${this.apiUrl}/categorias`);
   }
 
-  getCategoriaPorId(id: number): Observable<any> {
+  getCategoriaPorId(id: number): Observable<Categoria> {
     return this.http.get<any>(`${this.apiUrl}/categorias/${id}`)
   }
 
   // Getters para Tipos.
-  getTipos(): Observable<any[]> {
+  getTipos(): Observable<Tipo[]> {
     return this.http.get<any[]>(`${this.apiUrl}/tipos`);
   }
 
-  getTipoPorId(id: number): Observable<any> {
+  getTipoPorId(id: number): Observable<Tipo> {
     return this.http.get<any>(`${this.apiUrl}/tipos/${id}`)
   }
 }

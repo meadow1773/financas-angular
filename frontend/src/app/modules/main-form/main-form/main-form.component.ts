@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { SharedService } from '../../../services/shared.service';
 import { ApiService } from '../../../services/api.service';
 import { Observable } from 'rxjs';
+import { Tipo } from '../../../../interfaces/models';
 
 @Component({
   selector: 'app-main-form',
@@ -12,7 +13,7 @@ import { Observable } from 'rxjs';
 })
 export class MainFormComponent {
   zero!:string;
-  grupos!:Observable<any>;
+  grupos!:Observable<Tipo[]>;
 
   formularioPrincipal = new FormGroup({
     "saldo-anterior": new FormControl(),

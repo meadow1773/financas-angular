@@ -13,8 +13,8 @@ export class TipoService {
             const tipos = await this.repository.retornaTodos();
             return tipos;
         } catch(error) {
-            console.error('Erro no serviço ao buscar transações:', error);
-            throw new Error('Falha ao obter transações');
+            console.error('Erro no serviço ao buscar tipos:', error);
+            throw new Error('Falha ao obter tipos');
         }
     }
 
@@ -23,8 +23,8 @@ export class TipoService {
             const tipo = await this.repository.retornaPorId(id);
             return tipo;
         } catch(error) {
-            console.error(`Erro no serviço ao buscar transações com o ID ${id}:`, error);
-            throw new Error(`Falha ao obter entidade com ID ${id}`);
+            console.error(`Erro no serviço ao buscar tipos com o ID ${id}:`, error);
+            throw new Error(`Falha ao obter tipo com ID ${id}`);
         }
     }
 }

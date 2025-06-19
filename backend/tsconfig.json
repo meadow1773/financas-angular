@@ -8,7 +8,8 @@
         "esModuleInterop": true,
         "strict": true,
         "skipLibCheck": true,
-        "baseUrl": "."
+        "baseUrl": ".",
+        "allowJs": true
     },
     "ts-node": {
         "esm": true,

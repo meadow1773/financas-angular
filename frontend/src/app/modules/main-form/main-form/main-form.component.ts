@@ -29,6 +29,7 @@ export class MainFormComponent {
   }
 
   ngOnInit() {
+    // Carrega os tipos
     this.grupos = this.api.getTipos();
   }
 }

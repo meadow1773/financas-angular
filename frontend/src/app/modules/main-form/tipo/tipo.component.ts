@@ -5,12 +5,12 @@ import { ApiService } from '../../../services/api.service';
 import { Categoria } from '../../../../interfaces/models';
 
 @Component({
-  selector: 'app-grupo-transacoes',
-  templateUrl: './grupo-transacoes.component.html',
-  styleUrl: './grupo-transacoes.component.scss',
+  selector: 'app-tipo',
+  templateUrl: './tipo.component.html',
+  styleUrl: './tipo.component.scss',
   standalone: false
 })
-export class GrupoTransacoesComponent {
+export class TipoComponent {
   @Input() form!: FormGroup;
   @Input() nomeGrupo!:string;
   items!: Categoria[];
@@ -34,10 +34,9 @@ export class GrupoTransacoesComponent {
    * Método OnInit
    */
   ngOnInit() {
+    // Carrega as categorias
     const categorias = this.api.getCategorias();
-    categorias.subscribe(array => {
-      this.items = array.filter(item => item.tipo.nome === this.nomeGrupo);
-    });
+    categorias.subscribe(array => this.items = array.filter(item => item.tipo.nome === this.nomeGrupo));
     
     // Criação de campos
     this.form.addControl(`total-${this.getNomeGrupo(true)}`, new FormControl());

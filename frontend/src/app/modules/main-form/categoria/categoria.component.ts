@@ -3,13 +3,13 @@ import { SharedService } from '../../../services/shared.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-item',
-  templateUrl: './item.component.html',
-  styleUrl: './item.component.scss',
+  selector: 'app-categoria',
+  templateUrl: './categoria.component.html',
+  styleUrl: './categoria.component.scss',
   standalone: false
 })
 
-export class ItemComponent {
+export class CategoriaComponent {
   @Input() form!: FormGroup;
   @Input() itemNome!: string;
 

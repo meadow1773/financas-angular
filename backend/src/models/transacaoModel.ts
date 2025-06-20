@@ -1,4 +1,4 @@
-import { Categoria } from "./categoriaModel";
+import { Categoria } from "./categoriaModel"
 
 export class Transacao {
     constructor(

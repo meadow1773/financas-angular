@@ -44,6 +44,9 @@
     .item {
         @include border(border-left);
         cursor: pointer;
+        max-width: 250px;
+        overflow: hidden;
+        white-space: nowrap;
     
         &:hover {
             mat-icon:not(.detalhar, .update, .drag) {
@@ -56,7 +59,7 @@
             }
     
             .drag {
-                display: block;
+                display: block !important;
             }
         }
     
@@ -70,8 +73,9 @@
         }
     
         mat-icon {
-            width: 1em;
-            height: auto;
+            width: 1em !important;
+            height: 100% !important;
+            align-items: center;
     
             &:not(.drag) {
                 margin-right: 5px;
@@ -79,8 +83,8 @@
         }
     
         .drag {
-            display: none;
-            width: 15px;
+            display: none !important;
+            width: 15px !important;
             position: absolute;
             left: 0;
             top: 7px;

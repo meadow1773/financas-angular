@@ -1,31 +1,31 @@
-import { Request, Response } from "express";
-import { CategoriaService } from "../services/categoriaService";
+import { Request, Response } from "express"
+import { CategoriaService } from "../services/categoriaService"
 
 export class CategoriaController {
-    private categoriaService: CategoriaService;
+    private categoriaService: CategoriaService
 
     constructor() {
-        this.categoriaService = new CategoriaService();
+        this.categoriaService = new CategoriaService()
     }
 
     // Getters para Categorias.
     async getCategorias(req: Request, res: Response): Promise<void> {
         try {
-            const categorias = await this.categoriaService.getAllCategorias();
-            res.json(categorias);
+            const categorias = await this.categoriaService.getAllCategorias()
+            res.json(categorias)
         } catch(error) {
-            res.status(500).json({ error: 'Erro ao buscar categorias. '});
+            res.status(500).json({ erro: `Erro ao buscar categorias: ${error}` })
         }
     }
 
     async getCategoriaPorId(req: Request, res: Response): Promise<void> {
         try {
-            const id = parseInt(req.params.id);
-            const categoria = await this.categoriaService.getCategoriaPorId(id);
+            const id = parseInt(req.params.id)
+            const categoria = await this.categoriaService.getCategoriaPorId(id)
             if (categoria) res.json(categoria)
-            else res.status(404).json({ error: 'Categoria não encontrada.' });
+            else res.status(404).json({ error: 'Categoria não encontrada.' })
         } catch(error) {
-            res.status(500).json({ error: 'Erro ao buscar categoria.' });
+            res.status(500).json({ error: `Erro ao buscar a categoria: ${error}` })
         }
     }
 }

@@ -1,5 +1,6 @@
 <form [formGroup]="formularioPrincipal" (ngSubmit)="testSubmit()">
-    <app-tipo [form]="formularioPrincipal" *ngFor="let grupo of grupos | async" [nomeGrupo]="grupo.nome"></app-tipo>
+    <app-tipo *ngFor="let tipo of tipos" [form]="formularioPrincipal" [nomeTipo]="tipo.nome" [iconeTipo]="tipo.icone">
+    </app-tipo>
     <div class="content saldo">
         <span class="item">
             <mat-icon>payments</mat-icon>

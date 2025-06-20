@@ -1,15 +1,15 @@
-<div class="content {{getItemNome(true)}}" [formGroup]="form">
-    <span class="item {{getItemNome(true)}}">
+<div class="content {{getCategoriaNome(true)}}" [formGroup]="form">
+    <span class="item {{getCategoriaNome(true)}}">
         <mat-icon class="drag" alt="Mover">drag_indicator</mat-icon>
-        <mat-icon>attach_money</mat-icon>
-        {{getItemNome()}}
+        <mat-icon>{{iconeCategoria?.link ?? iconePadrao}}</mat-icon>
+        {{getCategoriaNome()}}
         <mat-icon class="detalhar">keyboard_arrow_down</mat-icon>
     </span>
-    <span class="valores {{getItemNome(true)}}">
-        <input type="text" name="{{getItemNome(true)}}" formControlName="{{getItemNome(true)}}" [attr.aria-label]="getItemNome()" placeholder="{{zero}}">
+    <span class="valores {{getCategoriaNome(true)}}">
+        <input type="text" name="{{getCategoriaNome(true)}}" formControlName="{{getCategoriaNome(true)}}" [attr.aria-label]="getCategoriaNome()" placeholder="{{zero}}">
         <button class="detail" tabindex="-1"><mat-icon>info</mat-icon></button>
         <button class="add" tabindex="-1"><mat-icon>add_circle</mat-icon></button>
         <button class="rmv" tabindex="-1"><mat-icon>do_not_disturb_on</mat-icon></button>
-        <input type="text" name="{{getItemNome(true)}}-soma" formControlName="{{getItemNome(true)}}-soma" tabindex="-1" readonly>
+        <input type="text" name="{{getCategoriaNome(true)}}-soma" formControlName="{{getCategoriaNome(true)}}-soma" tabindex="-1" readonly>
     </span>
 </div>

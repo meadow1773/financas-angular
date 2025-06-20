@@ -1,4 +1,4 @@
-import { Icone } from "./iconeModel";
+import { Icone } from "./iconeModel"
 
 export class Tipo {
     constructor(

@@ -1,5 +1,5 @@
-import { Icone } from "./iconeModel";
-import { Tipo } from "./tipoModel";
+import { Icone } from "./iconeModel"
+import { Tipo } from "./tipoModel"
 
 export class Categoria {
     constructor(

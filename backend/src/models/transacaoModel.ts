@@ -1,9 +1,7 @@
-import { Categoria } from "./categoriaModel"
-
 export class Transacao {
     constructor(
         public id: number,
-        public categoria: Categoria,
+        public categoria: string,
         public mes: number,
         public ano: number,
         public valor: number,

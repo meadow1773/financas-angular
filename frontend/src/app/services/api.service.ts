@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core'
+import { inject, Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { Observable } from 'rxjs'
 import { Transacao, Categoria, Tipo } from '../../interfaces/models'
@@ -8,9 +8,12 @@ import { Transacao, Categoria, Tipo } from '../../interfaces/models'
 })
 
 export class ApiService {
-    private apiUrl = 'http://192.168.15.5:3000/api' // ALTERAR EM PRODUÇÃO
+    private apiUrl = 'http://localhost:3000/api' // ALTERAR EM PRODUÇÃO
+    private http: HttpClient
 
-    constructor(private http: HttpClient) { }
+    constructor() {
+        this.http = inject(HttpClient)
+    }
 
     // Getters para Transações.
     getTransacoes(): Observable<Transacao[]> {
@@ -28,6 +31,10 @@ export class ApiService {
 
     getCategoriaPorId(id: number): Observable<Categoria> {
         return this.http.get<any>(`${this.apiUrl}/categorias/${id}`)
+    }
+
+    getCategoriasPorIdTipo(idTipo: number): Observable<Categoria[]> {
+        return this.http.get<any>(`${this.apiUrl}/categorias/tipo/${idTipo}`)
     }
 
     // Getters para Tipos.

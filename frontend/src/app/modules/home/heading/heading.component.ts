@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { Component, inject } from '@angular/core'
 import { DataHandlerService } from '../../../services/data-handler.service'
 
 @Component({
@@ -7,12 +7,12 @@ import { DataHandlerService } from '../../../services/data-handler.service'
     templateUrl: './heading.component.html',
     styleUrl: './heading.component.scss'
 })
-
 export class HeadingComponent {
     mesSelecionado: string
+    Data = inject(DataHandlerService)
     calendarioAberto = false
 
-    constructor(public Data:DataHandlerService) {
+    constructor() {
         this.mesSelecionado = this.Data.getNomeMes()
     }
     toggleCalendario() {

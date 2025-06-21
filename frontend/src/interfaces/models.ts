@@ -1,9 +1,9 @@
 // AUTO-GENERATED FILE - DO NOT EDIT DIRECTLY
-// Gerado automaticamente em: 2025-06-19T17:09:31.703Z
+// Gerado automaticamente em: 2025-06-21T04:30:28.688Z
 export interface Categoria {
     id: number;
     nome: string;
-    tipo: Tipo;
+    tipo: string;
     icone: Icone | null;
     dataCadastro: Date;
     dataAlteracao: Date;
@@ -27,7 +27,7 @@ export interface Tipo {
 
 export interface Transacao {
     id: number;
-    categoria: Categoria;
+    categoria: string;
     mes: number;
     ano: number;
     valor: number;

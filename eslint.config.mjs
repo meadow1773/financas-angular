@@ -1,49 +1,30 @@
-import { defineConfig, globalIgnores } from "eslint/config"
-import typescriptEslint from "@typescript-eslint/eslint-plugin"
-import globals from "globals"
-import tsParser from "@typescript-eslint/parser"
-import path from "node:path"
-import { fileURLToPath } from "node:url"
-import js from "@eslint/js"
-import { FlatCompat } from "@eslint/eslintrc"
+import { defineConfig, globalIgnores } from "eslint/config";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import js from "@eslint/js";
+import { FlatCompat } from "@eslint/eslintrc";
 
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const compat = new FlatCompat({
     baseDirectory: __dirname,
     recommendedConfig: js.configs.recommended,
     allConfig: js.configs.all
-})
+});
 
-export default defineConfig([globalIgnores(["**/node_modules", "*/.angular/cache", "**/.vscode", "**/*.spec.ts"]), {
-    extends: compat.extends("eslint:recommended", "plugin:@typescript-eslint/recommended"),
-
-    plugins: {
-        "@typescript-eslint": typescriptEslint,
-    },
-
-    languageOptions: {
-        globals: {
-            ...globals.node,
-        },
-
-        parser: tsParser,
-        ecmaVersion: 2022,
-        sourceType: "module",
-    },
+export default defineConfig([globalIgnores(["node_modules", "*/.angular/cache", "**/*.spec.ts"]), {
+    extends: compat.extends(
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@angular-eslint/recommended",
+    ),
+}, {
+    files: ["**/*.ts", "**/*.js"],
 
     rules: {
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/no-unused-vars": "warn",
+        "@angular-eslint/prefer-standalone": "off",
         semi: ["error", "never"],
-        indent: ["error", 4],
-        "no-console": "off",
-        "no-unused-vars": "warn",
-        "no-undef": "error",
-        eqeqeq: "error",
-        "no-trailing-spaces": "error",
-        "eol-last": "error",
-
-        "no-multiple-empty-lines": ["error", {
-            max: 2,
-        }],
+        indent: ["error", 4]
     },
-}])
+}]);

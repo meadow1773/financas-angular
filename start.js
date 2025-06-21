@@ -16,8 +16,8 @@ const config = {
         args: ['run', 'dev'],
         cwd: path.join(__dirname, 'backend'),
         url: 'http://localhost:3000/api/health',
-        timeout: 30000, // 30 segundos
-        retryInterval: 3000 // 3 segundos
+        timeout: 60000, // 60 segundos
+        retryInterval: 5000 // 5 segundos
     },
     frontend: {
         command: 'ng',

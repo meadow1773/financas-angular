@@ -8,7 +8,11 @@ import { MatIconModule } from '@angular/material/icon'
 
 
 @NgModule({
-    declarations: [HomeComponent, HeadingComponent, CalendarioComponent],
+    declarations: [
+        HomeComponent, 
+        HeadingComponent, 
+        CalendarioComponent
+    ],
     imports: [
         CommonModule,
         MatIconModule,

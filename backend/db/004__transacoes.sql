@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS transacoes (
   fk_icone_id INTEGER NOT NULL REFERENCES icones(id),
   mes INTEGER NOT NULL,
   ano INTEGER NOT NULL,
-  valor DECIMAL(10, 2) NOT NULL,
+  valor DECIMAL(10, 4) NOT NULL,
   data_cadastro TIMESTAMP without time zone DEFAULT now(),
   data_alteracao TIMESTAMP without time zone
 );

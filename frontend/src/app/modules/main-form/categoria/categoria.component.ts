@@ -1,52 +1,81 @@
-import { Component, Input } from '@angular/core'
+import { Component, inject, Input, OnInit } from '@angular/core'
 import { SharedService } from '../../../services/shared.service'
 import { FormControl, FormGroup } from '@angular/forms'
 import { Icone } from '../../../../interfaces/models'
 import { CalculadoraService } from '../../../services/calculadora.service'
 
 @Component({
+    standalone: false,
     selector: 'app-categoria',
     templateUrl: './categoria.component.html',
-    styleUrl: './categoria.component.scss',
-    standalone: false
+    styleUrl: './categoria.component.scss'
 })
 
-export class CategoriaComponent {
-  @Input() form!: FormGroup
-  @Input() categoriaNome!: string
-  @Input() iconeCategoria!: Icone | null
+export class CategoriaComponent implements OnInit {
+    /**
+     * FormGroup recebido do componente Tipo.
+     */
+    @Input() form!: FormGroup
 
-  zero: string
-  iconePadrao: string
+    /**
+     * Nome da categoria recebido do componente Tipo.
+     */
+    @Input() categoriaNome!: string
 
-  /**
-   * Método construtor do componente.
-   * @param nome Nome do item.
-   */
-  constructor(public global:SharedService, public calculadora: CalculadoraService) {
-      this.zero = global.zeroFormat
-      this.iconePadrao = global.iconePadrao
-  }
+    /**
+     * Ícone da categoria recebido do componente Tipo.
+     */
+    @Input() iconeCategoria!: Icone | null
 
-  /**
-   * Getter para o nome do item.
-   * @param classe Se 'true', retorna o nome em formato de classe HTML.
-   * @returns Nome do item.
-   */
-  getCategoriaNome(classe?:boolean) {
-      if (classe) return this.global.toClass(this.categoriaNome)
-      return this.categoriaNome
-  }
+    /**
+     * Instância do serviço global.
+     */
+    global = inject(SharedService)
 
-  /**
-   * Método OnInit.
-   */
-  ngOnInit() {
-      // Criação de campos.
-      this.form.addControl(
-          this.getCategoriaNome(true), new FormControl('', this.calculadora.validadorReal()))
-      this.form.addControl(
-          `${this.getCategoriaNome(true)}-soma`, new FormControl()
-      )
-  }
+    /**
+     * Instância do serviço de calculadora.
+     */
+    calculadora = inject(CalculadoraService)
+
+    /**
+     * Zero padrão.
+     */
+    zero: string
+
+    /**
+     * Ícone padrão para quando o Icone recebido da Api for nulo.
+     */
+    iconePadrao: string
+
+    /**
+     * Método construtor do componente.
+     */
+    constructor() {
+        this.zero = this.global.zeroFormat
+        this.iconePadrao = this.global.iconePadrao
+    }
+
+    /**
+     * Getter para o nome do item.
+     * @param classe Se 'true', retorna o nome em formato de classe HTML.
+     * @returns Nome do item.
+     */
+    getCategoriaNome(classe?:boolean) {
+        if (classe) return this.global.toClass(this.categoriaNome)
+        return this.categoriaNome
+    }
+
+    /**
+     * Método OnInit do componente.
+     */
+    ngOnInit() {
+        // Criação de campos.
+        this.form.addControl(
+            this.getCategoriaNome(true),
+            new FormControl('', [this.calculadora.validadorReal])
+        )
+        this.form.addControl(
+            `${this.getCategoriaNome(true)}-soma`, new FormControl()
+        )
+    }
 }

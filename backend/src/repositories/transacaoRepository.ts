@@ -13,7 +13,7 @@ export class TransacaoRepository {
             if (!categoria) throw new Error(`Categoria não encontrada para a transação ${row.id}`)
             return new Transacao(
                 row.id,
-                categoria,
+                categoria.nome,
                 row.mes,
                 row.ano,
                 row.valor,
@@ -33,7 +33,7 @@ export class TransacaoRepository {
         if (!categoria) throw new Error(`Categoria não encontrada para a transação ${row.id}`)
         return new Transacao(
             row.id,
-            categoria,
+            categoria.nome,
             row.mes,
             row.ano,
             row.valor,

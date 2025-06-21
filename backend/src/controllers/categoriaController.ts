@@ -2,11 +2,7 @@ import { Request, Response } from "express"
 import { CategoriaService } from "../services/categoriaService"
 
 export class CategoriaController {
-    private categoriaService: CategoriaService
-
-    constructor() {
-        this.categoriaService = new CategoriaService()
-    }
+    private categoriaService = new CategoriaService()
 
     // Getters para Categorias.
     async getCategorias(req: Request, res: Response): Promise<void> {
@@ -25,7 +21,18 @@ export class CategoriaController {
             if (categoria) res.json(categoria)
             else res.status(404).json({ error: 'Categoria não encontrada.' })
         } catch(error) {
-            res.status(500).json({ error: `Erro ao buscar a categoria: ${error}` })
+            res.status(500).json({ erro: `Erro ao buscar a categoria: ${error}` })
+        }
+    }
+
+    async getCategoriaPorIdTipo(req: Request, res: Response): Promise<void> {
+        try {
+            const idTipo = parseInt(req.params.id_tipo)
+            const categoria = await this.categoriaService.getCategoriasPorIdTipo(idTipo)
+            if(categoria) res.json(categoria)
+            else res.status(404).json({ erro: 'Categoria não encontrada.' })
+        } catch(error) {
+            res.status(500).json({ erro: `Erro ao buscar a categoria: ${error}` })
         }
     }
 }

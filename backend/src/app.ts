@@ -10,14 +10,6 @@ export function createApp() {
     app.use(cors())
     app.use(morgan('dev'))
 
-    // Endpoint de saúde
-    app.get('/api/health', (req, res) => {
-        res.status(200).json({
-            status: 'UP',
-            timestamp: new Date().toISOString()
-        })
-    })
-
     // Endpoints da aplicação
     app.use(express.json())
     app.use('/api', apiRoutes)

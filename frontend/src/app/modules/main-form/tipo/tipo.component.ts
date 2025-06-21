@@ -1,50 +1,84 @@
-import { Component, Input } from '@angular/core'
+import { Component, inject, Input, OnInit } from '@angular/core'
 import { FormControl, FormGroup } from '@angular/forms'
 import { SharedService } from '../../../services/shared.service'
 import { ApiService } from '../../../services/api.service'
 import { Categoria, Icone } from '../../../../interfaces/models'
 
 @Component({
+    standalone: false,
     selector: 'app-tipo',
     templateUrl: './tipo.component.html',
-    styleUrl: './tipo.component.scss',
-    standalone: false
+    styleUrl: './tipo.component.scss'
 })
-export class TipoComponent {
-  @Input() form!: FormGroup
-  @Input() nomeTipo!:string
-  @Input() iconeTipo!: Icone | null
-  iconePadrao: string
-  categorias!: Categoria[]
+export class TipoComponent implements OnInit{
+    /**
+     * FormGrup recebido do componente MainForm.
+     */
+    @Input() form!: FormGroup
 
-  /**
-   * Método construtor do componente
-   */
-  constructor(public global:SharedService, private api:ApiService) {
-      this.iconePadrao = global.iconePadrao
-  }
+    /**
+     * Nome do Tipo recebido do componente MainForm.
+     */
+    @Input() nomeTipo!:string
 
-  /**
-   * Getter para o nome do grupo.
-   * @param classe Se 'true', retorna o nome em formato de classe HTML.
-   * @returns Nome do grupo.
-   */
-  getNomeTipo(classe?:boolean) {
-      if (classe) return this.global.toClass(this.nomeTipo)
-      else return this.nomeTipo
-  }
+    /**
+     * Icone do Tipo recebido do componente MainForm.
+     */
+    @Input() iconeTipo!: Icone | null
 
-  /**
-   * Método OnInit
-   */
-  ngOnInit() {
-      // Carrega as categorias
-      const categorias = this.api.getCategorias()
-      categorias.subscribe(array => {
-          this.categorias = array.filter(item => item.tipo.nome === this.nomeTipo)
-      })
+    /**
+     * Id do Tipo recebido do componente MainForm.
+     */
+    @Input() idTipo!: number
 
-      // Criação de campos
-      this.form.addControl(`total-${this.getNomeTipo(true)}`, new FormControl())
-  }
+    /**
+     * Instância do serviço de Api.
+     */
+    private api = inject(ApiService)
+
+    /**
+     * Instância do serviço global.
+     */
+    global = inject(SharedService)
+
+    /**
+     * Ícone padrão para quando o Icone recebido da Api for nulo.
+     */
+    iconePadrao: string
+
+    /**
+     * Recebe as categorias após o resolvimento do Observable.
+     */
+    categorias!: Categoria[]
+
+    /**
+     * Método construtor do componente.
+     */
+    constructor() {
+        this.iconePadrao = this.global.iconePadrao
+    }
+
+    /**
+     * Getter para o nome do grupo.
+     * @param classe Se 'true', retorna o nome em formato de classe HTML.
+     * @returns Nome do grupo.
+     */
+    getNomeTipo(classe?:boolean) {
+        if (classe) return this.global.toClass(this.nomeTipo)
+        else return this.nomeTipo
+    }
+
+    /**
+     * Método OnInit do componente.
+     */
+    ngOnInit() {
+        // Carrega as categorias
+        const categorias = this.api.getCategoriasPorIdTipo(this.idTipo)
+        categorias.subscribe(array => {
+            this.categorias = array.filter(item => item.tipo === this.nomeTipo)
+        })
+
+        // Criação de campos
+        this.form.addControl(`total-${this.getNomeTipo(true)}`, new FormControl())
+    }
 }

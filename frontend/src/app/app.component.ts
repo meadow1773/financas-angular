@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, inject, OnInit } from '@angular/core'
 import { RouterOutlet } from '@angular/router'
 import { Title } from  '@angular/platform-browser'
 import { MatIconModule } from '@angular/material/icon'
@@ -15,19 +15,25 @@ import { HomeModule } from './modules/home/home.module'
 
 export class AppComponent implements OnInit{
     /**
-   * Nome do App
-   */
+     * Nome do App.
+     */
     appName = 'Finanças'
     /**
-   * Ano para o título do App
-   */
+     * Ano para o título do App.
+     */
     ano!: number
     /**
-  * Instancia do serviço de data
-  */
+     * Instancia do serviço de Data.
+     */
     private Data = new DataHandlerService()
+    /**
+     * Instância do serviço de título do Angular.
+     */
+    private titleService:Title
 
-    constructor(private titleService:Title) { }
+    constructor() {
+        this.titleService = inject(Title)
+    }
 
     ngOnInit() {
         this.ano = this.Data.anoAtual

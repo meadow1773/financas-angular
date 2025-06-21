@@ -6,7 +6,7 @@
         <mat-icon class="detalhar">keyboard_arrow_down</mat-icon>
     </span>
     <span class="valores {{getCategoriaNome(true)}}">
-        <input type="text" name="{{getCategoriaNome(true)}}" formControlName="{{getCategoriaNome(true)}}" [attr.aria-label]="getCategoriaNome()" placeholder="{{zero}}">
+        <input type="text" (blur)="[calculadora.formatarReal]" name="{{getCategoriaNome(true)}}" formControlName="{{getCategoriaNome(true)}}" [attr.aria-label]="getCategoriaNome()" placeholder="{{zero}}">
         <button class="detail" tabindex="-1"><mat-icon>info</mat-icon></button>
         <button class="add" tabindex="-1"><mat-icon>add_circle</mat-icon></button>
         <button class="rmv" tabindex="-1"><mat-icon>do_not_disturb_on</mat-icon></button>

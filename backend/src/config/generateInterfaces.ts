@@ -26,7 +26,7 @@ function hasChanges(newHash: string): boolean {
         const oldHash = fs.readFileSync(arquivoHash, "utf-8")
         return oldHash !== newHash
     } catch {
-        return true // Se o arquivo de hash não existir
+        return true
     }
 }
 

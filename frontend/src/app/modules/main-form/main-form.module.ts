@@ -9,7 +9,11 @@ import { SharedService } from '../../services/shared.service'
 import { ApiService } from '../../services/api.service'
 
 @NgModule({
-    declarations: [MainFormComponent, CategoriaComponent, TipoComponent],
+    declarations: [
+        MainFormComponent, 
+        CategoriaComponent, 
+        TipoComponent,
+    ],
     imports: [
         CommonModule,
         ReactiveFormsModule,

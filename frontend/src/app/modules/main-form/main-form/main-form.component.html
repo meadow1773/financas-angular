@@ -1,5 +1,5 @@
 <form [formGroup]="formularioPrincipal" (ngSubmit)="testSubmit()">
-    <app-tipo *ngFor="let tipo of tipos" [form]="formularioPrincipal" [nomeTipo]="tipo.nome" [iconeTipo]="tipo.icone">
+    <app-tipo *ngFor="let tipo of tipos" [form]="formularioPrincipal" [nomeTipo]="tipo.nome" [iconeTipo]="tipo.icone" [idTipo]="tipo.id">
     </app-tipo>
     <div class="content saldo">
         <span class="item">

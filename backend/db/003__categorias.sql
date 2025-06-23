@@ -6,3 +6,6 @@ CREATE TABLE IF NOT EXISTS categorias(
     data_cadastro TIMESTAMP without time zone DEFAULT now(),
     data_alteracao TIMESTAMP without time zone
 );
+
+
+INSERT INTO public.categorias (nome, fk_tipo_id, fk_icone_id) VALUES ('Saldo Anterior', 1, 4) ON CONFLICT DO NOTHING;

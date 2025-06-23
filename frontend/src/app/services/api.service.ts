@@ -20,8 +20,12 @@ export class ApiService {
         return this.http.get<any[]>(`${this.apiUrl}/transacoes`)
     }
 
-    getTransacoesPorId(id: number): Observable<Transacao> {
+    getTransacaoPorId(id: number): Observable<Transacao> {
         return this.http.get<any>(`${this.apiUrl}/transacoes/${id}`)
+    }
+
+    getTransacoesPorMes(mes: number): Observable<Transacao[]> {
+        return this.http.get<any>(`${this.apiUrl}/transacoes/mes/${mes}`)
     }
 
     // Getters para Categorias.

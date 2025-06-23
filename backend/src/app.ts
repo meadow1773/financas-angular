@@ -1,7 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 import morgan from 'morgan'
-import apiRoutes from './routes/apiRoutes'
+import router from './routes/router'
 
 export function createApp() {
     // Configurações
@@ -12,7 +12,7 @@ export function createApp() {
 
     // Endpoints da aplicação
     app.use(express.json())
-    app.use('/api', apiRoutes)
+    app.use('/api', router)
 
     return app
 }

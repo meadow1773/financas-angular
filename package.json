@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
+    "install": "npm install --prefix frontend && npm install --prefix backend",
     "start": "node start.js",
     "start:backend": "cd backend && npm run dev",
     "start:frontend": "cd frontend && ng serve",

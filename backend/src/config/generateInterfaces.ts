@@ -31,7 +31,7 @@ function hasChanges(newHash: string): boolean {
 }
 
 async function generateInterfaces() {
-    // Checa se precisa gerar.
+    // Checa se precisa gerar
     const hashAtual = calculaModelHash()
     if(!hasChanges(hashAtual)) {
         console.log('Não foram geradas interfaces novas.')
@@ -40,7 +40,10 @@ async function generateInterfaces() {
     // Configurações
     const project = new Project({
         tsConfigFilePath: path.join(process.cwd(), "tsconfig.json"),
-        skipAddingFilesFromTsConfig: true
+        skipAddingFilesFromTsConfig: true,
+        compilerOptions: {
+            removeComments: false
+        }
     })
 
     arquivosModels.forEach(arquivo => project.addSourceFileAtPath(path.join(pastaModels, arquivo)))

@@ -1,6 +1,6 @@
 import { Component, inject, Input, OnInit } from '@angular/core'
 import { SharedService } from '../../../services/shared.service'
-import { FormControl, FormGroup } from '@angular/forms'
+import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { Icone } from '../../../../interfaces/models'
 import { CalculadoraService } from '../../../services/calculadora.service'
 
@@ -66,13 +66,44 @@ export class CategoriaComponent implements OnInit {
     }
 
     /**
+     * Função disparada com o evento de clique no botão add.
+     * @param evento 
+     */
+    botaoAdd(evento: Event) {
+        if (evento.target instanceof HTMLElement) {
+            const classe = (evento.target.parentElement!).parentElement!.classList[0]
+            const control = this.form.get(classe)
+            const controlSoma = this.form.get(classe + '-soma')
+
+            controlSoma?.setValue(control?.value)
+            control?.markAsPristine()
+            control?.setValue('')
+        }
+    }
+
+    /**
+     * Função disparada com o evento de clique no botão rmv.
+     * @param evento 
+     */
+    botaoRmv(evento: Event) {
+        console.log(evento.target)
+    }
+
+    /**
+     * Função disparada com o evento de clique no botão info.
+     * @param evento 
+     */    
+    botaoInfo(evento: Event) {
+        console.log(evento.target)
+    }
+    /**
      * Método OnInit do componente.
      */
     ngOnInit() {
         // Criação de campos.
         this.form.addControl(
             this.getCategoriaNome(true),
-            new FormControl('', [this.calculadora.validadorReal])
+            new FormControl('', Validators.pattern(/^-?\d+(\.\d{3})*(,\d{2})?$/))
         )
         this.form.addControl(
             `${this.getCategoriaNome(true)}-soma`, new FormControl()

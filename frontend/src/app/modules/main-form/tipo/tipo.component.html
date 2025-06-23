@@ -4,16 +4,6 @@
         {{getNomeTipo()}}
     </span>
 </div>
-<div *ngIf="getNomeTipo() === 'Receitas'" class="content {{getNomeTipo(true)}}" [formGroup]="form">
-    <span class="item saldo-anterior">
-        <mat-icon>account_balance</mat-icon>
-        Saldo Anterior
-    </span>
-    <span class="valores">
-        <input type="text" name="saldo-anterior" formControlName="saldo-anterior" aria-label="Saldo Anterior" tabindex="-1">
-        <button class="update" tabindex="-1"><mat-icon>sync</mat-icon></button>
-    </span>
-</div>
 <app-categoria [form]="form" *ngFor="let categoria of categorias" [categoriaNome]="categoria.nome" [iconeCategoria]="categoria.icone" ></app-categoria> <!--TESTE-->
 <div class="content create">
     <button alt="Criar" tabindex="-1"><mat-icon>add</mat-icon></button>

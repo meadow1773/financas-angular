@@ -1,5 +1,5 @@
 // AUTO-GENERATED FILE - DO NOT EDIT DIRECTLY
-// Gerado automaticamente em: 2025-06-21T04:30:28.688Z
+// Gerado automaticamente em: 2025-06-22T16:38:29.055Z
 export interface Categoria {
     id: number;
     nome: string;

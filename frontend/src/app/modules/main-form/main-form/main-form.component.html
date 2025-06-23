@@ -1,4 +1,4 @@
-<form [formGroup]="formularioPrincipal" (ngSubmit)="testSubmit()">
+<form [formGroup]="formularioPrincipal">
     <app-tipo *ngFor="let tipo of tipos" [form]="formularioPrincipal" [nomeTipo]="tipo.nome" [iconeTipo]="tipo.icone" [idTipo]="tipo.id">
     </app-tipo>
     <div class="content saldo">
@@ -15,11 +15,11 @@
             <mat-icon>undo</mat-icon>
             Apagar alterações
         </button>
-        <button type="send" id="submit">
+        <button type="send" id="submit" [disabled]="!formularioPrincipal.valid">
             <mat-icon>send</mat-icon>
             Enviar valores
         </button>
-        <button id="close">
+        <button id="close" [disabled]="!formularioPrincipal.valid">
             <mat-icon>free_cancellation</mat-icon>
             Fechar mês
         </button>

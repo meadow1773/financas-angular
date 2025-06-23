@@ -35,7 +35,6 @@ export class MainFormComponent implements OnInit {
      * FormGroup principal que recebera os FromControls dos outros componentes.
      */
     formularioPrincipal = new FormGroup({
-        "saldo-anterior": new FormControl(),
         saldo: new FormControl()
     })
 
@@ -49,16 +48,19 @@ export class MainFormComponent implements OnInit {
     /**
      * Método de teste de envio.
      */
-    testSubmit() {
-        console.log(this.formularioPrincipal.value)
-    }
+    // testSubmit() {
+    //     console.log(this.formularioPrincipal.value)
+    // }
 
     /**
      * Método OnInit do componente.
      */
     ngOnInit() {
-    // Carrega os tipos
+        // Carrega os tipos
         const tipos = this.api.getTipos()
         tipos.subscribe(array => this.tipos = array)
+
+        // Carrega transação
+
     }
 }

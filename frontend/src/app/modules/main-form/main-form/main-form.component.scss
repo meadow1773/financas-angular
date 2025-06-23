@@ -104,10 +104,19 @@
             max-height: 30px;
             margin-left: 1px;
             background-color: $dark;
+            border: 1px solid $dark;
             color: #fff;
     
             &:where([type=text]) {
                 width: 100% !important;
+                
+                &.ng-dirty.ng-valid{
+                    border-color: green;
+                }
+                
+                &.ng-invalid{
+                    border-color: red;
+                }
             }
         }
     }

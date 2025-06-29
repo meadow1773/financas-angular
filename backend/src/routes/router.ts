@@ -18,6 +18,7 @@ const transacaoController = new TransacaoController()
 router.get('/transacoes', transacaoController.getTransacoes.bind(transacaoController))
 router.get('/transacoes/:id', transacaoController.getTransacaoPorId.bind(transacaoController))
 router.get('/transacoes/mes/:mes', transacaoController.getTransacoesPorMes.bind(transacaoController))
+router.put('/transacoes', transacaoController.setTransacoes.bind(transacaoController))
 
 // Rotas para Categorias
 const categoriaController = new CategoriaController()

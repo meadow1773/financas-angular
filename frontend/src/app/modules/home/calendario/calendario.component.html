@@ -1,5 +1,5 @@
 <div class="calendario" [style.opacity]="aberto ? 1 : 0" [style.pointer-events]="aberto ? 'auto' : 'none'">
     <mat-icon class="cal-close" alt="Fechar" (click)="alternar.emit()">cancel</mat-icon>
-    <span class="ano">{{ Data.anoAtual }}</span>
+    <span class="ano">{{ date.anoAtual }}</span>
     <span class="month-item" *ngFor="let mes of meses" (click)="selecionaMes(mes)">{{ mes }}</span>
 </div>

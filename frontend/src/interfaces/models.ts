@@ -1,5 +1,5 @@
 // AUTO-GENERATED FILE - DO NOT EDIT DIRECTLY
-// Gerado automaticamente em: 2025-06-22T16:38:29.055Z
+// Gerado automaticamente em: 2025-06-27T01:08:28.469Z
 export interface Categoria {
     id: number;
     nome: string;
@@ -26,11 +26,12 @@ export interface Tipo {
 }
 
 export interface Transacao {
-    id: number;
     categoria: string;
     mes: number;
     ano: number;
     valor: number;
+    descricao: string;
     dataCriacao: Date;
-    dataAlteracao: Date;
+    id?: number | undefined;
+    dataAlteracao?: Date | undefined;
 }

@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import { TransacaoService } from "../services/transacaoService"
+import { TransacaoRequestData } from 'src/models/interfaces/transacaoRequestData'
 
 export class TransacaoController {
     /**
@@ -45,11 +46,28 @@ export class TransacaoController {
     async getTransacoesPorMes(req: Request, res: Response): Promise<void> {
         try {
             const mes = parseInt(req.params.mes)
-            const transacao = await this.transacaoService.getTransacoesPorMes(mes)
+            const categoria = req.query.categoria as string
+            const transacao = await this.transacaoService.getTransacoesPorMes(mes, categoria)
             if(transacao) res.json(transacao)
             else res.status(404).json({ erro: 'Transações não encontradas. '})
         } catch (error) {
             res.status(500).json({ erro: `Erro ao buscar as transações: ${error}`})
         }
+    }
+
+    /**
+     * Setter de Trasações.
+     * @param req 
+     * @param res 
+     */
+    async setTransacoes(req: Request, res: Response): Promise<void> {
+        try {
+            const data: TransacaoRequestData[] = req.body
+            this.transacaoService.setTransacoes(data)
+            res.status(200).json({message: 'Dados recebidos com sucesso!'})
+        } catch (error) {
+            console.error(error)
+            res.status(500).json({message: 'Erro ao processar os dados'})
+        }        
     }
 }

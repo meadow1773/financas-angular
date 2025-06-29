@@ -1,19 +1,20 @@
 <div class="sub-wrapper">
     <span class="sub-title">
         <mat-icon>{{iconeTipo?.link ?? iconePadrao}}</mat-icon>
-        {{getNomeTipo()}}
+        {{nomeTipo}}
     </span>
 </div>
-<app-categoria [form]="form" *ngFor="let categoria of categorias" [categoriaNome]="categoria.nome" [iconeCategoria]="categoria.icone" ></app-categoria> <!--TESTE-->
+<app-categoria [form]="form" *ngFor="let categoria of categorias" [categoriaNome]="categoria.nome" [iconeCategoria]="categoria.icone"
+(addEvent)="addEvent.emit($event)" ></app-categoria>
 <div class="content create">
     <button alt="Criar" tabindex="-1"><mat-icon>add</mat-icon></button>
 </div>
-<div class="content {{getNomeTipo(true)}}" [formGroup]="form">
+<div class="content {{nomeTipoClasse}}" [formGroup]="form">
     <span class="item parcial">
-        <mat-icon [attr.alt]="getNomeTipo()">payments</mat-icon>
-        Total de {{getNomeTipo()}}
+        <mat-icon [attr.alt]="nomeTipo">payments</mat-icon>
+        Total de {{nomeTipo}}
     </span>
     <span class="valores parcial">
-        <input type="text" name="total-{{getNomeTipo(true)}}" formControlName="total-{{getNomeTipo(true)}}" tabindex="-1" readonly>
+        <input type="text" name="total-{{nomeTipoClasse}}" formControlName="total-{{nomeTipoClasse}}" tabindex="-1" readonly>
     </span>
 </div>

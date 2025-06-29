@@ -1,5 +1,6 @@
 <form [formGroup]="formularioPrincipal">
-    <app-tipo *ngFor="let tipo of tipos" [form]="formularioPrincipal" [nomeTipo]="tipo.nome" [iconeTipo]="tipo.icone" [idTipo]="tipo.id">
+    <app-tipo *ngFor="let tipo of tipos" [form]="formularioPrincipal" [nomeTipo]="tipo.nome" [iconeTipo]="tipo.icone" 
+    [idTipo]="tipo.id" (addEvent)="dataReceiver($event)" #mainForm>
     </app-tipo>
     <div class="content saldo">
         <span class="item">
@@ -15,7 +16,7 @@
             <mat-icon>undo</mat-icon>
             Apagar alterações
         </button>
-        <button type="send" id="submit" [disabled]="!formularioPrincipal.valid">
+        <button type="send" id="submit" (click)="enviaValores()" [disabled]="!formularioPrincipal.valid">
             <mat-icon>send</mat-icon>
             Enviar valores
         </button>

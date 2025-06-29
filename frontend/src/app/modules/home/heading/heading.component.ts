@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core'
-import { DataHandlerService } from '../../../services/data-handler.service'
+import { DateHandlerService } from '../../../services/date-handler.service'
 
 @Component({
     standalone: false,
@@ -9,24 +9,24 @@ import { DataHandlerService } from '../../../services/data-handler.service'
 })
 export class HeadingComponent {
     mesSelecionado: string
-    Data = inject(DataHandlerService)
+    date = inject(DateHandlerService)
     calendarioAberto = false
 
     constructor() {
-        this.mesSelecionado = this.Data.getNomeMes()
+        this.mesSelecionado = this.date.getNomeMes()
     }
     toggleCalendario() {
         this.calendarioAberto = !this.calendarioAberto
     }
     async proxMes() {
-        let chave = Object.values(this.Data.mesesObj).findIndex(m => m === this.mesSelecionado)
+        let chave = Object.values(this.date.mesesObj).findIndex(m => m === this.mesSelecionado)
         chave++
-        console.log(this.Data.getNomeMes(chave))
+        console.log(this.date.getNomeMes(chave))
     }
     async mesAnt() {
-        let chave = Object.values(this.Data.mesesObj).findIndex(m => m === this.mesSelecionado)
+        let chave = Object.values(this.date.mesesObj).findIndex(m => m === this.mesSelecionado)
         chave--
-        console.log(this.Data.getNomeMes(chave))
+        console.log(this.date.getNomeMes(chave))
     }
 }
 

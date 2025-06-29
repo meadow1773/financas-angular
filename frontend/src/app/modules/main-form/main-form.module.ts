@@ -7,6 +7,7 @@ import { CategoriaComponent } from './categoria/categoria.component'
 import { MatIconModule } from '@angular/material/icon'
 import { SharedService } from '../../services/shared.service'
 import { ApiService } from '../../services/api.service'
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask'
 
 @NgModule({
     declarations: [
@@ -17,9 +18,11 @@ import { ApiService } from '../../services/api.service'
     imports: [
         CommonModule,
         ReactiveFormsModule,
-        MatIconModule
+        MatIconModule,
+        NgxMaskDirective,
+        NgxMaskPipe
     ],
-    providers: [SharedService, ApiService],
+    providers: [SharedService, ApiService, provideNgxMask()],
     exports: [MainFormComponent]
 })
 export class MainFormModule {

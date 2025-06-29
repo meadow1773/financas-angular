@@ -1,3 +1,4 @@
+import { TransacaoRequestData } from "src/models/interfaces/transacaoRequestData"
 import { Transacao } from "../models/transacaoModel"
 import { TransacaoRepository } from "../repositories/transacaoRepository"
 
@@ -41,13 +42,39 @@ export class TransacaoService {
      * @param mes 
      * @returns Promessa resolvida em um array de Transação.
      */
-    async getTransacoesPorMes(mes: number): Promise<Transacao[]> {
+    async getTransacoesPorMes(mes: number, categoria: string): Promise<Transacao[]> {
         try {
-            const transacao = await this.repository.retornaPorMes(mes)
+            if (!categoria) categoria = ''
+            const transacao = await this.repository.retornaPorMes(mes, categoria)
             return transacao
         } catch (error) {
             console.error(`Erro no serviço ao buscar transações com o mês ${mes}:`, error)
             throw new Error(`Falha ao obter entidade com mês ${mes}`)
+        }
+    }
+
+    /**
+     * Setter para Transações.
+     * @param dataRequest 
+     */
+    async setTransacoes(dataRequest: TransacaoRequestData[]) {
+        try {
+            const transacoes: Transacao[] = []
+            dataRequest.forEach(data => {
+                data.valores.forEach(valor => {
+                    transacoes.push(new Transacao(
+                        data.categoria, 
+                        data.mes, 
+                        data.ano, 
+                        valor, 
+                        data.descricao, 
+                        data.dataCadastro))
+                })
+            })
+            await this.repository.salvaTransacao(transacoes)
+        } catch (error) {
+            console.error('Erro no serviço de registro de transações,', error)
+            throw new Error(`Falha ao registrar entidade.`)
         }
     }
 }

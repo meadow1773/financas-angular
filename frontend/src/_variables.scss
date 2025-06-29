@@ -4,6 +4,8 @@ $grey1: #ccc;
 $grey2: #999;
 $grey3: #555;
 $dark: #312f2f;
+$darkRed: #381414;
+$darkGreen: #142b10;
 
 $highlight1: #386ab4;
 $highlight2: #3f2fa7;
@@ -11,14 +13,12 @@ $highlight2: #3f2fa7;
 // Mixins
 
 @mixin highlight($direction: to left, $hover: false) {
-    $color1: #3f2fa7;
-    $color2: #385b8f;
-    background-image: linear-gradient(#{$direction}, $color1, $color2);
+    background-image: linear-gradient(#{$direction}, $highlight2, $highlight1);
 
     @if $hover {
         &:hover {
             background-image: none;
-            background-color: $color1;
+            background-color: $highlight2;
         }
     }
 }

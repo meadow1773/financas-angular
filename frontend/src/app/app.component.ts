@@ -2,7 +2,7 @@ import { Component, inject, OnInit } from '@angular/core'
 import { RouterOutlet } from '@angular/router'
 import { Title } from  '@angular/platform-browser'
 import { MatIconModule } from '@angular/material/icon'
-import { DataHandlerService } from './services/data-handler.service'
+import { DateHandlerService } from './services/date-handler.service'
 import { HomeModule } from './modules/home/home.module'
 
 @Component({
@@ -25,18 +25,22 @@ export class AppComponent implements OnInit{
     /**
      * Instancia do serviço de Data.
      */
-    private Data = new DataHandlerService()
+    private date = inject(DateHandlerService)
     /**
      * Instância do serviço de título do Angular.
      */
-    private titleService:Title
+    private titleService = inject(Title)
 
-    constructor() {
-        this.titleService = inject(Title)
-    }
+    /**
+     * Método construtor do componente.
+     */
+    constructor() {}
 
+    /**
+     * Método OnInit do componente.
+     */
     ngOnInit() {
-        this.ano = this.Data.anoAtual
+        this.ano = this.date.anoAtual
         this.titleService.setTitle(`${this.appName} ${this.ano}`)
     }
 }

@@ -1,11 +1,12 @@
 export class Transacao {
     constructor(
-        public id: number,
         public categoria: string,
         public mes: number,
         public ano: number,
         public valor: number,
+        public descricao: string,
         public dataCriacao: Date,
-        public dataAlteracao: Date
+        public id?: number,
+        public dataAlteracao?: Date
     ) { }
 }

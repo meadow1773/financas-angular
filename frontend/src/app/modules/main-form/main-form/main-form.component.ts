@@ -3,6 +3,8 @@ import { FormControl, FormGroup } from '@angular/forms'
 import { SharedService } from '../../../services/shared.service'
 import { Tipo } from '../../../../interfaces/models'
 import { ApiService } from '../../../services/api.service'
+import { DataRequest } from '../../../../interfaces/dataRequest'
+import { firstValueFrom } from 'rxjs'
 
 @Component({
     standalone: false,
@@ -11,29 +13,19 @@ import { ApiService } from '../../../services/api.service'
     styleUrl: './main-form.component.scss'
 })
 export class MainFormComponent implements OnInit {
-    /**
-     * Zero padrão.
-     */
-    zero:string
-
-    /**
-     * Tipos de transação recebidos da Api.
-     */
+    /** Array que receberá todos os DataRequest gerados para envio. */
+    dataRequestArray: DataRequest[] = []
+    
+    /** Tipos de transação recebidos da Api. */
     tipos!:Tipo[]
-
-    /**
-     * Instância do serviço global.
-     */
+    
+    /** Instância do serviço global. */
     global = inject(SharedService)
 
-    /**
-     * Instância do serviço de Api.
-     */
+    /** Instância do serviço de Api. */
     private api = inject(ApiService)
 
-    /**
-     * FormGroup principal que recebera os FromControls dos outros componentes.
-     */
+    /** FormGroup principal que recebera os FromControls dos outros componentes. */
     formularioPrincipal = new FormGroup({
         saldo: new FormControl()
     })
@@ -41,26 +33,37 @@ export class MainFormComponent implements OnInit {
     /**
      * Método construtor do componente.
      */
-    constructor() {
-        this.zero = this.global.zeroFormat
-    }
-
-    /**
-     * Método de teste de envio.
-     */
-    // testSubmit() {
-    //     console.log(this.formularioPrincipal.value)
-    // }
+    constructor() {}
 
     /**
      * Método OnInit do componente.
      */
-    ngOnInit() {
+    async ngOnInit() : Promise<any>{
         // Carrega os tipos
-        const tipos = this.api.getTipos()
-        tipos.subscribe(array => this.tipos = array)
+        this.tipos = await firstValueFrom(this.api.getTipos())
 
-        // Carrega transação
+        // Carrega as transações
 
+    }
+
+    /**
+     * Recebe os objetos DataRequest das categorias e adiciona ao DataRequestArray.
+     * @param recebido 
+     */
+    dataReceiver(recebido: DataRequest) {
+        const cadastrado = this.dataRequestArray.find(data => data.categoria === recebido.categoria)
+        if (cadastrado) {
+            cadastrado.valores = recebido.valores
+        } else {
+            this.dataRequestArray.push(recebido)
+        }
+    }
+
+    /**
+     * Envia o array de DataRequest para a Api.
+     */
+    async enviaValores(): Promise<void> {
+        if (!this.dataRequestArray.length) return
+        await firstValueFrom(this.api.setTransacoes(this.dataRequestArray))
     }
 }

@@ -3,19 +3,19 @@ import { Injectable } from '@angular/core'
 @Injectable({
     providedIn: 'root'
 })
-export class DataHandlerService {
+export class DateHandlerService {
     /**
    * Objeto de data
    */
-    dataObj = new Date()
+    dateObj = new Date()
     /**
    * Ano atual
    */
-    anoAtual = this.dataObj.getFullYear()
+    anoAtual = this.dateObj.getFullYear()
     /**
    * Mês atual numérico
    */
-    mesAtualNum = this.dataObj.getMonth()
+    mesAtualNum = this.dateObj.getMonth()
     /**
    * Objeto com os nome dos meses abreviados e completos
    */
@@ -42,11 +42,11 @@ export class DataHandlerService {
    */
     getNomeMes(mesNum?: number): string {
         if (typeof mesNum === 'number') {
-            this.dataObj.setMonth(mesNum)
+            this.dateObj.setMonth(mesNum)
         } else {
-            this.dataObj.setMonth(this.mesAtualNum)
+            this.dateObj.setMonth(this.mesAtualNum)
         }
-        const mesMinusculo = new Intl.DateTimeFormat(undefined, { month: 'long' }).format(this.dataObj)
+        const mesMinusculo = new Intl.DateTimeFormat(undefined, { month: 'long' }).format(this.dateObj)
         return mesMinusculo.toUpperCase()[0] + mesMinusculo.slice(1)
     }
 }

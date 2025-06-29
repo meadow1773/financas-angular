@@ -1,15 +1,27 @@
-<div class="content {{getCategoriaNome(true)}}" [formGroup]="form">
-    <span class="item {{getCategoriaNome(true)}}">
+<div class="content {{categoriaNomeClasse}}" [formGroup]="form">
+    <span class="item {{categoriaNomeClasse}}">
         <mat-icon class="drag" alt="Mover">drag_indicator</mat-icon>
         <mat-icon>{{iconeCategoria?.link ?? iconePadrao}}</mat-icon>
-        {{getCategoriaNome()}}
+        {{categoriaNome}}
         <mat-icon class="detalhar">keyboard_arrow_down</mat-icon>
     </span>
-    <span class="valores {{getCategoriaNome(true)}}">
-        <input type="text" name="{{getCategoriaNome(true)}}" formControlName="{{getCategoriaNome(true)}}" [attr.aria-label]="getCategoriaNome()" placeholder="{{zero}}">
-        <button class="detail" tabindex="-1" (click)="botaoInfo($event)"><mat-icon>info</mat-icon></button>
-        <button class="add" tabindex="-1" (click)="botaoAdd($event)" [disabled]="!form.valid"><mat-icon>add_circle</mat-icon></button>
-        <button class="rmv" tabindex="-1" (click)="botaoRmv($event)" [disabled]="!form.valid"><mat-icon>do_not_disturb_on</mat-icon></button>
-        <input type="text" name="{{getCategoriaNome(true)}}-soma" formControlName="{{getCategoriaNome(true)}}-soma" tabindex="-1" readonly>
+    <span class="valores {{categoriaNomeClasse}}">
+        <input type="text" formControlName="{{categoriaNomeClasse}}" [attr.aria-label]="categoriaNome" tabindex="-1" 
+        #valorEl>
+        @if(categoriaNomeClasse != 'saldo-anterior') {
+            <button class="detail" tabindex="-1" (click)="botaoInfo($event)">
+                <mat-icon>info</mat-icon>
+            </button>
+            <button class="add" tabindex="-1" (click)="botaoAdd($event)" [disabled]="!form.valid">
+                <mat-icon>add_circle</mat-icon>
+            </button>
+            <button class="rmv" tabindex="-1" (click)="botaoRmv($event)" [disabled]="!form.valid">
+                <mat-icon>do_not_disturb_on</mat-icon>
+            </button>
+            <input type="text" formControlName="{{categoriaNomeClasse}}-soma" tabindex="-1" readonly>
+        }
+        <button *ngIf="categoriaNomeClasse === 'saldo-anterior'" class="update" tabindex="-1" [disabled]="!form.valid">
+            <mat-icon>sync</mat-icon>
+        </button>
     </span>
 </div>

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core'
-import { DataHandlerService } from '../../../services/data-handler.service'
+import { DateHandlerService } from '../../../services/date-handler.service'
 
 @Component({
     standalone: false,
@@ -11,18 +11,18 @@ import { DataHandlerService } from '../../../services/data-handler.service'
 export class CalendarioComponent {
     @Input() aberto = false
     @Output() alternar = new EventEmitter<void>()
-    Data = inject(DataHandlerService)
+    date = inject(DateHandlerService)
 
     meses: string[]
 
     constructor() {
-        this.meses = Object.keys(this.Data.mesesObj)
+        this.meses = Object.keys(this.date.mesesObj)
     }
     /**
      * Método que busca o mês a partir da chave do mês abreviado
      * @param mesKey Mês abreviado
      */
     async selecionaMes(mesKey:string) {
-        console.log(this.Data.mesesObj[mesKey])
+        console.log(this.date.mesesObj[mesKey])
     }
 }

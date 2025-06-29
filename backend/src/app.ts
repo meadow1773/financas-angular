@@ -3,7 +3,7 @@ import cors from 'cors'
 import morgan from 'morgan'
 import router from './routes/router'
 
-export function createApp() {
+export function inicializaApp() {
     // Configurações
     const app = express()
 

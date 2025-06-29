@@ -1,6 +1,6 @@
+import { IconeRepository } from "./iconeRepository"
 import { pool } from "../config/database"
 import { Tipo } from "../models/tipoModel"
-import { IconeRepository } from "./iconeRepository"
 
 export class TipoRepository {
     private iconeRepository = new IconeRepository()

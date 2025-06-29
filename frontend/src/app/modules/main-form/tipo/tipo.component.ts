@@ -1,9 +1,10 @@
 import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core'
 import { FormControl, FormGroup } from '@angular/forms'
-import { SharedService } from '../../../services/shared.service'
-import { ApiService } from '../../../services/api.service'
-import { Categoria, Icone } from '../../../../interfaces/models'
 import { firstValueFrom } from 'rxjs'
+
+import { Categoria, Icone } from '../../../../interfaces/models'
+import { ApiService } from '../../../services/api.service'
+import { SharedService } from '../../../services/shared.service'
 
 @Component({
     standalone: false,

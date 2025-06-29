@@ -1,7 +1,7 @@
-import { pool } from "../config/database"
-import { Categoria } from "../models/categoriaModel"
 import { IconeRepository } from "./iconeRepository"
 import { TipoRepository } from "./tipoRepository"
+import { pool } from "../config/database"
+import { Categoria } from "../models/categoriaModel"
 
 export class CategoriaRepository {
     /**

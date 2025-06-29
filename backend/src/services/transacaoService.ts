@@ -1,4 +1,5 @@
 import { TransacaoRequestData } from "src/models/interfaces/transacaoRequestData"
+
 import { Transacao } from "../models/transacaoModel"
 import { TransacaoRepository } from "../repositories/transacaoRepository"
 

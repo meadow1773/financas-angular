@@ -1,5 +1,6 @@
-import { inicializaApp } from "./app"
 import dotenv from 'dotenv'
+
+import { inicializaApp } from "./app"
 
 // Variáveis de ambiente
 dotenv.config()

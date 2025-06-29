@@ -1,10 +1,11 @@
 import { Component, inject, OnInit } from '@angular/core'
 import { FormControl, FormGroup } from '@angular/forms'
-import { SharedService } from '../../../services/shared.service'
+import { firstValueFrom } from 'rxjs'
+
+import { DataRequest } from '../../../../interfaces/dataRequest'
 import { Tipo } from '../../../../interfaces/models'
 import { ApiService } from '../../../services/api.service'
-import { DataRequest } from '../../../../interfaces/dataRequest'
-import { firstValueFrom } from 'rxjs'
+import { SharedService } from '../../../services/shared.service'
 
 @Component({
     standalone: false,

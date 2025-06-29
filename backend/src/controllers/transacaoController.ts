@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
-import { TransacaoService } from "../services/transacaoService"
 import { TransacaoRequestData } from 'src/models/interfaces/transacaoRequestData'
+
+import { TransacaoService } from "../services/transacaoService"
 
 export class TransacaoController {
     /**

@@ -1,4 +1,5 @@
 import { Request, Response } from "express"
+
 import { TipoService } from "../services/tipoService"
 
 export class TipoController {

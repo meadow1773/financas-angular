@@ -1,14 +1,15 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, inject, Input, OnInit, Output, ViewChild } from '@angular/core'
-import { SharedService } from '../../../services/shared.service'
-import { FormControl, FormGroup, Validators } from '@angular/forms'
-import { Icone, Transacao } from '../../../../interfaces/models'
-import { CalculadoraService } from '../../../services/calculadora.service'
-import { DataRequest } from '../../../../interfaces/dataRequest'
-import { ApiService } from '../../../services/api.service'
-import { firstValueFrom } from 'rxjs'
-import { DateHandlerService } from '../../../services/date-handler.service'
-import { TestService } from '../../../tests/test.service'
 import { DOCUMENT } from '@angular/common'
+import { AfterViewInit, Component, ElementRef, EventEmitter, inject, Input, OnInit, Output, ViewChild } from '@angular/core'
+import { FormControl, FormGroup, Validators } from '@angular/forms'
+import { firstValueFrom } from 'rxjs'
+
+import { DataRequest } from '../../../../interfaces/dataRequest'
+import { Icone, Transacao } from '../../../../interfaces/models'
+import { ApiService } from '../../../services/api.service'
+import { CalculadoraService } from '../../../services/calculadora.service'
+import { DateHandlerService } from '../../../services/date-handler.service'
+import { SharedService } from '../../../services/shared.service'
+import { TestService } from '../../../tests/test.service'
 
 @Component({
     standalone: false,

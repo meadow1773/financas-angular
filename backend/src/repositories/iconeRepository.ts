@@ -1,5 +1,5 @@
-import { Icone } from "../models/iconeModel"
 import { pool } from "../config/database"
+import { Icone } from "../models/iconeModel"
 
 
 export class IconeRepository {

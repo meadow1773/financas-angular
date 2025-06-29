@@ -1,6 +1,7 @@
-import path from 'path'
 import crypto from 'crypto'
 import fs from 'fs'
+import path from 'path'
+
 import { Project } from 'ts-morph'
 
 const pastaModels =  path.join(process.cwd(), 'src/models/')

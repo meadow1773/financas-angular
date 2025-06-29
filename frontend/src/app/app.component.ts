@@ -1,9 +1,10 @@
 import { Component, inject, OnInit } from '@angular/core'
-import { RouterOutlet } from '@angular/router'
-import { Title } from  '@angular/platform-browser'
 import { MatIconModule } from '@angular/material/icon'
-import { DateHandlerService } from './services/date-handler.service'
+import { Title } from  '@angular/platform-browser'
+import { RouterOutlet } from '@angular/router'
+
 import { HomeModule } from './modules/home/home.module'
+import { DateHandlerService } from './services/date-handler.service'
 
 @Component({
     selector: 'app-root',

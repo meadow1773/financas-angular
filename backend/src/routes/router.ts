@@ -1,7 +1,8 @@
 import { Router } from "express"
-import { TransacaoController } from "../controllers/transacaoController"
+
 import { CategoriaController } from "../controllers/categoriaController"
 import { TipoController } from "../controllers/tipoController"
+import { TransacaoController } from "../controllers/transacaoController"
 
 const router = Router()
 

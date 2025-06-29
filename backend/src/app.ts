@@ -1,6 +1,7 @@
-import express from 'express'
 import cors from 'cors'
+import express from 'express'
 import morgan from 'morgan'
+
 import router from './routes/router'
 
 export function inicializaApp() {

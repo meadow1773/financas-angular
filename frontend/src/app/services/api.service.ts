@@ -1,22 +1,19 @@
-import { inject, Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
+import { inject, Injectable } from '@angular/core'
 import { Observable } from 'rxjs'
-import { Transacao, Categoria, Tipo } from '../../interfaces/models'
+
 import { DataRequest } from '../../interfaces/dataRequest'
+import { Transacao, Categoria, Tipo } from '../../interfaces/models'
 
 @Injectable({
     providedIn: 'root'
 })
 
 export class ApiService {
-    /**
-     * URL da Api.
-     */
+    /** URL da Api. */
     private apiUrl = 'http://localhost:3000/api' // ALTERAR EM PRODUÇÃO
 
-    /**
-     * Instância da classe de cliente HTTP.
-     */
+    /** Instância da classe de cliente HTTP. */
     private http: HttpClient
 
     /**

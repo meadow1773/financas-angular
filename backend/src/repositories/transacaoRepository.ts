@@ -1,6 +1,6 @@
+import { CategoriaRepository } from "./categoriaRepository"
 import { pool } from "../config/database"
 import { Transacao } from "../models/transacaoModel"
-import { CategoriaRepository } from "./categoriaRepository"
 
 export class TransacaoRepository {
     /**

@@ -10,15 +10,25 @@ import { DateHandlerService } from '../../../services/date-handler.service'
 })
 
 export class CalendarioComponent {
+    /** */
     @Input() aberto = false
+
+    /** */
     @Output() alternar = new EventEmitter<void>()
+
+    /** */
     date = inject(DateHandlerService)
 
+    /** */
     meses: string[]
 
+    /**
+     * 
+     */
     constructor() {
         this.meses = Object.keys(this.date.mesesObj)
     }
+    
     /**
      * Método que busca o mês a partir da chave do mês abreviado
      * @param mesKey Mês abreviado

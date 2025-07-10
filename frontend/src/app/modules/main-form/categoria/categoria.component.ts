@@ -1,10 +1,9 @@
 import { DOCUMENT } from '@angular/common'
-import { AfterViewInit, Component, ElementRef, EventEmitter, inject, Input, OnInit, Output, ViewChild } from '@angular/core'
+import { AfterViewInit, Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
-import { firstValueFrom } from 'rxjs'
 
 import { DataRequest } from '../../../../interfaces/dataRequest'
-import { Icone, Transacao } from '../../../../interfaces/models'
+import { Icone } from '../../../../interfaces/models'
 import { ApiService } from '../../../services/api.service'
 import { CalculadoraService } from '../../../services/calculadora.service'
 import { DateHandlerService } from '../../../services/date-handler.service'
@@ -32,16 +31,13 @@ export class CategoriaComponent implements OnInit, AfterViewInit {
     global = inject(SharedService)
 
     /** Instância do serviço de calculadora. */
-    private calculadora = inject(CalculadoraService)
+    calculadora = inject(CalculadoraService)
 
     /** Instância do serviço de Api. */
     private api = inject(ApiService)
 
     /** Instância do serviço DataHandler */
     private dateHandler = inject(DateHandlerService)
-
-    /** Transações a serem recebidas da Api. */
-    transacoes!: Transacao[]
 
     /** Ícone padrão para quando o Icone recebido da Api for nulo. */
     iconePadrao: string
@@ -52,8 +48,14 @@ export class CategoriaComponent implements OnInit, AfterViewInit {
     /**  Nome da categoria em formato de classe HTML. */
     categoriaNomeClasse!: string
 
-    /** Evento ao clicar no botão Add. */
-    @Output() addEvent = new EventEmitter()
+    /** Evento ao clicar os botões add ou rmv. */
+    @Output() alterou = new EventEmitter()
+
+    /** Evento ao clicar no botão update. */
+    @Output() updateEvento = new EventEmitter()
+
+    /** Evento ao receber as Transações. */
+    @Output() transacoesOk = new EventEmitter()
 
     /**
      * Método construtor do componente.
@@ -66,16 +68,14 @@ export class CategoriaComponent implements OnInit, AfterViewInit {
             mes: this.dateHandler.mesAtualNum,
             ano: this.dateHandler.anoAtual,
             valores: [],
-            descricao: '',
+            descricao: [],
             dataCadastro: this.dateHandler.dateObj
         }
     }
     /**
      * Método OnInit do componente.
      */
-    async ngOnInit(): Promise<void> {
-        // this.global.carregando()
-
+    ngOnInit() {
         // Corrige o nome da categoria.
         this.dataRequest.categoria = this.categoriaNome
         this.categoriaNomeClasse = this.global.toClass(this.categoriaNome)
@@ -90,14 +90,38 @@ export class CategoriaComponent implements OnInit, AfterViewInit {
         )
 
         // Carrega as Transações.
-        this.transacoes = await firstValueFrom(this.api.getTransacoesPorMes(this.dataRequest.mes, this.categoriaNome))
-        let valorSoma = 0
+        this.api.getTransacoesPorMes(this.dataRequest.mes, this.categoriaNome)
+            .subscribe(transacoes => {
+                let valorSoma = 0
+                transacoes.forEach(transacao =>{
+                    valorSoma += parseFloat(String(transacao.valor))
+                    this.form.get(`${this.categoriaNomeClasse}-soma`)?.setValue(this.calculadora.formataToMoeda(valorSoma))
 
-        this.transacoes.forEach(transacao => {
-            valorSoma += parseFloat(String(transacao.valor))
-            this.form.get(`${this.categoriaNomeClasse}-soma`)?.setValue(this.calculadora.formataToMoeda(valorSoma))
-        })
+                    this.transacoesOk.emit()
+                })
+            })
+    }
 
+    /**
+     * Atalhos de teclado para realizar a soma.
+     * @param tecla 
+     */
+    atalhoSoma(tecla: KeyboardEvent) {
+        if(tecla.key === '+' || tecla.key === 'Enter') {
+            tecla.preventDefault()
+            this.botaoAdd(this.categoriaNomeClasse)
+        } 
+    }
+    
+    /**
+     * Atalhos de teclado para realizar a subtração.
+     * @param tecla 
+    */
+    atalhoSubtrai(tecla: KeyboardEvent) {
+        if(tecla.key === '-' || tecla.key === 'Delete') {
+            tecla.preventDefault()
+            this.botaoRmv(this.categoriaNomeClasse)
+        } 
     }
 
     /**
@@ -105,30 +129,27 @@ export class CategoriaComponent implements OnInit, AfterViewInit {
      */
     private testService = inject(TestService) 
     private domInstance = inject(DOCUMENT)
-    @ViewChild('valorEl') input!: ElementRef<HTMLInputElement>
     ngAfterViewInit() {
-        this.input.nativeElement.placeholder = this.calculadora.formataToMoeda(0)
-
         //Testes
-        this.testService.testeInput(this.input.nativeElement)
-        this.testService.testeTodos(this.domInstance, this.form.get(this.categoriaNomeClasse)!)
+        this.testService.testeTodos(this.domInstance, this.form, this.categoriaNomeClasse)
     }
 
     /**
      * Função disparada pelo botão add.
      * @param evento 
      */
-    botaoAdd(evento: Event) {
-        this.calculadora.somar(evento.target as HTMLElement, this.form, this.dataRequest)
-        this.addEvent.emit(this.dataRequest)
+    botaoAdd(nomeControl: string) {
+        this.calculadora.somar(nomeControl, this.form, this.dataRequest)
+        this.alterou.emit(this.dataRequest)
     }
 
     /**
      * Função disparada com o evento de clique no botão rmv.
      * @param evento 
      */
-    botaoRmv(evento: Event) {
-        this.calculadora.subtrai(evento.target as HTMLElement, this.form, this.dataRequest)
+    botaoRmv(nomeControl: string) {
+        this.calculadora.subtrai(nomeControl, this.form, this.dataRequest)
+        this.alterou.emit(this.dataRequest)
     }
 
     /**

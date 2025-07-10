@@ -14,29 +14,33 @@ export class CalculadoraService {
 
     /**
      * Efetua a soma de valores ao DataRequest.
-     * @param botao 
+     * @param nomeControl 
      * @param form 
      * @param dataRequest 
      */
-    somar(botao: HTMLElement, form: FormGroup, dataRequest: DataRequest) {
+    somar(nomeControl: string, form: FormGroup, dataRequest: DataRequest) {
         // Referência dos FormControls
-        const classe = (botao.parentElement!).parentElement!.classList[0]
-        const control = form.get(classe)
-        const controlSoma = form.get(classe + '-soma')
+        const control = form.get(nomeControl)
+        const controlSoma = form.get(nomeControl + '-soma')
 
+        // Define o primeiro valor do DataRequest se estiver vazio
+        if (dataRequest.valores.length < 1) dataRequest.valores.push(this.formataToNumero(controlSoma?.value))
+        
         // Checa se o valor recebido é numérico
-        console.log(control?.value)
-        const valor = parseFloat(control?.value.replace(',', '.'))
+        const valor = Number(control?.value.replace(',', '.'))
         if(isNaN(valor)) return
         
         // Acrescenta o valor ao objeto DataRequest e efetua a soma
         dataRequest.valores.push(valor)
-        const soma =dataRequest.valores.reduce((a, b) => a + b, 0)
+        const soma = dataRequest.valores.reduce((a, b) => {
+            return this.inteiroParaDecimal(this.decimalParaInteiro(a) + this.decimalParaInteiro(b))
+        }, 0)
         controlSoma?.setValue(this.formataToMoeda(soma))
 
         // Reseta os FormControls
+        controlSoma?.markAsDirty()
         control?.markAsPristine()
-        control?.setValue('')
+        control?.reset()
     }
 
     /**
@@ -45,18 +49,21 @@ export class CalculadoraService {
      * @param form 
      * @param dataRequest 
      */
-    subtrai(botao: HTMLElement, form: FormGroup, dataRequest: DataRequest) {
+    subtrai(nomeControl: string, form: FormGroup, dataRequest: DataRequest) {
         // Checa se o DataRequest está vazio.
         if (dataRequest.valores.length < 1) return
         
         // Referência dos FormControls
-        const classe = (botao.parentElement!).parentElement!.classList[0]
-        const controlSoma = form.get(classe + '-soma')
+        const controlSoma = form.get(nomeControl + '-soma')
 
         // Acrescenta o valor ao objeto DataRequest e efetua a soma
         dataRequest.valores.pop()
         const subtracao = dataRequest.valores.reduce((a, b) => a + b, 0)
-        controlSoma?.setValue(this.formataToMoeda(subtracao))
+        if(dataRequest.valores.length) {
+            controlSoma?.setValue(this.formataToMoeda(subtracao))
+        } else {
+            controlSoma?.markAsPristine()
+        }
     }
 
     /**
@@ -66,5 +73,44 @@ export class CalculadoraService {
      */
     formataToMoeda(valor: number) {
         return valor.toLocaleString("pt-BR", {style: "currency", currency: "BRL"})
+    }
+
+    /**
+     * Converte um número decimal (duas casas decimais) para inteiro.
+     * @param decimal 
+     * @param casasDecimais = 100
+     * @returns 
+     */
+    decimalParaInteiro(decimal: number, casasDecimais = 100) {
+        return Math.round(decimal * casasDecimais)
+    }
+
+    /**
+     * Converte um número inteiro para decimal.
+     * @param inteiro 
+     * @param casasDecimais = 100
+     * @returns 
+     */
+    inteiroParaDecimal(inteiro: number, casasDecimais = 100) {
+        return inteiro / casasDecimais
+    }
+
+    /**
+     * Converte uma string formatada em reais para um valor numérico.
+     * @param valor 
+     * @returns 
+     */
+    formataToNumero(valor: string) {
+        return Number(valor.substring(3).replace('.', '').replace(',', '.'))
+    }
+
+    /**
+     * Realiza somas simples com as devidas correções.
+     * @param num 
+     */
+    somaSimples(...num: number[]) {
+        return num.reduce((a, b) => {
+            return this.inteiroParaDecimal(this.decimalParaInteiro(a) + this.decimalParaInteiro(b))
+        }, 0)
     }
 }

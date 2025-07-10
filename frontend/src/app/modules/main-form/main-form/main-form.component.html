@@ -1,6 +1,7 @@
+<app-tela-espera [carregando]="carregando"></app-tela-espera>
 <form [formGroup]="formularioPrincipal">
     <app-tipo *ngFor="let tipo of tipos" [form]="formularioPrincipal" [nomeTipo]="tipo.nome" [iconeTipo]="tipo.icone" 
-    [idTipo]="tipo.id" (addEvent)="dataReceiver($event)" #mainForm>
+    [idTipo]="tipo.id" (alterou)="dataReceiver($event)" (alterou)="calculaSaldo()" (enviado)="enviado" (updateEvento)="updateSaldoAnterior()">
     </app-tipo>
     <div class="content saldo">
         <span class="item">
@@ -12,11 +13,11 @@
         </span>
     </div>
     <div class="content botoes">
-        <button type="reset" id="apagar">
+        <button type="reset" id="apagar" (click)="limpaValores($event)">
             <mat-icon>undo</mat-icon>
             Apagar alterações
         </button>
-        <button type="send" id="submit" (click)="enviaValores()" [disabled]="!formularioPrincipal.valid">
+        <button type="send" id="submit" (click)="enviaValores()" [disabled]="formularioPrincipal.invalid">
             <mat-icon>send</mat-icon>
             Enviar valores
         </button>

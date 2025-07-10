@@ -77,7 +77,7 @@ export class TransacaoRepository {
                 categoria.nome,
                 row.mes,
                 row.ano,
-                row.valor,
+                Number(row.valor),
                 row.descricao,
                 row.data_cadastro,
                 row.id,

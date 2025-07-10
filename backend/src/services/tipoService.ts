@@ -2,11 +2,7 @@ import { Tipo } from "../models/tipoModel"
 import { TipoRepository } from "../repositories/tipoRepository"
 
 export class TipoService {
-    private repository: TipoRepository
-
-    constructor() {
-        this.repository = new TipoRepository()
-    }
+    private repository = new TipoRepository()
 
     async getAllTipos(): Promise<Tipo[]> {
         try {

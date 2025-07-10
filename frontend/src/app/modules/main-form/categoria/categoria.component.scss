@@ -71,17 +71,28 @@
             margin-left: 1px;
             background-color: $dark;
             color: #fff;
+        }
 
-            &:where([type=text]) {
-                width: 100% !important;
-                
-                &.ng-dirty.ng-valid{
-                    background-color: $darkGreen;
-                }
-                
-                &.ng-invalid{
-                    background-color: $darkRed;
-                }
+        input {
+            width: 100% !important;
+
+            &[readonly].ng-dirty {
+                color: darkkhaki;
+                font-style: italic;
+            }
+            
+            &:not([readonly]).ng-dirty.ng-valid{
+                background-color: $darkGreen;
+            }
+            
+            &.ng-invalid{
+                background-color: $darkRed;
+            }
+        }
+
+        button {
+            &[disabled] {
+                background-color: $darker;
             }
         }
     }

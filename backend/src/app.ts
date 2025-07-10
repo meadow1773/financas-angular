@@ -8,6 +8,7 @@ export function inicializaApp() {
     // Configurações
     const app = express()
 
+    // Middlewares
     app.use(cors())
     app.use(morgan('dev'))
 

@@ -1,6 +1,5 @@
-import { Component, inject, OnInit } from '@angular/core'
+import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core'
 import { FormControl, FormGroup } from '@angular/forms'
-import { firstValueFrom } from 'rxjs'
 
 import { DataRequest } from '../../../../interfaces/dataRequest'
 import { Tipo } from '../../../../interfaces/models'
@@ -14,8 +13,11 @@ import { SharedService } from '../../../services/shared.service'
     styleUrl: './main-form.component.scss'
 })
 export class MainFormComponent implements OnInit {
+    /** Flag que indica se o componente está ou não carregando */
+    carregando = false
+
     /** Array que receberá todos os DataRequest gerados para envio. */
-    dataRequestArray: DataRequest[] = []
+    mainDataRequestArray: DataRequest[] = []
     
     /** Tipos de transação recebidos da Api. */
     tipos!:Tipo[]
@@ -31,6 +33,9 @@ export class MainFormComponent implements OnInit {
         saldo: new FormControl()
     })
 
+    /** Evento emitido ao enviar os dados. */
+    @Output() enviado = new EventEmitter()
+
     /**
      * Método construtor do componente.
      */
@@ -39,12 +44,14 @@ export class MainFormComponent implements OnInit {
     /**
      * Método OnInit do componente.
      */
-    async ngOnInit() : Promise<any>{
+    ngOnInit() {
+        this.carregando = true
         // Carrega os tipos
-        this.tipos = await firstValueFrom(this.api.getTipos())
+        this.api.getTipos().subscribe(tipos => {
+            this.tipos = tipos
 
-        // Carrega as transações
-
+            this.carregando = false
+        })
     }
 
     /**
@@ -52,19 +59,74 @@ export class MainFormComponent implements OnInit {
      * @param recebido 
      */
     dataReceiver(recebido: DataRequest) {
-        const cadastrado = this.dataRequestArray.find(data => data.categoria === recebido.categoria)
+        const cadastrado = this.mainDataRequestArray.find(data => data.categoria === recebido.categoria)
         if (cadastrado) {
             cadastrado.valores = recebido.valores
         } else {
-            this.dataRequestArray.push(recebido)
+            this.mainDataRequestArray.push(recebido)
         }
     }
 
     /**
      * Envia o array de DataRequest para a Api.
      */
-    async enviaValores(): Promise<void> {
-        if (!this.dataRequestArray.length) return
-        await firstValueFrom(this.api.setTransacoes(this.dataRequestArray))
+    enviaValores(dataRequest?: DataRequest) {
+        this.carregando = true
+        
+        const arrayFunction: DataRequest[] = []
+        if (dataRequest) {
+            arrayFunction.push(dataRequest)
+        } else {
+            arrayFunction.push(...this.mainDataRequestArray)
+            arrayFunction.forEach(data => data.valores.shift())
+        }
+        if (!arrayFunction.length) return
+
+        this.api.setTransacoes(arrayFunction)
+            .subscribe(() => {
+                this.enviado.emit()
+                this.carregando = false
+            })
+        this.formularioPrincipal.markAsPristine()
+    }
+
+    /**
+     * Limpa apenas os valores dos FormControls editáveis.
+     * @param evento 
+     */
+    limpaValores(evento: Event) {
+        evento.preventDefault()
+        const formData = this.formularioPrincipal.getRawValue()
+        const chaves = Object.keys(formData)
+
+        chaves.forEach(chave => {
+            if(!chave.endsWith('soma')) this.formularioPrincipal.get(chave)?.reset()
+        })
+    }
+
+    /**
+     * 
+     */
+    updateSaldoAnterior() {
+        const date = new Date()
+        const dataRequestSaldo: DataRequest = {
+            categoria: 'Saldo Anterior',
+            mes: date.getMonth(),
+            ano: date.getFullYear(),
+            valores: [],
+            descricao: [''],
+            dataCadastro: date
+        }
+        const valorFormatado = Number((this.formularioPrincipal.get('saldo-anterior')?.value as string | undefined)?.replace(',', '.') ?? '')
+        dataRequestSaldo.valores.push(valorFormatado)
+
+        this.enviaValores(dataRequestSaldo)
+    }
+
+    /**
+     * 
+     */
+    calculaSaldo() {
+
     }
 }

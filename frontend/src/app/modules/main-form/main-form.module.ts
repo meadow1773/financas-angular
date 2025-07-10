@@ -7,6 +7,7 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask'
 import { CategoriaComponent } from './categoria/categoria.component'
 import { MainFormComponent } from './main-form/main-form.component'
 import { TipoComponent } from './tipo/tipo.component'
+import { TelaEsperaComponent } from "../../components/tela-espera/tela-espera.component"
 import { ApiService } from '../../services/api.service'
 import { SharedService } from '../../services/shared.service'
 
@@ -21,7 +22,8 @@ import { SharedService } from '../../services/shared.service'
         ReactiveFormsModule,
         MatIconModule,
         NgxMaskDirective,
-        NgxMaskPipe
+        NgxMaskPipe,
+        TelaEsperaComponent
     ],
     providers: [SharedService, ApiService, provideNgxMask()],
     exports: [MainFormComponent]

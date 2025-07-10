@@ -22,6 +22,10 @@
         &:hover {
             @include inner-shadow();
         }
+
+        &[disabled] {
+            background-image: linear-gradient(to left, $dark, $grey3);
+        }
     }
 }
 

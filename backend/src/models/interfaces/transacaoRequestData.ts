@@ -3,6 +3,6 @@ export interface TransacaoRequestData {
     mes: number;
     ano: number;
     valores: number[];
-    descricao: string,
+    descricao: string[],
     dataCadastro: Date;
 }

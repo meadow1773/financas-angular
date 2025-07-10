@@ -14,14 +14,12 @@ export class ApiService {
     private apiUrl = 'http://localhost:3000/api' // ALTERAR EM PRODUÇÃO
 
     /** Instância da classe de cliente HTTP. */
-    private http: HttpClient
+    private http = inject(HttpClient)
 
     /**
      * Método contrutor do serviço.
      */
-    constructor() {
-        this.http = inject(HttpClient)
-    }
+    constructor() {}
 
     // Getters para Transações.
     /**
@@ -60,23 +58,46 @@ export class ApiService {
     }
 
     // Getters para Categorias.
+    /**
+     * Retorna todas as Categorias.
+     * @returns 
+     */
     getCategorias(): Observable<Categoria[]> {
         return this.http.get<Categoria[]>(`${this.apiUrl}/categorias`)
     }
-
+    
+    /**
+     * Retorna a Categoria de um determinado Id.
+     * @param id 
+     * @returns 
+     */
     getCategoriaPorId(id: number): Observable<Categoria> {
         return this.http.get<Categoria>(`${this.apiUrl}/categorias/${id}`)
     }
 
+    /**
+     * Retorna a Categoria pelo Id de um Tipo.
+     * @param idTipo 
+     * @returns 
+     */
     getCategoriasPorIdTipo(idTipo: number): Observable<Categoria[]> {
         return this.http.get<Categoria[]>(`${this.apiUrl}/categorias/tipo/${idTipo}`)
     }
 
     // Getters para Tipos.
+    /**
+     * Retorna todos os Tipos.
+     * @returns 
+     */
     getTipos(): Observable<Tipo[]> {
         return this.http.get<Tipo[]>(`${this.apiUrl}/tipos`)
     }
 
+    /**
+     * Retorna o Tipo de um determinado Id.
+     * @param id 
+     * @returns 
+     */
     getTipoPorId(id: number): Observable<Tipo> {
         return this.http.get<Tipo>(`${this.apiUrl}/tipos/${id}`)
     }

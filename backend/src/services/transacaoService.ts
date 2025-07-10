@@ -62,13 +62,13 @@ export class TransacaoService {
         try {
             const transacoes: Transacao[] = []
             dataRequest.forEach(data => {
-                data.valores.forEach(valor => {
+                data.valores.forEach((valor, i) => {
                     transacoes.push(new Transacao(
                         data.categoria, 
                         data.mes, 
                         data.ano, 
                         valor, 
-                        data.descricao, 
+                        data.descricao[i], 
                         data.dataCadastro))
                 })
             })

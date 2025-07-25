@@ -1,6 +1,6 @@
-import { Component, inject } from '@angular/core'
+import { Component, inject, OnInit } from '@angular/core'
 
-import { DateHandlerService } from '../../../services/date-handler.service'
+import { SharedService } from '../../../services/shared.service'
 
 @Component({
     standalone: false,
@@ -8,46 +8,38 @@ import { DateHandlerService } from '../../../services/date-handler.service'
     templateUrl: './heading.component.html',
     styleUrl: './heading.component.scss'
 })
-export class HeadingComponent {
-    /** */
-    mesSelecionado: string
+export class HeadingComponent implements OnInit {
+    /** Mês selecionado pelo usuário. */
+    mesSelecionado?: string
 
-    /** */
-    date = inject(DateHandlerService)
-
-    /** */
+    /** Flag se o componente de Calendário está aberto. */
     calendarioAberto = false
 
+    /** Instância do serviço Shared. */
+    global = inject(SharedService)
+
     /**
-     * 
+     * Método construtor do componente.
      */
-    constructor() {
-        this.mesSelecionado = this.date.getNomeMes()
+    constructor() { }
+
+    /**
+     * Método OnInit do componente.
+     */
+    ngOnInit() {
+        const data = new Date()
+        this.mesSelecionado = this.global.formataMesLongo(data.getMonth())
     }
 
     /**
-     * 
+     * Marca a flag se o calendário está aberto ou fechado.
      */
     toggleCalendario() {
         this.calendarioAberto = !this.calendarioAberto
     }
 
-    /**
-     * 
-     */
-    async proxMes() {
-        let chave = Object.values(this.date.mesesObj).findIndex(m => m === this.mesSelecionado)
-        chave++
-        console.log(this.date.getNomeMes(chave))
-    }
+    mesAnt() {}
 
-    /**
-     * 
-     */
-    async mesAnt() {
-        let chave = Object.values(this.date.mesesObj).findIndex(m => m === this.mesSelecionado)
-        chave--
-        console.log(this.date.getNomeMes(chave))
-    }
+    proxMes() {}
 }
 

@@ -14,7 +14,7 @@ process.on('unhandledRejection', (reason, promise) => {
 })
 
 // Inicializa o App
-const PORT = process.env.PORT
+const PORT = process.env.SERVER_PORT
 const app = inicializaApp()
 
 app.listen(PORT, () => {

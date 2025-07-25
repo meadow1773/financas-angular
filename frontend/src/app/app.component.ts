@@ -4,7 +4,6 @@ import { Title } from  '@angular/platform-browser'
 import { RouterOutlet } from '@angular/router'
 
 import { HomeModule } from './modules/home/home.module'
-import { DateHandlerService } from './services/date-handler.service'
 
 @Component({
     selector: 'app-root',
@@ -19,14 +18,12 @@ export class AppComponent implements OnInit{
      * Nome do App.
      */
     appName = 'Finanças'
+
     /**
      * Ano para o título do App.
      */
     ano!: number
-    /**
-     * Instancia do serviço de Data.
-     */
-    private date = inject(DateHandlerService)
+
     /**
      * Instância do serviço de título do Angular.
      */
@@ -41,7 +38,7 @@ export class AppComponent implements OnInit{
      * Método OnInit do componente.
      */
     ngOnInit() {
-        this.ano = this.date.anoAtual
+        this.ano = new Date().getFullYear()
         this.titleService.setTitle(`${this.appName} ${this.ano}`)
     }
 }

@@ -35,16 +35,16 @@ async function checkBackendHealth() {
         try {
             const response = await axios.get(config.backend.url, { timeout: 2000 })
             if (response.status === 200) {
-                console.log(chalk.green('✓ Backend está pronto!'))
+                console.log(chalk.green('Backend está pronto!'))
                 return true
             }
         } catch (error) {
-            console.log(chalk.yellow('⌛ Aguardando backend iniciar...'))
+            console.log(chalk.yellow('Aguardando backend iniciar...'))
             await new Promise(resolve => setTimeout(resolve, config.backend.retryInterval))
         }
     }
 
-    console.log(chalk.red('✖ Timeout: Backend não respondeu dentro do tempo esperado'))
+    console.log(chalk.red('Timeout: Backend não respondeu dentro do tempo esperado'))
     return false
 }
 

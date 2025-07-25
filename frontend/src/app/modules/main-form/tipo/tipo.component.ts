@@ -1,5 +1,6 @@
 import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core'
 import { FormControl, FormGroup } from '@angular/forms'
+import { firstValueFrom } from 'rxjs'
 
 import { Categoria, Icone } from '../../../../interfaces/models'
 import { ApiService } from '../../../services/api.service'
@@ -64,6 +65,9 @@ export class TipoComponent implements OnInit{
      */
     @Output() updateEvento = new EventEmitter()
 
+    /** Evento ao receber as Transações. */
+    @Output() transacoesOk = new EventEmitter()
+
     /**
      * Método construtor do componente.
      */
@@ -74,7 +78,7 @@ export class TipoComponent implements OnInit{
     /**
      * Método OnInit do componente.
      */
-    ngOnInit() {
+    async ngOnInit() {
         // Corrige o nome do tipo
         this.nomeTipoClasse = this.global.toClass(this.nomeTipo)
 
@@ -82,11 +86,11 @@ export class TipoComponent implements OnInit{
         this.form.addControl(`total-${this.nomeTipoClasse}`, new FormControl())
 
         // Carrega as categorias
-        this.api.getCategoriasPorIdTipo(this.idTipo)
-            .subscribe(categorias => {
-                this.categorias = categorias
-                categorias.filter(item => item.tipo === this.nomeTipo)
-            })
+        this.categorias = await firstValueFrom(this.api.getCategoriasPorIdTipo(this.idTipo))
+        this.categorias.filter(item => item.tipo === this.nomeTipo)
+
+        // Calcula totais
+        this.calculaTotais()
     }
 
     /**

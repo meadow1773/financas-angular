@@ -9,15 +9,18 @@ export class TestService {
 
     constructor() { }
     
-    testeInput(input: HTMLInputElement, form: FormGroup) {
-        const formControl = form.get(input.name)
-        input.addEventListener('keydown', (keyEv: KeyboardEvent) => {
-            if (keyEv.ctrlKey &&  keyEv.key === '7') {
-                keyEv.preventDefault()
-                if (input.readOnly) return
-                formControl?.setValue(faker.finance.amount({autoFormat: true}))
-            }
-        })
+    testeInput(evento: KeyboardEvent, form: FormGroup) {
+        if (evento.ctrlKey && evento.key === '7') {
+            const input = evento.target as HTMLInputElement
+            const formControl = form.get(input.name)
+            input.addEventListener('keydown', (keyEv: KeyboardEvent) => {
+                if (keyEv.ctrlKey &&  keyEv.key === '7') {
+                    keyEv.preventDefault()
+                    if (input.readOnly) return
+                    formControl?.setValue(faker.finance.amount({autoFormat: true}))
+                }
+            })
+        }
     }
 
     testeTodos(domInstance: Document, form: FormGroup, controlName: string) {

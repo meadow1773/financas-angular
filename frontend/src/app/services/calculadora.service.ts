@@ -71,8 +71,8 @@ export class CalculadoraService {
      * @param valor 
      * @returns 
      */
-    formataToMoeda(valor: number) {
-        return valor.toLocaleString("pt-BR", {style: "currency", currency: "BRL"})
+    formataToMoeda(valor?: number) {
+        return valor?.toLocaleString("pt-BR", {style: "currency", currency: "BRL"})
     }
 
     /**
@@ -100,8 +100,10 @@ export class CalculadoraService {
      * @param valor 
      * @returns 
      */
-    formataToNumero(valor: string) {
-        return Number(valor.substring(3).replace('.', '').replace(',', '.'))
+    formataToNumero(valor?: string) {
+        const conversao = Number(valor?.substring(3).replace('.', '').replace(',', '.'))
+        if(!isNaN(conversao)) return conversao
+        return 0
     }
 
     /**

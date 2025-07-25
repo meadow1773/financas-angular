@@ -6,9 +6,21 @@
         <mat-icon class="detalhar">keyboard_arrow_down</mat-icon>
     </span>
     <span class="valores {{categoriaNomeClasse}}">
-        <input type="text" formControlName="{{categoriaNomeClasse}}" [attr.aria-label]="categoriaNome" tabindex="-1" 
-        name="{{categoriaNomeClasse}}" placeholder="{{calculadora.formataToMoeda(0)}}" suffix="R$ " 
-        (keydown)="atalhoSoma($event)" (keydown)="atalhoSubtrai($event)">
+        <input type="text" 
+            tabindex="0" 
+            [attr.aria-label]="categoriaNome" 
+            formControlName="{{categoriaNomeClasse}}" 
+            name="{{categoriaNomeClasse}}" 
+            placeholder="{{calculadora.formataToMoeda(0)}}" 
+            [mask]="'separator.2'"
+            [thousandSeparator]="'.'" 
+            [decimalMarker]="','"
+            [dropSpecialCharacters]="false"
+            (keydown)="atalhoSoma($event)" 
+            (keydown)="atalhoSubtrai($event)"
+
+            (keydown)="testService.testeInput($event, form)"
+        >
         @if(categoriaNomeClasse != 'saldo-anterior') {
             <button class="detail" tabindex="-1" (click)="botaoInfo($event)" name="{{categoriaNomeClasse}}">
                 <mat-icon>info</mat-icon>

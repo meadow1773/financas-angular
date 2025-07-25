@@ -1,7 +1,7 @@
-<app-tela-espera [carregando]="carregando"></app-tela-espera>
 <form [formGroup]="formularioPrincipal">
     <app-tipo *ngFor="let tipo of tipos" [form]="formularioPrincipal" [nomeTipo]="tipo.nome" [iconeTipo]="tipo.icone" 
-    [idTipo]="tipo.id" (alterou)="dataReceiver($event)" (alterou)="calculaSaldo()" (enviado)="enviado" (updateEvento)="updateSaldoAnterior()">
+    [idTipo]="tipo.id" (alterou)="dataReceiver($event)" (alterou)="calculaSaldo()" (enviado)="enviado" (updateEvento)="enviaSaldoAnterior()"
+    (transacoesOk)="calculaSaldo()">
     </app-tipo>
     <div class="content saldo">
         <span class="item">

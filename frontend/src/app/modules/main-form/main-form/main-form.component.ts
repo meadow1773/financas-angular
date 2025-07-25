@@ -1,9 +1,12 @@
-import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core'
+import { DOCUMENT } from '@angular/common'
+import { AfterViewInit, Component, EventEmitter, inject, OnInit, Output } from '@angular/core'
 import { FormControl, FormGroup } from '@angular/forms'
+import { firstValueFrom } from 'rxjs'
 
 import { DataRequest } from '../../../../interfaces/dataRequest'
 import { Tipo } from '../../../../interfaces/models'
 import { ApiService } from '../../../services/api.service'
+import { CalculadoraService } from '../../../services/calculadora.service'
 import { SharedService } from '../../../services/shared.service'
 
 @Component({
@@ -12,7 +15,7 @@ import { SharedService } from '../../../services/shared.service'
     templateUrl: './main-form.component.html',
     styleUrl: './main-form.component.scss'
 })
-export class MainFormComponent implements OnInit {
+export class MainFormComponent implements OnInit, AfterViewInit {
     /** Flag que indica se o componente está ou não carregando */
     carregando = false
 
@@ -36,6 +39,12 @@ export class MainFormComponent implements OnInit {
     /** Evento emitido ao enviar os dados. */
     @Output() enviado = new EventEmitter()
 
+    /** Instância do serviço de Calculadora. */
+    private calculadora = inject(CalculadoraService)
+
+    /** Instância do objeto DOM */
+    dom = inject(DOCUMENT)
+
     /**
      * Método construtor do componente.
      */
@@ -44,14 +53,12 @@ export class MainFormComponent implements OnInit {
     /**
      * Método OnInit do componente.
      */
-    ngOnInit() {
-        this.carregando = true
+    async ngOnInit() {  
         // Carrega os tipos
-        this.api.getTipos().subscribe(tipos => {
-            this.tipos = tipos
+        this.tipos = await firstValueFrom(this.api.getTipos())
 
-            this.carregando = false
-        })
+        // Calcula saldos
+        this.calculaSaldo()
     }
 
     /**
@@ -70,7 +77,7 @@ export class MainFormComponent implements OnInit {
     /**
      * Envia o array de DataRequest para a Api.
      */
-    enviaValores(dataRequest?: DataRequest) {
+    async enviaValores(dataRequest?: DataRequest) {
         this.carregando = true
         
         const arrayFunction: DataRequest[] = []
@@ -82,40 +89,63 @@ export class MainFormComponent implements OnInit {
         }
         if (!arrayFunction.length) return
 
-        this.api.setTransacoes(arrayFunction)
-            .subscribe(() => {
-                this.enviado.emit()
-                this.carregando = false
-            })
+        await firstValueFrom(this.api.setTransacoes(arrayFunction))
+        this.enviado.emit()
         this.formularioPrincipal.markAsPristine()
+
+        this.carregando = false
+    }
+
+    /**
+     * Método AfterViewInit do componente.
+     */
+    ngAfterViewInit() {
+        // Atalhos de teclado
+        this.dom.addEventListener('keydown', keyEv => {
+            if(keyEv.shiftKey && keyEv.key === 'Delete') {
+                keyEv.preventDefault()
+                this.limpaValores()
+            }
+        })
     }
 
     /**
      * Limpa apenas os valores dos FormControls editáveis.
      * @param evento 
      */
-    limpaValores(evento: Event) {
-        evento.preventDefault()
+    limpaValores(evento?: Event) {
+        evento?.preventDefault()
         const formData = this.formularioPrincipal.getRawValue()
-        const chaves = Object.keys(formData)
 
-        chaves.forEach(chave => {
-            if(!chave.endsWith('soma')) this.formularioPrincipal.get(chave)?.reset()
+        Object.keys(formData).forEach(key => {
+            if(key.endsWith('soma')) {
+                const data = this.mainDataRequestArray.filter(data => key.includes(this.global.toClass(data.categoria))).at(0)
+                const valores = data?.valores
+                const valorFormatado = this.calculadora.formataToMoeda((valores?.at(0)))
+                this.formularioPrincipal.get(key)?.setValue(valorFormatado)
+                this.formularioPrincipal.get(key)?.markAsPristine()
+                valores?.splice(1)
+            } else if (key.startsWith('total')) {
+                this.calculaSaldo()
+            } else {
+                if(key === 'saldo') return
+                this.formularioPrincipal.get(key)?.reset()
+            }
         })
     }
 
     /**
-     * 
+     * Método que envia o valor de Saldo Anterior.
      */
-    updateSaldoAnterior() {
-        const date = new Date()
+    enviaSaldoAnterior() {
+        const data = new Date()
         const dataRequestSaldo: DataRequest = {
             categoria: 'Saldo Anterior',
-            mes: date.getMonth(),
-            ano: date.getFullYear(),
+            mes: data.getMonth(),
+            ano: data.getFullYear(),
             valores: [],
             descricao: [''],
-            dataCadastro: date
+            dataCadastro: data
         }
         const valorFormatado = Number((this.formularioPrincipal.get('saldo-anterior')?.value as string | undefined)?.replace(',', '.') ?? '')
         dataRequestSaldo.valores.push(valorFormatado)
@@ -124,9 +154,24 @@ export class MainFormComponent implements OnInit {
     }
 
     /**
-     * 
+     * Calcula o valor de saldo.
      */
     calculaSaldo() {
-
+        const formData: {[chave: string] : string} = this.formularioPrincipal.getRawValue()
+        let receitas = 0
+        let despesas = 0
+        for (const chave in formData) {
+            if(chave.startsWith('total')) {
+                const valor = this.calculadora.formataToNumero(formData[chave])
+                if(chave.endsWith('receitas')){
+                    receitas += valor
+                } else {
+                    despesas += valor
+                }
+            }
+            const saldo = receitas - despesas
+            const saldoFormatado = this.calculadora.formataToMoeda(saldo)
+            this.formularioPrincipal.get('saldo')?.setValue(saldoFormatado)
+        }
     }
 }

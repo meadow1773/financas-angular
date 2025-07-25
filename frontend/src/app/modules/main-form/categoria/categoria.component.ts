@@ -6,7 +6,6 @@ import { DataRequest } from '../../../../interfaces/dataRequest'
 import { Icone } from '../../../../interfaces/models'
 import { ApiService } from '../../../services/api.service'
 import { CalculadoraService } from '../../../services/calculadora.service'
-import { DateHandlerService } from '../../../services/date-handler.service'
 import { SharedService } from '../../../services/shared.service'
 import { TestService } from '../../../tests/test.service'
 
@@ -36,14 +35,11 @@ export class CategoriaComponent implements OnInit, AfterViewInit {
     /** Instância do serviço de Api. */
     private api = inject(ApiService)
 
-    /** Instância do serviço DataHandler */
-    private dateHandler = inject(DateHandlerService)
-
     /** Ícone padrão para quando o Icone recebido da Api for nulo. */
-    iconePadrao: string
+    iconePadrao!: string
 
     /** Objeto que receberá os valores que serão enviados para o backend. */
-    dataRequest: DataRequest
+    dataRequest!: DataRequest
 
     /**  Nome da categoria em formato de classe HTML. */
     categoriaNomeClasse!: string
@@ -60,22 +56,26 @@ export class CategoriaComponent implements OnInit, AfterViewInit {
     /**
      * Método construtor do componente.
      */
-    constructor() {
-        this.iconePadrao = this.global.iconePadrao
-        
-        this.dataRequest = {
-            categoria: '',
-            mes: this.dateHandler.mesAtualNum,
-            ano: this.dateHandler.anoAtual,
-            valores: [],
-            descricao: [],
-            dataCadastro: this.dateHandler.dateObj
-        }
-    }
+    constructor() { }
+    
     /**
      * Método OnInit do componente.
      */
     ngOnInit() {
+        // Carrega o ícone padrão.
+        this.iconePadrao = this.global.iconePadrao
+        
+        // Cria o objeto DataRequest.
+        const data = new Date()
+        this.dataRequest = {
+            categoria: '',
+            mes: data.getMonth(),
+            ano: data.getFullYear(),
+            valores: [],
+            descricao: [],
+            dataCadastro: data
+        }
+
         // Corrige o nome da categoria.
         this.dataRequest.categoria = this.categoriaNome
         this.categoriaNomeClasse = this.global.toClass(this.categoriaNome)
@@ -83,7 +83,7 @@ export class CategoriaComponent implements OnInit, AfterViewInit {
         // Criação de campos.
         this.form.addControl(
             this.categoriaNomeClasse,
-            new FormControl('', Validators.compose([Validators.pattern(/^-?\d+(\.\d{3})*(,\d{2})?$/)]))
+            new FormControl('', Validators.pattern(/^\d+,\d{1,2}$/))
         )
         this.form.addControl(
             `${this.categoriaNomeClasse}-soma`, new FormControl(this.calculadora.formataToMoeda(0))
@@ -93,7 +93,7 @@ export class CategoriaComponent implements OnInit, AfterViewInit {
         this.api.getTransacoesPorMes(this.dataRequest.mes, this.categoriaNome)
             .subscribe(transacoes => {
                 let valorSoma = 0
-                transacoes.forEach(transacao =>{
+                transacoes.forEach(transacao => {
                     valorSoma += parseFloat(String(transacao.valor))
                     this.form.get(`${this.categoriaNomeClasse}-soma`)?.setValue(this.calculadora.formataToMoeda(valorSoma))
 
@@ -127,10 +127,10 @@ export class CategoriaComponent implements OnInit, AfterViewInit {
     /**
      * Método AfterViewInit do componente.
      */
-    private testService = inject(TestService) 
+    //Testes
+    testService = inject(TestService) 
     private domInstance = inject(DOCUMENT)
     ngAfterViewInit() {
-        //Testes
         this.testService.testeTodos(this.domInstance, this.form, this.categoriaNomeClasse)
     }
 

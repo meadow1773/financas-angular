@@ -43,7 +43,7 @@ export class TransacaoService {
      * @param mes 
      * @returns Promessa resolvida em um array de Transação.
      */
-    async getTransacoesPorMes(mes: number, categoria: string): Promise<Transacao[]> {
+    async getTransacoesPorMes(mes: number, categoria?: string): Promise<Transacao[]> {
         try {
             if (!categoria) categoria = ''
             const transacao = await this.repository.retornaPorMes(mes, categoria)

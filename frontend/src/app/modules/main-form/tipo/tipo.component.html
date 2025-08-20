@@ -4,9 +4,16 @@
         {{nomeTipo}}
     </span>
 </div>
-<app-categoria [form]="form" *ngFor="let categoria of categorias" [categoriaNome]="categoria.nome" [iconeCategoria]="categoria.icone"
-(alterou)="alterou.emit($event)" (alterou)="calculaTotais()" (updateEvento)="updateEvento.emit($event)" (transacoesOk)="calculaTotais()" 
-(transacoesOk)="transacoesOk.emit($event)">
+<app-categoria *ngFor="let categoria of categorias"
+    [form]="form" 
+    [categoriaNome]="categoria.nome" 
+    [iconeCategoria]="categoria.icone"
+    (alterou)="alterou.emit($event)" 
+    (alterou)="calculaTotais()" 
+    (updateEvento)="updateEvento.emit($event)" 
+    (transacoesOk)="calculaTotais()"
+    (transacoesOk)="transacoesOk.emit($event)"
+>
 </app-categoria>
 <div class="content create">
     <button alt="Criar" tabindex="-1"><mat-icon>add</mat-icon></button>

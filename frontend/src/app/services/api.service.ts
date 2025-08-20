@@ -44,8 +44,9 @@ export class ApiService {
      * @param mes 
      * @returns 
      */
-    getTransacoesPorMes(mes: number, nomeCategoria = ''): Observable<Transacao[]> {
-        return this.http.get<Transacao[]>(`${this.apiUrl}/transacoes/mes/${mes}`, {params: {categoria: nomeCategoria}})
+    getTransacoesPorMes(mes: number, nomeCategoria?: string): Observable<Transacao[]> {
+        const options = nomeCategoria ? {params: {categoria: nomeCategoria}} : {}
+        return this.http.get<Transacao[]>(`${this.apiUrl}/transacoes/mes/${mes}`, options)
     }
 
     /**

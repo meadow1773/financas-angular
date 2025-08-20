@@ -1,4 +1,7 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core'
+
+import { ApiService } from '../../../services/api.service'
+import { SharedService } from '../../../services/shared.service'
 
 @Component({
     standalone: false,
@@ -12,13 +15,22 @@ export class CalendarioComponent implements OnInit {
     @Input() aberto = false
 
     /** Evento de abrir ou fechar o componente. */
-    @Output() alternar = new EventEmitter<void>()
+    @Output() alternar = new EventEmitter()
 
-    /** Array com os meses abreviados */
-    mesesAbrev: string[] = []
+    /** Array com os meses abreviados. */
+    mesesAno: string[] = []
 
     /** Ano atual */
     ano = new Date().getFullYear()
+
+    /** Instância do serviço global. */
+    private global = inject(SharedService)
+
+    /** Instância do serviço de Api. */
+    private api = inject(ApiService)
+
+    /** */
+    @Output() mesMudou = new EventEmitter()
 
     /**
      * Método construtor do componente.
@@ -30,19 +42,20 @@ export class CalendarioComponent implements OnInit {
      */
     ngOnInit() {
         // Preenche os meses de acordo com o idioma local
-        const formatar = new Intl.DateTimeFormat('default', { month: 'short' })
-        for(let i = 0; i < 12; i++) {
-            const data = new Date(this.ano, i, 1)
-            const mes = formatar.format(data).replace('.', '')
-            this.mesesAbrev.push(mes)
-        }
+        this.mesesAno = this.global.geraMesesCurto()
     }
 
     /**
      * Método que busca o mês a partir da chave do mês abreviado
-     * @param mesKey Mês abreviado
+     * @param mes
      */
-    selecionaMes(mesKey:string) {
-        console.log(this.mesesAbrev.indexOf(mesKey))
+    selecionaMes(mes:string) {
+        const mesNum = this.global.getNumeroMesCurto(mes)
+        this.global.setMesAtual(mesNum)
+        this.mesMudou.emit()
+
+        this.api.getTransacoesPorMes(mesNum).subscribe(transacoes => {
+            console.log(mes, transacoes)
+        })
     }
 }

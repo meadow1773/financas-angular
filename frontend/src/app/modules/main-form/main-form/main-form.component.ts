@@ -66,6 +66,8 @@ export class MainFormComponent implements OnInit, AfterViewInit {
      * @param recebido 
      */
     dataReceiver(recebido: DataRequest) {
+        recebido.mes = this.global.getMesAtual()
+        
         const cadastrado = this.mainDataRequestArray.find(data => data.categoria === recebido.categoria)
         if (cadastrado) {
             cadastrado.valores = recebido.valores
@@ -78,22 +80,18 @@ export class MainFormComponent implements OnInit, AfterViewInit {
      * Envia o array de DataRequest para a Api.
      */
     async enviaValores(dataRequest?: DataRequest) {
-        this.carregando = true
-        
-        const arrayFunction: DataRequest[] = []
+        const dataRequestArray: DataRequest[] = []
         if (dataRequest) {
-            arrayFunction.push(dataRequest)
+            dataRequestArray.push(dataRequest)
         } else {
-            arrayFunction.push(...this.mainDataRequestArray)
-            arrayFunction.forEach(data => data.valores.shift())
+            dataRequestArray.push(...this.mainDataRequestArray)
+            dataRequestArray.forEach(data => data.valores.shift())
         }
-        if (!arrayFunction.length) return
+        if (!dataRequestArray.length) return
 
-        await firstValueFrom(this.api.setTransacoes(arrayFunction))
+        await firstValueFrom(this.api.setTransacoes(dataRequestArray))
         this.enviado.emit()
         this.formularioPrincipal.markAsPristine()
-
-        this.carregando = false
     }
 
     /**
@@ -138,10 +136,10 @@ export class MainFormComponent implements OnInit, AfterViewInit {
      * Método que envia o valor de Saldo Anterior.
      */
     enviaSaldoAnterior() {
-        const data = new Date()
+        const data = this.global.getData()
         const dataRequestSaldo: DataRequest = {
             categoria: 'Saldo Anterior',
-            mes: data.getMonth(),
+            mes: this.global.getMesAtual(),
             ano: data.getFullYear(),
             valores: [],
             descricao: [''],
@@ -173,5 +171,9 @@ export class MainFormComponent implements OnInit, AfterViewInit {
             const saldoFormatado = this.calculadora.formataToMoeda(saldo)
             this.formularioPrincipal.get('saldo')?.setValue(saldoFormatado)
         }
+    }
+
+    atualizaMes() {
+        
     }
 }

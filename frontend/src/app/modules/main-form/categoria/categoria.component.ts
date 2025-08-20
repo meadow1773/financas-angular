@@ -64,17 +64,9 @@ export class CategoriaComponent implements OnInit, AfterViewInit {
     ngOnInit() {
         // Carrega o ícone padrão.
         this.iconePadrao = this.global.iconePadrao
-        
-        // Cria o objeto DataRequest.
-        const data = new Date()
-        this.dataRequest = {
-            categoria: '',
-            mes: data.getMonth(),
-            ano: data.getFullYear(),
-            valores: [],
-            descricao: [],
-            dataCadastro: data
-        }
+
+        // Cria DataRequest.
+        this.preparaDataRequest()
 
         // Corrige o nome da categoria.
         this.dataRequest.categoria = this.categoriaNome
@@ -100,6 +92,21 @@ export class CategoriaComponent implements OnInit, AfterViewInit {
                     this.transacoesOk.emit()
                 })
             })
+    }
+
+    /**
+     * 
+     */
+    preparaDataRequest() {
+        const data = this.global.getData()
+        this.dataRequest = {
+            categoria: '',
+            mes: this.global.getMesAtual(),
+            ano: data.getFullYear(),
+            valores: [],
+            descricao: [],
+            dataCadastro: data
+        }
     }
 
     /**

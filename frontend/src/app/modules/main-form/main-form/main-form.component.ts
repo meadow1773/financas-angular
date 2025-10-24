@@ -8,6 +8,8 @@ import { Tipo } from '../../../../interfaces/models'
 import { ApiService } from '../../../services/api.service'
 import { CalculadoraService } from '../../../services/calculadora.service'
 import { SharedService } from '../../../services/shared.service'
+import { MesStore } from '../../../services/store/mes/mes.store'
+import { TiposStore } from '../../../services/store/tipos/tipos.store'
 
 @Component({
     standalone: false,
@@ -21,15 +23,19 @@ export class MainFormComponent implements OnInit, AfterViewInit {
 
     /** Array que receberá todos os DataRequest gerados para envio. */
     mainDataRequestArray: DataRequest[] = []
-    
+
     /** Tipos de transação recebidos da Api. */
-    tipos!:Tipo[]
-    
+    tipos!: Tipo[]
+
     /** Instância do serviço global. */
     global = inject(SharedService)
 
     /** Instância do serviço de Api. */
     private api = inject(ApiService)
+
+    private mesStore = inject(MesStore)
+
+    private tiposStore = inject(TiposStore)
 
     /** FormGroup principal que recebera os FromControls dos outros componentes. */
     formularioPrincipal = new FormGroup({
@@ -48,17 +54,17 @@ export class MainFormComponent implements OnInit, AfterViewInit {
     /**
      * Método construtor do componente.
      */
-    constructor() {}
+    constructor() { }
 
     /**
      * Método OnInit do componente.
      */
-    async ngOnInit() {  
+    async ngOnInit() {
         // Carrega os tipos
-        this.tipos = await firstValueFrom(this.api.getTipos())
-
-        // Calcula saldos
-        this.calculaSaldo()
+        await firstValueFrom(this.tiposStore.carregarTipos())
+        this.tiposStore.state$.subscribe(state => {
+            this.tipos = state.getTipos()
+        })
     }
 
     /**
@@ -66,8 +72,8 @@ export class MainFormComponent implements OnInit, AfterViewInit {
      * @param recebido 
      */
     dataReceiver(recebido: DataRequest) {
-        recebido.mes = this.global.getMesAtual()
-        
+        recebido.mes = this.mesStore.stateSnapshot.mesNum
+
         const cadastrado = this.mainDataRequestArray.find(data => data.categoria === recebido.categoria)
         if (cadastrado) {
             cadastrado.valores = recebido.valores
@@ -100,7 +106,7 @@ export class MainFormComponent implements OnInit, AfterViewInit {
     ngAfterViewInit() {
         // Atalhos de teclado
         this.dom.addEventListener('keydown', keyEv => {
-            if(keyEv.shiftKey && keyEv.key === 'Delete') {
+            if (keyEv.shiftKey && keyEv.key === 'Delete') {
                 keyEv.preventDefault()
                 this.limpaValores()
             }
@@ -116,7 +122,7 @@ export class MainFormComponent implements OnInit, AfterViewInit {
         const formData = this.formularioPrincipal.getRawValue()
 
         Object.keys(formData).forEach(key => {
-            if(key.endsWith('soma')) {
+            if (key.endsWith('soma')) {
                 const data = this.mainDataRequestArray.filter(data => key.includes(this.global.toClass(data.categoria))).at(0)
                 const valores = data?.valores
                 const valorFormatado = this.calculadora.formataToMoeda((valores?.at(0)))
@@ -126,7 +132,7 @@ export class MainFormComponent implements OnInit, AfterViewInit {
             } else if (key.startsWith('total')) {
                 this.calculaSaldo()
             } else {
-                if(key === 'saldo') return
+                if (key === 'saldo') return
                 this.formularioPrincipal.get(key)?.reset()
             }
         })
@@ -136,10 +142,10 @@ export class MainFormComponent implements OnInit, AfterViewInit {
      * Método que envia o valor de Saldo Anterior.
      */
     enviaSaldoAnterior() {
-        const data = this.global.getData()
+        const data = this.mesStore.stateSnapshot.data
         const dataRequestSaldo: DataRequest = {
             categoria: 'Saldo Anterior',
-            mes: this.global.getMesAtual(),
+            mes: this.mesStore.stateSnapshot.mesNum,
             ano: data.getFullYear(),
             valores: [],
             descricao: [''],
@@ -155,13 +161,13 @@ export class MainFormComponent implements OnInit, AfterViewInit {
      * Calcula o valor de saldo.
      */
     calculaSaldo() {
-        const formData: {[chave: string] : string} = this.formularioPrincipal.getRawValue()
+        const formData: { [chave: string]: string } = this.formularioPrincipal.getRawValue()
         let receitas = 0
         let despesas = 0
         for (const chave in formData) {
-            if(chave.startsWith('total')) {
+            if (chave.startsWith('total')) {
                 const valor = this.calculadora.formataToNumero(formData[chave])
-                if(chave.endsWith('receitas')){
+                if (chave.endsWith('receitas')) {
                     receitas += valor
                 } else {
                     despesas += valor
@@ -171,9 +177,5 @@ export class MainFormComponent implements OnInit, AfterViewInit {
             const saldoFormatado = this.calculadora.formataToMoeda(saldo)
             this.formularioPrincipal.get('saldo')?.setValue(saldoFormatado)
         }
-    }
-
-    atualizaMes() {
-        
     }
 }

@@ -1,10 +1,10 @@
 // AUTO-GENERATED FILE - DO NOT EDIT DIRECTLY
-// Gerado automaticamente em: 2025-06-29T02:18:06.946Z
+// Gerado automaticamente em: 2025-10-12T18:58:47.662Z
 export interface Categoria {
     id: number;
     nome: string;
     tipo: string;
-    icone: Icone | null;
+    icone: Icone;
     dataCadastro: Date;
     dataAlteracao: Date;
 }

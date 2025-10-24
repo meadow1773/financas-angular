@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core'
+import { Component } from '@angular/core'
 
 @Component({
     standalone: false,
@@ -7,6 +7,5 @@ import { Component, EventEmitter, Output } from '@angular/core'
     styleUrl: './home.component.scss'
 })
 export class HomeComponent{
-    /** Evento disparado ao mudar de mês. */
-    @Output() mesMudou = new EventEmitter()
+
 }

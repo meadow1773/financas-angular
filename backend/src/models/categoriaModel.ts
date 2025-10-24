@@ -5,7 +5,7 @@ export class Categoria {
         public id: number,
         public nome: string,
         public tipo: string,
-        public icone: Icone | null,
+        public icone: Icone,
         public dataCadastro: Date,
         public dataAlteracao: Date
     ) { }

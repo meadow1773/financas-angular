@@ -1,12 +1,14 @@
 import { DOCUMENT } from '@angular/common'
 import { AfterViewInit, Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
+import { lastValueFrom } from 'rxjs'
 
 import { DataRequest } from '../../../../interfaces/dataRequest'
 import { Icone } from '../../../../interfaces/models'
-import { ApiService } from '../../../services/api.service'
 import { CalculadoraService } from '../../../services/calculadora.service'
 import { SharedService } from '../../../services/shared.service'
+import { MesStore } from '../../../services/store/mes/mes.store'
+import { TransacoesStore } from '../../../services/store/transacoes/transacoes.store'
 import { TestService } from '../../../tests/test.service'
 
 @Component({
@@ -24,7 +26,10 @@ export class CategoriaComponent implements OnInit, AfterViewInit {
     @Input() categoriaNome!: string
 
     /** Ícone da categoria recebido do componente Tipo. */
-    @Input() iconeCategoria!: Icone | null
+    @Input() iconeCategoria!: Icone
+
+    /** Tipo de nome da categoria recebido do componente Tipo. */
+    @Input() tipoNome!: string
 
     /** Instância do serviço global. */
     global = inject(SharedService)
@@ -32,8 +37,11 @@ export class CategoriaComponent implements OnInit, AfterViewInit {
     /** Instância do serviço de calculadora. */
     calculadora = inject(CalculadoraService)
 
-    /** Instância do serviço de Api. */
-    private api = inject(ApiService)
+    /** Instância do MesStore para obter o mês atual. */
+    private mesStore = inject(MesStore)
+
+    /** Instância do TransacoesStore para carregar as transações da categoria. */
+    private transacoesStore = inject(TransacoesStore)
 
     /** Ícone padrão para quando o Icone recebido da Api for nulo. */
     iconePadrao!: string
@@ -50,7 +58,7 @@ export class CategoriaComponent implements OnInit, AfterViewInit {
     /** Evento ao clicar no botão update. */
     @Output() updateEvento = new EventEmitter()
 
-    /** Evento ao receber as Transações. */
+    /** Evento ao carregar novas transações. */
     @Output() transacoesOk = new EventEmitter()
 
     /**
@@ -61,7 +69,7 @@ export class CategoriaComponent implements OnInit, AfterViewInit {
     /**
      * Método OnInit do componente.
      */
-    ngOnInit() {
+    async ngOnInit() {
         // Carrega o ícone padrão.
         this.iconePadrao = this.global.iconePadrao
 
@@ -81,27 +89,36 @@ export class CategoriaComponent implements OnInit, AfterViewInit {
             `${this.categoriaNomeClasse}-soma`, new FormControl(this.calculadora.formataToMoeda(0))
         )
 
-        // Carrega as Transações.
-        this.api.getTransacoesPorMes(this.dataRequest.mes, this.categoriaNome)
-            .subscribe(transacoes => {
-                let valorSoma = 0
-                transacoes.forEach(transacao => {
-                    valorSoma += parseFloat(String(transacao.valor))
-                    this.form.get(`${this.categoriaNomeClasse}-soma`)?.setValue(this.calculadora.formataToMoeda(valorSoma))
-
-                    this.transacoesOk.emit()
-                })
-            })
+        this.carregaTransacoes()
     }
 
     /**
-     * 
+     * Carrega as transações da categoria e atualiza a soma.
      */
-    preparaDataRequest() {
-        const data = this.global.getData()
+    private async carregaTransacoes() {
+        await lastValueFrom(this.transacoesStore.carregarTransacoes(this.dataRequest.mes, this.categoriaNome))
+        this.transacoesStore.state$
+            .subscribe(state => {
+                if (!state) return
+                const listaTransacoes = state.getTransacoes()
+                let valorSoma = 0
+                for (const transacao of listaTransacoes[this.categoriaNome]) {
+                    valorSoma += parseFloat(String(transacao.valor))
+                }
+                const formControl = this.form.get(`${this.categoriaNomeClasse}-soma`)
+                const valorFormatado = this.calculadora.formataToMoeda(valorSoma)
+                formControl?.setValue(valorFormatado)
+                this.transacoesOk.emit()
+            })
+    }
+    /**
+     * Prepara o objeto DataRequest para envio ao backend.
+     */
+    private preparaDataRequest() {
+        const data = this.mesStore.stateSnapshot.data
         this.dataRequest = {
             categoria: '',
-            mes: this.global.getMesAtual(),
+            mes: this.mesStore.stateSnapshot.mesNum,
             ano: data.getFullYear(),
             valores: [],
             descricao: [],

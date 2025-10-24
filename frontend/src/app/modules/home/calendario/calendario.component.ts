@@ -1,7 +1,7 @@
 import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core'
 
-import { ApiService } from '../../../services/api.service'
-import { SharedService } from '../../../services/shared.service'
+import { MesStore } from '../../../services/store/mes/mes.store'
+import { TransacoesStore } from '../../../services/store/transacoes/transacoes.store'
 
 @Component({
     standalone: false,
@@ -23,14 +23,9 @@ export class CalendarioComponent implements OnInit {
     /** Ano atual */
     ano = new Date().getFullYear()
 
-    /** Instância do serviço global. */
-    private global = inject(SharedService)
+    private mesStore = inject(MesStore)
 
-    /** Instância do serviço de Api. */
-    private api = inject(ApiService)
-
-    /** */
-    @Output() mesMudou = new EventEmitter()
+    private transacoesStore = inject(TransacoesStore)
 
     /**
      * Método construtor do componente.
@@ -41,21 +36,22 @@ export class CalendarioComponent implements OnInit {
      * Método OnInit do componente.
      */
     ngOnInit() {
-        // Preenche os meses de acordo com o idioma local
-        this.mesesAno = this.global.geraMesesCurto()
+        // Preenche os meses em formato curto
+        this.mesStore.state$.subscribe(state => {
+            this.mesesAno = state.listaMesesCurto
+        })
     }
 
     /**
      * Método que busca o mês a partir da chave do mês abreviado
      * @param mes
      */
-    selecionaMes(mes:string) {
-        const mesNum = this.global.getNumeroMesCurto(mes)
-        this.global.setMesAtual(mesNum)
-        this.mesMudou.emit()
-
-        this.api.getTransacoesPorMes(mesNum).subscribe(transacoes => {
-            console.log(mes, transacoes)
+    selecionaMes(mesCurto:string) {
+        this.mesStore.addMesCurto(mesCurto)
+        let mesNum = 0
+        this.mesStore.state$.subscribe(state => {
+            mesNum = state.mesNum
         })
+        this.transacoesStore.carregarTransacoesPorMes(mesNum).subscribe()
     }
 }

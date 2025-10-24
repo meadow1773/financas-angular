@@ -8,11 +8,12 @@
     [form]="form" 
     [categoriaNome]="categoria.nome" 
     [iconeCategoria]="categoria.icone"
+    [tipoNome]="nomeTipo"
     (alterou)="alterou.emit($event)" 
     (alterou)="calculaTotais()" 
     (updateEvento)="updateEvento.emit($event)" 
     (transacoesOk)="calculaTotais()"
-    (transacoesOk)="transacoesOk.emit($event)"
+    (transacoesOk)="transacoesOk.emit()"
 >
 </app-categoria>
 <div class="content create">

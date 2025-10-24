@@ -1,7 +1,7 @@
-import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core'
+import { Component, inject, OnInit } from '@angular/core'
 
-import { ApiService } from '../../../services/api.service'
-import { SharedService } from '../../../services/shared.service'
+import { MesStore } from '../../../services/store/mes/mes.store'
+import { TransacoesStore } from '../../../services/store/transacoes/transacoes.store'
 
 @Component({
     standalone: false,
@@ -16,14 +16,9 @@ export class HeadingComponent implements OnInit {
     /** Flag se o componente de Calendário está aberto. */
     calendarioAberto = false
 
-    /** Instância do serviço Shared. */
-    private global = inject(SharedService)
+    private mesStore = inject(MesStore)
 
-    /** Instância do serviço de Api. */
-    private api = inject(ApiService)
-
-    /** Evento disparado ao mudar de mês. */
-    @Output() mesMudou = new EventEmitter()
+    private transacoesStore = inject(TransacoesStore)
 
     /**
      * Método construtor do componente.
@@ -34,9 +29,9 @@ export class HeadingComponent implements OnInit {
      * Método OnInit do componente.
      */
     ngOnInit() {
-        const data = new Date()
-        this.global.setMesAtual(data.getMonth())
-        this.mesSelecionado = this.global.formataMesLongo(this.global.getMesAtual())
+        this.mesStore.state$.subscribe(mesState => {
+            this.mesSelecionado = mesState.mesLongo
+        })
     }
 
     /**
@@ -50,30 +45,20 @@ export class HeadingComponent implements OnInit {
      * Chama as transações do mês anterior.
      */
     mesAnt() {
-        const mesNum = this.global.getNumeroMesLongo(this.mesSelecionado)
-        const mesAnt = mesNum - 1
-        this.global.setMesAtual(mesAnt)
-        this.mesSelecionado = this.global.formataMesLongo(mesAnt)
-
-        this.api.getTransacoesPorMes(mesAnt).subscribe(transacoes => {
-            console.log(this.mesSelecionado, transacoes)
-            this.mesMudou.emit()
-        })
+        const mesAtual = this.mesStore.stateSnapshot.mesNum
+        this.mesStore.addMesNum(mesAtual - 1)
+        const mesAnt = this.mesStore.stateSnapshot.mesNum
+        this.transacoesStore.carregarTransacoesPorMes(mesAnt).subscribe()
     }
-
+    
     /**
      * Chama as transações do próximo mês.
-     */
+    */
     proxMes() {
-        const mesNum = this.global.getNumeroMesLongo(this.mesSelecionado)
-        const proxMes = mesNum + 1
-        this.global.setMesAtual(proxMes)
-        this.mesSelecionado = this.global.formataMesLongo(proxMes)
-
-        this.api.getTransacoesPorMes(proxMes).subscribe(transacoes => {
-            console.log(this.mesSelecionado, transacoes)
-            this.mesMudou.emit()
-        })
+        const mesAtual = this.mesStore.stateSnapshot.mesNum
+        this.mesStore.addMesNum(mesAtual + 1)
+        const proxMes = this.mesStore.stateSnapshot.mesNum
+        this.transacoesStore.carregarTransacoesPorMes(proxMes).subscribe()
     }
 }
 

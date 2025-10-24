@@ -3,9 +3,9 @@ import { FormControl, FormGroup } from '@angular/forms'
 import { firstValueFrom } from 'rxjs'
 
 import { Categoria, Icone } from '../../../../interfaces/models'
-import { ApiService } from '../../../services/api.service'
 import { CalculadoraService } from '../../../services/calculadora.service'
 import { SharedService } from '../../../services/shared.service'
+import { CategoriasStore } from '../../../services/store/categorias/categorias.store'
 
 @Component({
     standalone: false,
@@ -18,7 +18,9 @@ export class TipoComponent implements OnInit{
     @Input() form!: FormGroup
 
     /** Nome do Tipo recebido do componente MainForm. */
-    @Input() nomeTipo!:string
+    @Input()
+    @Output()
+        nomeTipo!:string
 
     /** Icone do Tipo recebido do componente MainForm. */
     @Input() iconeTipo!: Icone | null
@@ -32,8 +34,7 @@ export class TipoComponent implements OnInit{
      */
     @Output() alterou = new EventEmitter()
 
-    /** Instância do serviço de Api. */
-    private api = inject(ApiService)
+    private categoriasStore = inject(CategoriasStore)
 
     /** Instância do serviço global. */
     global = inject(SharedService)
@@ -42,7 +43,7 @@ export class TipoComponent implements OnInit{
     iconePadrao: string
 
     /** Recebe as categorias após o resolvimento do Observable. */
-    categorias!: Categoria[]
+    categorias?: Categoria[]
 
     /** Nome do tipo em formato de classe HTML. */
     nomeTipoClasse!: string
@@ -86,11 +87,11 @@ export class TipoComponent implements OnInit{
         this.form.addControl(`total-${this.nomeTipoClasse}`, new FormControl())
 
         // Carrega as categorias
-        this.categorias = await firstValueFrom(this.api.getCategoriasPorIdTipo(this.idTipo))
-        this.categorias.filter(item => item.tipo === this.nomeTipo)
-
-        // Calcula totais
-        this.calculaTotais()
+        await firstValueFrom(this.categoriasStore.carregarCategorias(this.idTipo))
+        this.categoriasStore.state$.subscribe(state => {
+            const listaCategorias = state.getCategorias()
+            this.categorias = listaCategorias[this.nomeTipo]
+        })
     }
 
     /**
@@ -99,7 +100,7 @@ export class TipoComponent implements OnInit{
     calculaTotais() {
         const controlTotal = this.form.get(`total-${this.nomeTipoClasse}`)
         const valores: number[] = []
-        this.categorias.forEach(categoria => {
+        this.categorias?.forEach(categoria => {
             const categoriaClasse = this.global.toClass(categoria.nome) + '-soma'
             const controlSoma = this.form.get(categoriaClasse)
             const valorNum = this.calculadora.formataToNumero(controlSoma?.value)

@@ -1,17 +1,17 @@
 <div class="content {{categoriaNomeClasse}}" [formGroup]="form">
     <span class="item {{categoriaNomeClasse}}">
         <mat-icon class="drag" alt="Mover">drag_indicator</mat-icon>
-        <mat-icon>{{iconeCategoria?.link ?? iconePadrao}}</mat-icon>
+        <mat-icon>{{iconeCategoria.link}}</mat-icon>
         {{categoriaNome}}
         <mat-icon class="detalhar">keyboard_arrow_down</mat-icon>
     </span>
     <span class="valores {{categoriaNomeClasse}}">
         <input type="text" 
             tabindex="0" 
-            [attr.aria-label]="categoriaNome" 
             formControlName="{{categoriaNomeClasse}}" 
             name="{{categoriaNomeClasse}}" 
             placeholder="{{calculadora.formataToMoeda(0)}}" 
+            [attr.aria-label]="categoriaNome" 
             [mask]="'separator.2'"
             [thousandSeparator]="'.'" 
             [decimalMarker]="','"

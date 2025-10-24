@@ -29,7 +29,7 @@ async function getMigrationsExecutadas() {
     }
 }
 
-async function executarMigration(nomeMigration:string) {
+async function executarMigration(nomeMigration: string) {
     try {
         const caminhoMigration = path.join(pastaMigrations, nomeMigration)
         const sql = await fs.readFile(caminhoMigration, 'utf8')

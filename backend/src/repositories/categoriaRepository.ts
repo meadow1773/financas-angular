@@ -32,7 +32,7 @@ export class CategoriaRepository {
                 row.id,
                 row.nome,
                 tipo.nome,
-                icone,
+                icone!,
                 row.data_cadastro,
                 row.data_alteracao
             )
@@ -60,7 +60,7 @@ export class CategoriaRepository {
             row.id,
             row.nome,
             tipo.nome,
-            icone,
+            icone!,
             row.data_cadastro,
             row.data_alteracao
         )
@@ -85,7 +85,7 @@ export class CategoriaRepository {
                 row.id,
                 row.nome,
                 tipo.nome,
-                icone,
+                icone!,
                 row.data_cadastro,
                 row.data_alteracao
             )
@@ -113,7 +113,7 @@ export class CategoriaRepository {
             row.id,
             row.nome,
             tipo.nome,
-            icone,
+            icone!,
             row.data_cadastro,
             row.data_alteracao
         )

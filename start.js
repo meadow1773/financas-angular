@@ -35,22 +35,22 @@ async function checkBackendHealth() {
         try {
             const response = await axios.get(config.backend.url, { timeout: 2000 })
             if (response.status === 200) {
-                console.log(chalk.green('Backend está pronto!'))
+                console.info(chalk.green('Backend está pronto!'))
                 return true
             }
         } catch (error) {
-            console.log(chalk.yellow('Aguardando backend iniciar...'))
+            console.info(chalk.yellow('Aguardando backend iniciar...'))
             await new Promise(resolve => setTimeout(resolve, config.backend.retryInterval))
         }
     }
 
-    console.log(chalk.red('Timeout: Backend não respondeu dentro do tempo esperado'))
+    console.info(chalk.red('Timeout: Backend não respondeu dentro do tempo esperado'))
     return false
 }
 
 // Função para iniciar um processo
 function startProcess(name, { command, args, cwd }) {
-    console.log(chalk.blue(`Iniciando ${name}...`))
+    console.info(chalk.blue(`Iniciando ${name}...`))
     const proc = spawn(command, args, {
         cwd,
         stdio: 'inherit',
@@ -83,7 +83,7 @@ async function startFullStack() {
 
         // Manipulação de encerramento
         process.on('SIGINT', () => {
-            console.log(chalk.yellow('\nEncerrando processos...'))
+            console.info(chalk.yellow('\nEncerrando processos...'))
             backend.kill()
             frontend.kill()
             process.exit()

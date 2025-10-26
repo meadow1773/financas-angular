@@ -18,5 +18,5 @@ const PORT = process.env.SERVER_PORT
 const app = inicializaApp()
 
 app.listen(PORT, () => {
-    console.log(`Servidor rodando em: http://localhost:${PORT}`)
+    console.info(`Servidor rodando em: http://localhost:${PORT}`)
 })

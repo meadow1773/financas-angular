@@ -1,5 +1,5 @@
 import { inject, Injectable } from "@angular/core"
-import { catchError, map, of, tap } from "rxjs"
+import { catchError, tap } from "rxjs"
 
 import { Store } from "../Store"
 import { TiposState } from "./tipos.state"
@@ -48,9 +48,8 @@ export class TiposStore extends Store<TiposState> {
                 errorState.setErros(error)
                 errorState.setLoading(false)
                 this.setState(errorState)
-                return of(null)
-            }),
-            map(() => undefined)
+                throw new Error(error)
+            })
         )
     }
 }

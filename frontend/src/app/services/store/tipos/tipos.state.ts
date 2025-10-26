@@ -6,8 +6,6 @@ export class TiposState {
     private erros: Error[] = []
     private tipos: Tipo[] = []
 
-    constructor() { }
-        
     getLoading() { return this.loading }
         
     getErros() { return this.erros }

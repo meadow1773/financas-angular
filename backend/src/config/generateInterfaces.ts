@@ -35,7 +35,7 @@ async function generateInterfaces() {
     // Checa se precisa gerar
     const hashAtual = calculaModelHash()
     if(!hasChanges(hashAtual)) {
-        console.log('Não foram geradas interfaces novas.')
+        console.info('Não foram geradas interfaces novas.')
         return
     }
     // Configurações
@@ -104,7 +104,7 @@ async function generateInterfaces() {
     }
     await arquivoSaida.save()
     fs.writeFileSync(arquivoHash, hashAtual)
-    console.log('Interfaces geradas com sucesso!')
+    console.info('Interfaces geradas com sucesso!')
 }
 
 generateInterfaces().catch(console.error)

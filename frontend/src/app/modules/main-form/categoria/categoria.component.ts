@@ -52,6 +52,8 @@ export class CategoriaComponent implements OnInit, AfterViewInit {
     /**  Nome da categoria em formato de classe HTML. */
     categoriaNomeClasse!: string
 
+    infoOn = false
+
     /** Evento ao clicar os botões add ou rmv. */
     @Output() alterou = new EventEmitter()
 
@@ -180,7 +182,7 @@ export class CategoriaComponent implements OnInit, AfterViewInit {
      * Função disparada com o evento de clique no botão info.
      * @param evento 
      */    
-    botaoInfo(evento: Event) {
-        console.log(evento.target)
+    botaoInfo() {
+        this.infoOn = !this.infoOn
     }
 }

@@ -1,5 +1,5 @@
 import { inject, Injectable } from "@angular/core"
-import { catchError, map, of, tap } from "rxjs"
+import { catchError, tap } from "rxjs"
 
 import { Store } from "../Store"
 import { CategoriasState, ListaCategorias } from "./categorias.state"
@@ -52,9 +52,8 @@ export class CategoriasStore extends Store<CategoriasState> {
                 errorState.setErros(error)
                 errorState.setLoading(false)
                 this.setState(errorState)
-                return of(null)
-            }),
-            map(() => undefined)
+                throw new Error(error)
+            })
         )
     }
 }

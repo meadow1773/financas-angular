@@ -1,8 +1,10 @@
 import { inject, Injectable } from "@angular/core"
-import { catchError, map, of, tap } from "rxjs"
+import { catchError, tap } from "rxjs"
 
 import { Store } from "../Store"
 import { ListaTransacoes, TransacoesState } from "./transacoes.state"
+import { DataRequest } from "../../../../interfaces/dataRequest"
+import { Transacao } from "../../../../interfaces/models"
 import { ApiService } from "../../api.service"
 
 @Injectable({
@@ -68,9 +70,8 @@ export class TransacoesStore extends Store<TransacoesState> {
                 errorState.setErros(error)
                 errorState.setLoading(false)
                 this.setState(errorState)
-                return of(null)
-            }),
-            map(() => undefined)
+                throw new Error(error)
+            })
         )
     }
 
@@ -94,7 +95,6 @@ export class TransacoesStore extends Store<TransacoesState> {
                 })
                 newState.setTransacoes(listaTransacoes)
                 newState.setLoading(false)
-                console.log(newState)
                 this.setState(newState)
             }),
             catchError(error => {
@@ -102,9 +102,49 @@ export class TransacoesStore extends Store<TransacoesState> {
                 errorState.setErros(error)
                 errorState.setLoading(false)
                 this.setState(errorState)
-                return of(null)
+                throw new Error(error)
+            })
+        )
+    }
+
+    /**
+     * Envia transações para o backend
+     * @param dataRequest
+     * @returns
+     */
+    enviarTransacoes(dataRequest: DataRequest[]) {
+        this.setInitalLoading()
+
+        return this.api.setTransacoes(dataRequest).pipe(
+            tap(() => {
+                const newState = this.stateSnapshot
+                const listaTransacoes: ListaTransacoes = {
+                    ...this.stateSnapshot.getTransacoes()
+                }
+                dataRequest.forEach(data => {
+                    const transacoesAtuais = listaTransacoes[data.categoria] || []
+                    const novasTransacoes: Transacao[] = 
+                        data.valores.map((valor, i) => ({
+                            categoria: data.categoria,
+                            mes: data.mes,
+                            ano: data.ano,
+                            valor,
+                            descricao: data.descricao[i],
+                            dataCriacao: data.dataCadastro,
+                        }))
+                    listaTransacoes[data.categoria] = [...transacoesAtuais, ...novasTransacoes]
+                })
+                newState.setTransacoes(listaTransacoes)
+                newState.setLoading(false)
+                this.setState(newState)
             }),
-            map(() => undefined)
+            catchError(error => {
+                const errorState = this.stateSnapshot
+                errorState.setErros(error)
+                errorState.setLoading(false)
+                this.setState(errorState)
+                throw new Error(error)
+            })
         )
     }
 }

@@ -8,8 +8,6 @@ export class TransacoesState {
     private loading: boolean = false
     private erros: Error[] = []
     private transacoes: ListaTransacoes = {}
-
-    constructor() { }
     
     getLoading() { return this.loading }
     

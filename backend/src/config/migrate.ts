@@ -35,7 +35,7 @@ async function executarMigration(nomeMigration: string) {
         const sql = await fs.readFile(caminhoMigration, 'utf8')
         await pool.query(sql)
         await pool.query(`INSERT INTO ${nomeTabelaMigrations} (migration_name) VALUES ($1)`, [nomeMigration])
-        console.log(`Migration '${nomeMigration}' executado com sucesso.`)
+        console.info(`Migration '${nomeMigration}' executado com sucesso.`)
     } catch (error) {
         console.error(`Erro executando o migration ${nomeMigration}:`, error)
         process.exit(1)
@@ -44,7 +44,7 @@ async function executarMigration(nomeMigration: string) {
 
 async function runMigrations() {
     try {
-        console.log('Iniciando os migrations...')
+        console.info('Iniciando os migrations...')
         await criarTabelaMigrationsExecutadas()
         const migrationsExecutadas = await getMigrationsExecutadas()
         const arquivosMigration = await fs.readdir(pastaMigrations)
@@ -61,7 +61,7 @@ async function runMigrations() {
         console.error('Erro ao rodar migrations:', error)
         process.exit(1)
     } finally {
-        console.log('Migrations finalizados.')
+        console.info('Migrations finalizados.')
         await pool.end()
     }
 }

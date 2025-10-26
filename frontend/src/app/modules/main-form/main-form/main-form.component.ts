@@ -1,15 +1,15 @@
 import { DOCUMENT } from '@angular/common'
-import { AfterViewInit, Component, EventEmitter, inject, OnInit, Output } from '@angular/core'
+import { AfterViewInit, Component, inject, OnInit } from '@angular/core'
 import { FormControl, FormGroup } from '@angular/forms'
-import { firstValueFrom } from 'rxjs'
+import { firstValueFrom, lastValueFrom } from 'rxjs'
 
 import { DataRequest } from '../../../../interfaces/dataRequest'
 import { Tipo } from '../../../../interfaces/models'
-import { ApiService } from '../../../services/api.service'
 import { CalculadoraService } from '../../../services/calculadora.service'
 import { SharedService } from '../../../services/shared.service'
 import { MesStore } from '../../../services/store/mes/mes.store'
 import { TiposStore } from '../../../services/store/tipos/tipos.store'
+import { TransacoesStore } from '../../../services/store/transacoes/transacoes.store'
 
 @Component({
     standalone: false,
@@ -19,7 +19,7 @@ import { TiposStore } from '../../../services/store/tipos/tipos.store'
 })
 export class MainFormComponent implements OnInit, AfterViewInit {
     /** Flag que indica se o componente está ou não carregando */
-    carregando = false
+    carregando = true
 
     /** Array que receberá todos os DataRequest gerados para envio. */
     mainDataRequestArray: DataRequest[] = []
@@ -30,20 +30,18 @@ export class MainFormComponent implements OnInit, AfterViewInit {
     /** Instância do serviço global. */
     global = inject(SharedService)
 
-    /** Instância do serviço de Api. */
-    private api = inject(ApiService)
-
+    /** Instância da store de mês. */
     private mesStore = inject(MesStore)
 
+    /** Instância da store de tipos. */
     private tiposStore = inject(TiposStore)
+
+    private transacoesStore = inject(TransacoesStore)
 
     /** FormGroup principal que recebera os FromControls dos outros componentes. */
     formularioPrincipal = new FormGroup({
         saldo: new FormControl()
     })
-
-    /** Evento emitido ao enviar os dados. */
-    @Output() enviado = new EventEmitter()
 
     /** Instância do serviço de Calculadora. */
     private calculadora = inject(CalculadoraService)
@@ -61,9 +59,10 @@ export class MainFormComponent implements OnInit, AfterViewInit {
      */
     async ngOnInit() {
         // Carrega os tipos
-        await firstValueFrom(this.tiposStore.carregarTipos())
+        await lastValueFrom(this.tiposStore.carregarTipos())
+        this.tipos = this.tiposStore.stateSnapshot.getTipos()
         this.tiposStore.state$.subscribe(state => {
-            this.tipos = state.getTipos()
+            this.carregando = state.getLoading()
         })
     }
 
@@ -95,8 +94,8 @@ export class MainFormComponent implements OnInit, AfterViewInit {
         }
         if (!dataRequestArray.length) return
 
-        await firstValueFrom(this.api.setTransacoes(dataRequestArray))
-        this.enviado.emit()
+        //await firstValueFrom(this.api.setTransacoes(dataRequestArray))
+        await firstValueFrom(this.transacoesStore.enviarTransacoes(dataRequestArray))
         this.formularioPrincipal.markAsPristine()
     }
 

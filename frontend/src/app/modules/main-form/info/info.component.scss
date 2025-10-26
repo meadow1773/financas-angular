@@ -1,0 +1,7 @@
+@use '../../../../variables' as *;
+
+:host {
+    display:block;
+    background-color: $darker;
+    border: 0.5px solid $grey2;
+}

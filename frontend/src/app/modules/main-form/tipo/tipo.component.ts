@@ -51,12 +51,6 @@ export class TipoComponent implements OnInit{
     /** Instância do serviço de calculadora. */
     calculadora = inject(CalculadoraService)
 
-    /**
-     * Evento emitido ao enviar os dados.
-     * Recebido do componente Main-Form.
-     */
-    @Input() enviado = new EventEmitter()
-
     /** FormControl de Total do Tipo. */
     totalTipo = new FormControl()
 
@@ -91,7 +85,7 @@ export class TipoComponent implements OnInit{
         this.categoriasStore.state$.subscribe(state => {
             const listaCategorias = state.getCategorias()
             this.categorias = listaCategorias[this.nomeTipo]
-        })
+        }).unsubscribe()
     }
 
     /**

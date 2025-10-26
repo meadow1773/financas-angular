@@ -8,9 +8,7 @@ export class CategoriasState {
     private loading: boolean = false
     private erros: Error[] = []
     private categorias: ListaCategorias = {}
-
-    constructor() {}
-
+    
     getLoading() { return this.loading }
             
     getErros() { return this.erros }

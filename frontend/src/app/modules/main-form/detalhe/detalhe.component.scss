@@ -1,0 +1,32 @@
+@use '../../../../variables' as *;
+
+:host {
+    display:block;
+    background-color: $darker;
+    border: 0.5px solid $grey2;
+}
+
+table {
+    background: none;
+
+    tr {
+        height: 2em;
+        color: white;
+
+        td button {
+            background: none;
+            border-radius: 100%;
+
+            &.delete mat-icon {
+                color: brown;
+            }
+            &.edit mat-icon {
+                color: $highlight1;
+            }
+
+            &:hover {
+                background-color: rgba(255, 255, 255, 0.200);
+            }
+        }
+    }
+}

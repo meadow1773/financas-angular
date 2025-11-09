@@ -3,8 +3,8 @@
         <mat-icon class="drag" alt="Mover">drag_indicator</mat-icon>
         <mat-icon>{{iconeCategoria.link}}</mat-icon>
         {{categoriaNome}}
-        <button class="detalhar" (click)="botaoInfo()">
-            <mat-icon>keyboard_arrow_down</mat-icon>
+        <button class="detalhar" (click)="botaoDetalhe()">
+            <mat-icon>{{detalheOn ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}</mat-icon>
         </button>
     </span>
     <span class="valores {{categoriaNomeClasse}}">
@@ -24,7 +24,7 @@
             (keydown)="testService.testeInput($event, form)"
         >
         @if(categoriaNomeClasse != 'saldo-anterior') {
-            <button class="detail" tabindex="-1" (click)="botaoInfo()" name="{{categoriaNomeClasse}}">
+            <button class="detail" tabindex="-1" (click)="botaoInfo($event)" name="{{categoriaNomeClasse}}">
                 <mat-icon>info</mat-icon>
             </button>
             <button class="add" tabindex="-1" (click)="botaoAdd(categoriaNomeClasse)" 
@@ -43,6 +43,6 @@
         </button>
     </span>
 </div>
-<div class="info {{categoriaNomeClasse}}" *ngIf="infoOn">
-    <app-info [categoriaNome]="categoriaNome"></app-info>
+<div class="info {{categoriaNomeClasse}}" *ngIf="detalheOn">
+    <app-detalhe [categoriaNome]="categoriaNome"></app-detalhe>
 </div>

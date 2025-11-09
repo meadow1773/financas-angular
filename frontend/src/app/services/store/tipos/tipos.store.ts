@@ -1,9 +1,10 @@
 import { inject, Injectable } from "@angular/core"
-import { catchError, tap } from "rxjs"
+import { catchError, map, Observable, tap } from "rxjs"
 
 import { Store } from "../Store"
 import { TiposState } from "./tipos.state"
 import { ApiService } from "../../api.service"
+import { LoadingService } from "../../loading.service"
 
 @Injectable({
     providedIn: 'root'
@@ -15,10 +16,23 @@ export class TiposStore extends Store<TiposState> {
     private api = inject(ApiService)
 
     /**
+     * Injeção do serviço de loading
+     */
+    private loadingService = inject(LoadingService)
+    
+    /**
+     * Observable que indica o estado de loading
+     */
+    loading$: Observable<boolean> = this.state$.pipe(
+        map(state => state.getLoading())
+    )
+
+    /**
      * Construtor da classe TiposStore
      */
     constructor() {
         super(new TiposState())
+        this.loadingService.addLoading(this.loading$)
     }
 
     /**

@@ -1,0 +1,15 @@
+@use '../../../variables' as *;
+
+div {
+    display: block;
+    background-color: $darker;
+    position: absolute;
+    z-index: 9999;
+    width: 100%;
+    height: 100%;
+    align-content: center;
+
+    mat-spinner {
+        margin: 0 auto;
+    }
+}

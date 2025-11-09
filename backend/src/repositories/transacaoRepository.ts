@@ -106,4 +106,13 @@ export class TransacaoRepository {
             ])
         })
     }
+
+    /**
+     * Exclui a transação de um determinado ID.
+     * @param idTransacao 
+     */
+    async excluiTransacao(idTransacao: number): Promise<void> {
+        const query = `DELETE FROM transacoes WHERE id = $1`
+        await pool.query(query, [idTransacao])
+    }
 }

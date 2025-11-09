@@ -1,6 +1,4 @@
-<div class="load" *ngIf="carregando">
-    <mat-spinner></mat-spinner>
-</div>
+<app-loading></app-loading>
 <form [formGroup]="formularioPrincipal">
     <app-tipo *ngFor="let tipo of tipos" 
         [form]="formularioPrincipal"

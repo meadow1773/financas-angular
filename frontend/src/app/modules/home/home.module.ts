@@ -19,7 +19,7 @@ import { MainFormModule } from '../main-form/main-form.module'
     imports: [
         CommonModule,
         MatIconModule,
-        MainFormModule
+        MainFormModule,
     ],
     exports: [HomeComponent],
     providers: [MesStore, TransacoesStore, CategoriasStore]

@@ -19,7 +19,7 @@ export class TransacaoController {
             const transacoes = await this.transacaoService.getAllTransacoes()
             res.json(transacoes)
         } catch(error) {
-            res.status(500).json({ erro: `Erro ao buscar transações: ${error}` })
+            res.status(500).json({ message: `Erro ao buscar transações: ${error}` })
         }
     }
 
@@ -33,9 +33,9 @@ export class TransacaoController {
             const id = parseInt(req.params.id)
             const transacao = await this.transacaoService.getTransacaoPorId(id)
             if (transacao) res.json(transacao)
-            else res.status(404).json({ erro: 'Transação não encontrada.' })
+            else res.status(404).json({ message: 'Transação não encontrada.' })
         } catch(error) {
-            res.status(500).json({ erro: `Erro ao buscar a transação: ${error}` })
+            res.status(500).json({ message: `Erro ao buscar a transação: ${error}` })
         }
     }
 
@@ -49,10 +49,10 @@ export class TransacaoController {
             const mes = parseInt(req.params.mes)
             const categoria = req.query.categoria as string
             const transacao = await this.transacaoService.getTransacoesPorMes(mes, categoria)
-            if(transacao) res.json(transacao)
-            else res.status(404).json({ erro: 'Transações não encontradas. '})
+            if (transacao) res.json(transacao)
+            else res.status(404).json({ message: 'Transações não encontradas. '})
         } catch (error) {
-            res.status(500).json({ erro: `Erro ao buscar as transações: ${error}`})
+            res.status(500).json({ message: `Erro ao buscar as transações: ${error}`})
         }
     }
 
@@ -64,12 +64,28 @@ export class TransacaoController {
     async setTransacoes(req: Request, res: Response): Promise<void> {
         try {
             const data: TransacaoRequestData[] = req.body
-            this.transacaoService.setTransacoes(data)
+            await this.transacaoService.setTransacoes(data)
 
-            res.status(200).json({message: 'Dados recebidos com sucesso'})
+            res.status(201).json({ message: 'Dados recebidos com sucesso' })
         } catch (error) {
             console.error(error)
-            res.status(500).json({message: 'Erro ao processar os dados'})
+            res.status(500).json({ message: 'Erro ao processar os dados' })
         }        
+    }
+
+    /**
+     * Deleta uma Transação por ID.
+     * @param req 
+     * @param res 
+     */
+    async deleteTransacaoPorId(req: Request, res: Response): Promise<void> {
+        try {
+            const id = parseInt(req.params.id)
+            await this.transacaoService.deletaTransacao(id)
+
+            res.status(204).json({ message: 'Dados removidos com sucesso' })
+        } catch (error) {
+            res.status(500).json({ message: `Erro ao deletar a transação: ${error}` })
+        }
     }
 }

@@ -78,4 +78,17 @@ export class TransacaoService {
             throw new Error(`Falha ao registrar entidade.`)
         }
     }
+
+    /**
+     * Deleta uma Transação.
+     * @param idTransacao 
+     */
+    async deletaTransacao(idTransacao: number) {
+        try {
+            await this.repository.excluiTransacao(idTransacao)
+        } catch (error) {
+            console.error('Erro no serviço de remoção de transações', error)
+            throw new Error('Falha ao deletar entidade.')
+        }
+    }
 }

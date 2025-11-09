@@ -3,15 +3,17 @@ import { NgModule } from '@angular/core'
 import { ReactiveFormsModule } from '@angular/forms'
 import { MatIconModule } from '@angular/material/icon'
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
+import { MatTableModule } from '@angular/material/table'
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask'
 
 import { CategoriaComponent } from './categoria/categoria.component'
-import { InfoComponent } from './info/info.component'
+import { DetalheComponent } from './detalhe/detalhe.component'
 import { MainFormComponent } from './main-form/main-form.component'
 import { TipoComponent } from './tipo/tipo.component'
+import { LoadingScreenComponent } from '../../components/loading-screen/loading-screen.component'
 import { ApiService } from '../../services/api.service'
 import { SharedService } from '../../services/shared.service'
-import { CategoriasState } from '../../services/store/categorias/categorias.state'
+import { CategoriasStore } from '../../services/store/categorias/categorias.store'
 import { MesStore } from '../../services/store/mes/mes.store'
 import { TiposStore } from '../../services/store/tipos/tipos.store'
 import { TransacoesStore } from '../../services/store/transacoes/transacoes.store'
@@ -21,7 +23,7 @@ import { TransacoesStore } from '../../services/store/transacoes/transacoes.stor
         MainFormComponent, 
         CategoriaComponent, 
         TipoComponent,
-        InfoComponent
+        DetalheComponent
     ],
     imports: [
         CommonModule,
@@ -29,9 +31,11 @@ import { TransacoesStore } from '../../services/store/transacoes/transacoes.stor
         MatIconModule,
         NgxMaskDirective,
         NgxMaskPipe,
-        MatProgressSpinnerModule
+        MatProgressSpinnerModule,
+        MatTableModule,
+        LoadingScreenComponent
     ],
-    providers: [SharedService, ApiService, provideNgxMask(), MesStore, TransacoesStore, TiposStore, CategoriasState],
+    providers: [SharedService, ApiService, provideNgxMask(), MesStore, TransacoesStore, TiposStore, CategoriasStore],
     exports: [MainFormComponent]
 })
 export class MainFormModule {

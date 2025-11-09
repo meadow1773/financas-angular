@@ -1,9 +1,13 @@
 @use '../../../../variables' as *;
 
+:host {
+    position: relative;
+    display: block;
+}
+
 #dados {
     position: relative;
 }
-
 
 .botoes {
     grid-template-columns: repeat(3, 1fr) !important;

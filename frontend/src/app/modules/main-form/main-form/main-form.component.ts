@@ -18,9 +18,6 @@ import { TransacoesStore } from '../../../services/store/transacoes/transacoes.s
     styleUrl: './main-form.component.scss'
 })
 export class MainFormComponent implements OnInit, AfterViewInit {
-    /** Flag que indica se o componente está ou não carregando */
-    carregando = true
-
     /** Array que receberá todos os DataRequest gerados para envio. */
     mainDataRequestArray: DataRequest[] = []
 
@@ -61,9 +58,6 @@ export class MainFormComponent implements OnInit, AfterViewInit {
         // Carrega os tipos
         await lastValueFrom(this.tiposStore.carregarTipos())
         this.tipos = this.tiposStore.stateSnapshot.getTipos()
-        this.tiposStore.state$.subscribe(state => {
-            this.carregando = state.getLoading()
-        })
     }
 
     /**
@@ -94,7 +88,6 @@ export class MainFormComponent implements OnInit, AfterViewInit {
         }
         if (!dataRequestArray.length) return
 
-        //await firstValueFrom(this.api.setTransacoes(dataRequestArray))
         await firstValueFrom(this.transacoesStore.enviarTransacoes(dataRequestArray))
         this.formularioPrincipal.markAsPristine()
     }
@@ -116,7 +109,7 @@ export class MainFormComponent implements OnInit, AfterViewInit {
      * Limpa apenas os valores dos FormControls editáveis.
      * @param evento 
      */
-    limpaValores(evento?: Event) {
+    limpaValores(evento?: MouseEvent) {
         evento?.preventDefault()
         const formData = this.formularioPrincipal.getRawValue()
 

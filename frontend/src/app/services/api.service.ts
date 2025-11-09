@@ -32,11 +32,11 @@ export class ApiService {
 
     /**
      * Retorna a Transação de um determinado Id.
-     * @param id 
+     * @param idTransacao 
      * @returns 
      */
-    getTransacaoPorId(id: number): Observable<Transacao> {
-        return this.http.get<Transacao>(`${this.apiUrl}/transacoes/${id}`)
+    getTransacaoPorId(idTransacao: number): Observable<Transacao> {
+        return this.http.get<Transacao>(`${this.apiUrl}/transacoes/${idTransacao}`)
     }
 
     /**
@@ -56,6 +56,15 @@ export class ApiService {
      */
     setTransacoes(dataRequest: DataRequest[]) {
         return this.http.put(`${this.apiUrl}/transacoes`, dataRequest)
+    }
+
+    /**
+     * Deleta uma Transação pelo Id.
+     * @param idTransacao 
+     * @returns 
+     */
+    deleteTransacaoPorId(idTransacao: number) {
+        return this.http.delete(`${this.apiUrl}/transacoes/${idTransacao}`)
     }
 
     // Getters para Categorias.

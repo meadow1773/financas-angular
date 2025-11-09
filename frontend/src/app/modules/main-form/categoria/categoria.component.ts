@@ -1,7 +1,7 @@
 import { DOCUMENT } from '@angular/common'
-import { AfterViewInit, Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core'
+import { AfterViewInit, Component, EventEmitter, inject, Input, OnDestroy, OnInit, Output } from '@angular/core'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
-import { lastValueFrom } from 'rxjs'
+import { lastValueFrom, Subject, takeUntil, tap } from 'rxjs'
 
 import { DataRequest } from '../../../../interfaces/dataRequest'
 import { Icone } from '../../../../interfaces/models'
@@ -18,7 +18,7 @@ import { TestService } from '../../../tests/test.service'
     styleUrl: './categoria.component.scss'
 })
 
-export class CategoriaComponent implements OnInit, AfterViewInit {
+export class CategoriaComponent implements OnInit, AfterViewInit, OnDestroy {
     /** FormGroup recebido do componente Tipo. */
     @Input() form!: FormGroup
 
@@ -52,7 +52,7 @@ export class CategoriaComponent implements OnInit, AfterViewInit {
     /**  Nome da categoria em formato de classe HTML. */
     categoriaNomeClasse!: string
 
-    infoOn = false
+    detalheOn = false
 
     /** Evento ao clicar os botões add ou rmv. */
     @Output() alterou = new EventEmitter()
@@ -62,6 +62,8 @@ export class CategoriaComponent implements OnInit, AfterViewInit {
 
     /** Evento ao carregar novas transações. */
     @Output() transacoesOk = new EventEmitter()
+
+    private destroy$ = new Subject<void>()
 
     /**
      * Método construtor do componente.
@@ -99,8 +101,9 @@ export class CategoriaComponent implements OnInit, AfterViewInit {
      */
     private async carregaTransacoes() {
         await lastValueFrom(this.transacoesStore.carregarTransacoes(this.dataRequest.mes, this.categoriaNome))
-        this.transacoesStore.state$
-            .subscribe(state => {
+        this.transacoesStore.state$.pipe(
+            takeUntil(this.destroy$),
+            tap(state => {
                 if (!state) return
                 const listaTransacoes = state.getTransacoes()
                 let valorSoma = 0
@@ -112,6 +115,7 @@ export class CategoriaComponent implements OnInit, AfterViewInit {
                 formControl?.setValue(valorFormatado)
                 this.transacoesOk.emit()
             })
+        ).subscribe()
     }
     /**
      * Prepara o objeto DataRequest para envio ao backend.
@@ -182,7 +186,16 @@ export class CategoriaComponent implements OnInit, AfterViewInit {
      * Função disparada com o evento de clique no botão info.
      * @param evento 
      */    
-    botaoInfo() {
-        this.infoOn = !this.infoOn
+    botaoInfo(event: Event) {
+        console.log(event)
+    }
+    
+    botaoDetalhe() {
+        this.detalheOn = !this.detalheOn
+    }
+
+    ngOnDestroy() {
+        this.destroy$.next()
+        this.destroy$.complete()
     }
 }

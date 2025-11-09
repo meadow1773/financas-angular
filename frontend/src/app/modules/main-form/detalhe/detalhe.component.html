@@ -1,0 +1,20 @@
+<table mat-table *ngIf="transacoesCarregadas.length" [dataSource]="transacoesCarregadas">
+    <ng-container *ngFor="let coluna of displayedColumns" [matColumnDef]="coluna.nome">
+        <th mat-header-cell *matHeaderCellDef>{{coluna.label}}</th>
+        <td mat-cell *matCellDef="let transacao">
+            <ng-container *ngIf="coluna.nome !== 'acoes'">
+                {{ formataCelula(transacao, coluna.nome) }}
+            </ng-container>
+            <ng-container *ngIf="coluna.nome === 'acoes'">
+                <button mat-icon-button class="edit">
+                    <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button (click)="deletaTransacao(transacao?.id)" class="delete">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </ng-container>
+        </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="getDisplayedColumns()"></tr>
+    <tr mat-row *matRowDef="let row; columns: getDisplayedColumns()"></tr>
+</table>

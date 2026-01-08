@@ -4,7 +4,7 @@ import { CategoriaController } from "../controllers/categoriaController"
 import { TipoController } from "../controllers/tipoController"
 import { TransacaoController } from "../controllers/transacaoController"
 
-const router = Router()
+export const router = Router()
 
 // Rota de saúde
 router.get('/health', (req, res) => {
@@ -32,5 +32,3 @@ router.get('/categorias/tipo/:id_tipo', categoriaController.getCategoriaPorIdTip
 const tipoController = new TipoController()
 router.get('/tipos', tipoController.getTipos.bind(tipoController))
 router.get('/tipos/:id', tipoController.getTipoPorId.bind(tipoController))
-
-export default router

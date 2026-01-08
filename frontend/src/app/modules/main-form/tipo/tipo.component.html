@@ -17,7 +17,7 @@
 >
 </app-categoria>
 <div class="content create">
-    <button alt="Criar" tabindex="-1"><mat-icon>add</mat-icon></button>
+    <button alt="Criar" tabindex="-1" (click)="criarTipo()"><mat-icon>add</mat-icon></button>
 </div>
 <div class="content {{nomeTipoClasse}}" [formGroup]="form">
     <span class="item parcial">

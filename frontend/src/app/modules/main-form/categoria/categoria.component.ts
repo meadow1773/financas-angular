@@ -1,6 +1,7 @@
 import { DOCUMENT } from '@angular/common'
 import { AfterViewInit, Component, EventEmitter, inject, Input, OnDestroy, OnInit, Output } from '@angular/core'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
+import { MatSnackBar } from '@angular/material/snack-bar'
 import { lastValueFrom, Subject, takeUntil, tap } from 'rxjs'
 
 import { DataRequest } from '../../../../interfaces/dataRequest'
@@ -52,6 +53,7 @@ export class CategoriaComponent implements OnInit, AfterViewInit, OnDestroy {
     /**  Nome da categoria em formato de classe HTML. */
     categoriaNomeClasse!: string
 
+    /** Flag de exibição do componente Detalhe */
     detalheOn = false
 
     /** Evento ao clicar os botões add ou rmv. */
@@ -63,7 +65,10 @@ export class CategoriaComponent implements OnInit, AfterViewInit, OnDestroy {
     /** Evento ao carregar novas transações. */
     @Output() transacoesOk = new EventEmitter()
 
+    /** Gerenciador de subscrições do componente. */
     private destroy$ = new Subject<void>()
+
+    private snackBar = inject(MatSnackBar)
 
     /**
      * Método construtor do componente.
@@ -191,7 +196,13 @@ export class CategoriaComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     
     botaoDetalhe() {
-        this.detalheOn = !this.detalheOn
+        const transacoes = this.transacoesStore.stateSnapshot.getTransacoes()
+        const transacoesCat = transacoes[this.categoriaNome]
+        if (transacoesCat.length) {
+            this.detalheOn = !this.detalheOn
+        } else {
+            this.snackBar.open('Não há transações para mostrar')
+        }
     }
 
     ngOnDestroy() {

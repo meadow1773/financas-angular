@@ -104,4 +104,8 @@ export class TipoComponent implements OnInit{
         const soma = this.calculadora.somaSimples(...valores)
         controlTotal?.setValue(this.calculadora.formataToMoeda(soma))
     }
+
+    criarTipo() {
+        console.log('clicou')
+    }
 }

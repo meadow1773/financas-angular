@@ -1,4 +1,5 @@
-import { Component, inject, Input, OnInit } from '@angular/core'
+import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core'
+import { Subscription } from 'rxjs'
 
 import { Transacao } from '../../../../interfaces/models'
 import { TransacoesStore } from '../../../services/store/transacoes/transacoes.store'
@@ -9,15 +10,17 @@ import { TransacoesStore } from '../../../services/store/transacoes/transacoes.s
     templateUrl: './detalhe.component.html',
     styleUrl: './detalhe.component.scss'
 })
-export class DetalheComponent implements OnInit{
+export class DetalheComponent implements OnInit, OnDestroy{
     /** Nome da categoria recebido do componente Tipo. */
     @Input() categoriaNome!: string
 
     /** Instância do TransacoesStore para carregar as transações da categoria. */
     private transacoesStore = inject(TransacoesStore)
 
+    /** Transações carregadas para a categoria específica. */
     transacoesCarregadas!: Transacao[]
 
+    /** Colunas que serão exibidas na tabela de transações. */
     displayedColumns: { nome: string, label: string }[] = [
         { nome: 'id', label: 'ID' },
         { nome: 'dataCriacao', label: 'Data' },
@@ -25,16 +28,34 @@ export class DetalheComponent implements OnInit{
         { nome: 'valor', label: 'Valor' },
         { nome: 'acoes', label: 'Ações' },
     ]
+
+    /** Subscription para monitorar mudanças nas transações. */
+    private transacoesSubscription!: Subscription
     
+    /**
+     * Metodo OnInit do componente.
+     */
     ngOnInit() {
-        const transacoes = this.transacoesStore.stateSnapshot.getTransacoes()
-        this.transacoesCarregadas = transacoes[this.categoriaNome]
+        this.transacoesSubscription = this.transacoesStore.state$.subscribe(state => {
+            const transacoes = state.getTransacoes()
+            this.transacoesCarregadas = transacoes[this.categoriaNome]
+        })
     }
 
+    /**
+     * Retorna as colunas que serão exibidas na tabela.
+     * @returns 
+     */
     getDisplayedColumns(): string[] {
         return this.displayedColumns.map(coluna => coluna.nome)
     }
 
+    /**
+     * Formata o valor da célula com base na coluna.
+     * @param transacao 
+     * @param coluna 
+     * @returns 
+     */
     formataCelula(transacao: Transacao, coluna: keyof Transacao | string) {
         switch (coluna) {
         case 'valor':
@@ -49,7 +70,18 @@ export class DetalheComponent implements OnInit{
         }
     }
 
+    /**
+     * Deleta uma transação com base no ID fornecido.
+     * @param idTransacao 
+     */
     deletaTransacao(idTransacao: number) {
         this.transacoesStore.excluiTransacao(idTransacao).subscribe()
+    }
+    
+    /**
+     * Metodo OnDestroy do componente.
+     */
+    ngOnDestroy() {
+        this.transacoesSubscription.unsubscribe()
     }
 }

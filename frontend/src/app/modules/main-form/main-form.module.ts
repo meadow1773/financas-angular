@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core'
 import { ReactiveFormsModule } from '@angular/forms'
 import { MatIconModule } from '@angular/material/icon'
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
+import { MatSnackBarModule } from '@angular/material/snack-bar'
 import { MatTableModule } from '@angular/material/table'
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask'
 
@@ -33,7 +34,8 @@ import { TransacoesStore } from '../../services/store/transacoes/transacoes.stor
         NgxMaskPipe,
         MatProgressSpinnerModule,
         MatTableModule,
-        LoadingScreenComponent
+        LoadingScreenComponent,
+        MatSnackBarModule
     ],
     providers: [SharedService, ApiService, provideNgxMask(), MesStore, TransacoesStore, TiposStore, CategoriasStore],
     exports: [MainFormComponent]

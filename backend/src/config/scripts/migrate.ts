@@ -1,7 +1,7 @@
 import fs from 'fs/promises'
 import path from 'path'
 
-import { pool } from './database'
+import { pool } from '../database'
 
 const pastaMigrations = path.join(process.cwd(), 'db')
 const nomeTabelaMigrations = 'executed_migrations'

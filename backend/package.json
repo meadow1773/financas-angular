@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "migrate": "node --loader ts-node/esm --no-warnings=ExperimentalWarning src/config/migrate.ts",
-    "generate-interfaces": "node --loader ts-node/esm --no-warnings=ExperimentalWarning src/config/generateInterfaces.ts",
+    "migrate": "node --loader ts-node/esm --no-warnings=ExperimentalWarning src/config/scripts/migrate.ts",
+    "generate-interfaces": "node --loader ts-node/esm --no-warnings=ExperimentalWarning src/config/scripts/generateInterfaces.ts",
     "start": "node --loader ts-node/esm --no-warnings=ExperimentalWarning src/server.ts",
     "dev": "npm run migrate && npm run generate-interfaces && nodemon --exec npm start",
     "build": "tsc",

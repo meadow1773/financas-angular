@@ -128,20 +128,13 @@ export class TransacoesStore extends Store<TransacoesState> {
         this.setInitalLoading()
 
         return this.api.setTransacoes(dataRequest).pipe(
-            tap(() => {
+            tap((response) => {
                 const newState = this.stateSnapshot
                 const listaTransacoes = this.stateSnapshot.getTransacoes()
                 dataRequest.forEach(data => {
                     const transacoesAtuais = listaTransacoes[data.categoria] || []
-                    const novasTransacoes: Transacao[] =
-                        data.valores.map((valor, i) => ({
-                            categoria: data.categoria,
-                            mes: data.mes,
-                            ano: data.ano,
-                            valor,
-                            descricao: data.descricao[i],
-                            dataCriacao: data.dataCadastro,
-                        }))
+                    const novasTransacoes: Transacao[] = (response as Transacao[])
+                        .filter(transacao => transacao.categoria === data.categoria)
                     listaTransacoes[data.categoria] = [...transacoesAtuais, ...novasTransacoes]
                 })
                 newState.setTransacoes(listaTransacoes)

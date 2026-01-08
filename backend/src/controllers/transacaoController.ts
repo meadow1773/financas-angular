@@ -66,7 +66,8 @@ export class TransacaoController {
             const data: TransacaoRequestData[] = req.body
             await this.transacaoService.setTransacoes(data)
 
-            res.status(201).json({ message: 'Dados recebidos com sucesso' })
+            const transacoes = await this.transacaoService.getAllTransacoes()
+            res.json(transacoes)
         } catch (error) {
             console.error(error)
             res.status(500).json({ message: 'Erro ao processar os dados' })

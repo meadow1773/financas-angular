@@ -9,7 +9,9 @@ export function inicializaApp() {
     const app = express()
 
     // Middlewares
-    app.use(cors())
+    app.use(cors({
+        origin: 'http://localhost:4200'
+    }))
     app.use(morgan('dev'))
 
     // Endpoints da aplicação

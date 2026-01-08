@@ -11,7 +11,7 @@ import { Transacao, Categoria, Tipo } from '../../interfaces/models'
 
 export class ApiService {
     /** URL da Api. */
-    private apiUrl = 'http://localhost:3000/api' // ALTERAR EM PRODUÇÃO
+    private apiUrl = '/api'
 
     /** Instância da classe de cliente HTTP. */
     private http = inject(HttpClient)

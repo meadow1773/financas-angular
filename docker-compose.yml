@@ -6,7 +6,7 @@ services:
       interval: 5s
       timeout: 5s
       retries: 10
-    restart: always
+    restart: on-failure
     environment:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
@@ -18,7 +18,7 @@ services:
 
   backend:
     build: ./backend
-    restart: always
+    restart: on-failure
     env_file:
       - ./backend/.env
     depends_on:

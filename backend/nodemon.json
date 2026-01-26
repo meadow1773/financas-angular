@@ -1,8 +1,14 @@
 {
+  "legacyWatch": true,
   "verbose": true,
-  "watch": ["src/", ".env"],
+  "watch": [
+    "src/",
+    ".env"
+  ],
   "ext": "ts,js,json",
-  "exec": "node --loader ts-node/esm src/server.ts",
+  "exec": "tsx src/server.ts",
   "restartable": "rs",
-  "ignore": ["src/**/*.spec.ts"]
+  "ignore": [
+    "src/**/*.spec.ts"
+  ]
 }

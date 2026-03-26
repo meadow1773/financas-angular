@@ -1,6 +1,8 @@
 import { Request, Response } from "express"
+import { ICategoria } from "src/models/categoriaModel"
 
 import { CategoriaService } from "../services/categoriaService"
+
 
 export class CategoriaController {
     private categoriaService = new CategoriaService()
@@ -34,6 +36,32 @@ export class CategoriaController {
             else res.status(404).json({ erro: 'Categoria não encontrada.' })
         } catch(error) {
             res.status(500).json({ erro: `Erro ao buscar a categoria: ${error}` })
+        }
+    }
+
+    async setCategorias(req: Request, res: Response): Promise<void> {
+        try {
+            const data: ICategoria[] = req.body
+            await this.categoriaService.salvaCategorias(data)
+
+            const categorias = await this.categoriaService.getAllCategorias()
+            res.json(categorias)
+        } catch (error) {
+            console.error(error)
+            res.status(500).json({message: 'Erro ao processar dados de Categorias'})
+        }
+    }
+
+    async deleteCategoriaPorId(req: Request, res:Response): Promise<void> {
+        try {
+            const id = parseInt(req.params.id)
+            await this.categoriaService.deletaCategoria(id)
+
+            const categorias = await this.categoriaService.getAllCategorias()
+            res.json(categorias)
+        } catch (error) {
+            console.error(error)
+            res.status(500).json({message: 'Erro ao processar dados de Categorias'})
         }
     }
 }

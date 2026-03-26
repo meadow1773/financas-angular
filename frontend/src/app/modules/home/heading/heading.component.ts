@@ -1,4 +1,5 @@
-import { Component, inject, OnInit } from '@angular/core'
+import { Component, inject, OnDestroy, OnInit } from '@angular/core'
+import { Subject, takeUntil, tap } from 'rxjs'
 
 import { MesStore } from '../../../services/store/mes/mes.store'
 import { TransacoesStore } from '../../../services/store/transacoes/transacoes.store'
@@ -9,16 +10,21 @@ import { TransacoesStore } from '../../../services/store/transacoes/transacoes.s
     templateUrl: './heading.component.html',
     styleUrl: './heading.component.scss'
 })
-export class HeadingComponent implements OnInit {
+export class HeadingComponent implements OnInit, OnDestroy {
     /** Mês selecionado pelo usuário. */
     mesSelecionado!: string
 
     /** Flag se o componente de Calendário está aberto. */
     calendarioAberto = false
 
+    /** Instância da store de mês. */
     private mesStore = inject(MesStore)
 
+    /** Instância da store de transações. */
     private transacoesStore = inject(TransacoesStore)
+
+    /**  */
+    private destroy$ = new Subject<void>()
 
     /**
      * Método construtor do componente.
@@ -29,9 +35,12 @@ export class HeadingComponent implements OnInit {
      * Método OnInit do componente.
      */
     ngOnInit() {
-        this.mesStore.state$.subscribe(mesState => {
-            this.mesSelecionado = mesState.mesLongo
-        })
+        this.mesStore.state$.pipe(
+            takeUntil(this.destroy$),
+            tap(mesState => {
+                this.mesSelecionado = mesState.mesLongo
+            })
+        ).subscribe()
     }
 
     /**
@@ -59,6 +68,11 @@ export class HeadingComponent implements OnInit {
         this.mesStore.addMesNum(mesAtual + 1)
         const proxMes = this.mesStore.stateSnapshot.mesNum
         this.transacoesStore.carregarTransacoesPorMes(proxMes).subscribe()
+    }
+
+    ngOnDestroy(): void {
+        this.destroy$.next()
+        this.destroy$.complete()
     }
 }
 

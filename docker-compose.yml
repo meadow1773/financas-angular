@@ -27,6 +27,7 @@ services:
       - "${SERVER_PORT}:${SERVER_PORT}"
     volumes:
       - ./backend:/app
+      - ./frontend:/frontend
     working_dir: /app
 
 volumes:

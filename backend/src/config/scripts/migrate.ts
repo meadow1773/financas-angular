@@ -34,7 +34,8 @@ async function executarMigration(nomeMigration: string) {
         const caminhoMigration = path.join(pastaMigrations, nomeMigration)
         const sql = await fs.readFile(caminhoMigration, 'utf8')
         await pool.query(sql)
-        await pool.query(`INSERT INTO ${nomeTabelaMigrations} (migration_name) VALUES ($1)`, [nomeMigration])
+        await pool.query(
+            `INSERT INTO ${nomeTabelaMigrations} (migration_name) VALUES ($1)`, [nomeMigration])
         console.info(`Migration '${nomeMigration}' executado com sucesso.`)
     } catch (error) {
         console.error(`Erro executando o migration ${nomeMigration}:`, error)

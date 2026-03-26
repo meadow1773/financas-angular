@@ -2,6 +2,6 @@
 <div class="heading">
     <mat-icon class="seletor prev" alt="Mês anterior" (click)="mesAnt()">arrow_circle_left</mat-icon>
     <mat-icon class="opencal" alt="Calendário" (click)="toggleCalendario()">calendar_month</mat-icon>
-    <span class="mes">{{ mesSelecionado }}</span>
+    <span class="mes">{{ mesSelecionado | titlecase }}</span>
     <mat-icon class="seletor next" alt="Próximo mês" (click)="proxMes()">arrow_circle_right</mat-icon>
 </div>

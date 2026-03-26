@@ -1,5 +1,13 @@
 import { DOCUMENT } from '@angular/common'
-import { AfterViewInit, Component, EventEmitter, inject, Input, OnDestroy, OnInit, Output } from '@angular/core'
+import { 
+    AfterViewInit, 
+    Component, 
+    EventEmitter, 
+    inject, 
+    Input, 
+    OnDestroy, 
+    OnInit, 
+    Output } from '@angular/core'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { lastValueFrom, Subject, takeUntil, tap } from 'rxjs'
@@ -105,7 +113,8 @@ export class CategoriaComponent implements OnInit, AfterViewInit, OnDestroy {
      * Carrega as transações da categoria e atualiza a soma.
      */
     private async carregaTransacoes() {
-        await lastValueFrom(this.transacoesStore.carregarTransacoes(this.dataRequest.mes, this.categoriaNome))
+        await lastValueFrom(
+            this.transacoesStore.carregarTransacoes(this.dataRequest.mes, this.categoriaNome))
         this.transacoesStore.state$.pipe(
             takeUntil(this.destroy$),
             tap(state => {

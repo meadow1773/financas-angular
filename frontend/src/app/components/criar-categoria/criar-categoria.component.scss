@@ -1,0 +1,102 @@
+@use '../../../variables' as *;
+
+:host {
+    background-color: $darker;
+    display: block;
+}
+
+.modal-header {
+    background-color: #fff;
+    display: flex;
+    justify-content: space-between;
+    cursor: grab;
+
+    [mat-dialog-title] {
+        @include highlight();
+        background-clip: text;
+        font-weight: 700;
+        -webkit-text-fill-color: transparent;
+    }
+
+    [mat-dialog-close]:hover {
+        background-color: #000;
+        color: #fff;
+    }
+}
+
+.campos {
+    display: flex;
+    gap: 10px;
+
+    mat-form-field {
+
+        input,
+        mat-select,
+        mat-option,
+        mat-label {
+            color: #fff;
+            text-align: left;
+        }
+    }
+
+}
+
+.lista-icones {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    padding: 0;
+    margin: 0;
+    gap: 5px;
+    color: #fff;
+    font-size: 2em;
+
+    li {
+        display: block;
+        text-align: center;
+        align-content: center;
+        aspect-ratio: 1/1;
+        border-radius: 10%;
+        user-select: none;
+
+        &:hover {
+            background-color: #ffffff3a;
+            cursor: pointer;
+        }
+
+        &.selected {
+            background-color: #ffffff6c;
+            border: 1px solid #fff;
+        }
+    }
+}
+
+mat-error {
+    text-align: center;
+    padding: 2em 0;
+}
+
+.botoes {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding: 2em 0;
+
+    button {
+        background-color: #fff;
+        border-radius: 5px;
+        text-align: center;
+        color: $highlight2;
+        font-weight: 700;
+        font-size: 1.25em;
+        padding: 0.5em;
+        user-select: none;
+
+        &:hover {
+            @include inner-shadow();
+        }
+
+        &[disabled] {
+            background-image: linear-gradient(to left, $dark, $grey3);
+        }
+    }
+}

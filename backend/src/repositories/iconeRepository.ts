@@ -12,10 +12,10 @@ export class IconeRepository {
         const { rows } = await pool.query(query)
         return rows.map(row => new Icone(
             row.id,
-            row.link,
-            row.mat_icons,
             row.data_cadastro,
-            row.data_alteracao
+            row.data_alteracao,
+            row.link,
+            row.mat_icon
         ))
     }
 
@@ -31,10 +31,10 @@ export class IconeRepository {
         const row = rows[0]
         return new Icone(
             row.id,
-            row.link,
-            row.mat_icons,
             row.data_cadastro,
-            row.data_alteracao
+            row.data_alteracao,
+            row.link,
+            row.mat_icon
         )
     }
 }

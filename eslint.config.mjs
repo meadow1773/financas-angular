@@ -28,6 +28,7 @@ export default defineConfig([globalIgnores(["node_modules", "*/.angular/cache", 
         "@typescript-eslint/no-explicit-any": "off",
         "@typescript-eslint/no-unused-vars": "warn",
         "@angular-eslint/prefer-standalone": "off",
+        "max-len": ["error", { "code": 100, "tabWidth": 4, "ignoreUrls": true }],
         semi: ["error", "never"],
         indent: ["error", 4],
         'import/order': [

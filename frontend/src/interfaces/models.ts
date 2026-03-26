@@ -1,37 +1,43 @@
 // AUTO-GENERATED FILE - DO NOT EDIT DIRECTLY
-// Gerado automaticamente em: 2025-10-26T23:30:39.272Z
+// Gerado automaticamente em: 2026-03-14T02:24:54.466Z
 export interface Categoria {
-    id: number;
     nome: string;
-    tipo: string;
+    nomeTipo: string;
     icone: Icone;
-    dataCadastro: Date;
-    dataAlteracao: Date;
+    id?: number | undefined;
+    dataCriacao?: Date | undefined;
+    dataAlteracao?: Date | undefined;
+}
+
+export interface EntidadeGenerica {
+    id?: number | undefined;
+    dataCriacao?: Date | undefined;
+    dataAlteracao?: Date | undefined;
 }
 
 export interface Icone {
     id: number;
-    link: string;
-    matIcons: boolean;
-    dataCadastro: Date;
+    dataCriacao: Date;
     dataAlteracao: Date;
+    link: string;
+    matIcon: boolean;
 }
 
 export interface Tipo {
     id: number;
-    nome: string;
-    icone: Icone | null;
     dataCriacao: Date;
     dataAlteracao: Date;
+    nome: string;
+    icone: Icone | null;
 }
 
 export interface Transacao {
-    categoria: string;
+    nomeCategoria: string;
     mes: number;
     ano: number;
     valor: number;
     descricao: string;
-    dataCriacao: Date;
     id?: number | undefined;
+    dataCriacao?: Date | undefined;
     dataAlteracao?: Date | undefined;
 }

@@ -58,7 +58,7 @@ export class TransacaoService {
      * Setter para Transações.
      * @param dataRequest 
      */
-    async setTransacoes(dataRequest: TransacaoRequestData[]) {
+    async salvaTransacoes(dataRequest: TransacaoRequestData[]) {
         try {
             const transacoes: Transacao[] = []
             dataRequest.forEach(data => {
@@ -68,14 +68,14 @@ export class TransacaoService {
                         data.mes, 
                         data.ano, 
                         valor, 
-                        data.descricao[i], 
-                        data.dataCadastro))
+                        data.descricao[i]
+                    ))
                 })
             })
             await this.repository.salvaTransacao(transacoes)
         } catch (error) {
             console.error('Erro no serviço de registro de transações,', error)
-            throw new Error(`Falha ao registrar entidade.`)
+            throw new Error(`Falha ao registrar transações.`)
         }
     }
 

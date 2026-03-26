@@ -22,10 +22,10 @@ export class TipoRepository {
 
             return new Tipo(
                 row.id,
+                row.data_cadastro,
+                row.data_alteracao,
                 row.nome,
                 icone,
-                row.data_cadastro,
-                row.data_alteracao
             )
         }))
         return tipos
@@ -47,10 +47,28 @@ export class TipoRepository {
 
         return new Tipo(
             row.id,
+            row.data_cadastro,
+            row.data_alteracao,
             row.nome,
             icone,
+        )
+    }
+
+    async retornaPorNome(nome: string): Promise<Tipo | null> {
+        const query = `SELECT * FROM tipos WHERE nome = $1`
+        const { rows } = await pool.query(query, [nome])
+        if (rows.length === 0) return null
+        const row = rows[0]
+
+        let icone = await this.iconeRepository.retornaPorId(row.fk_icone_id)
+        if (!icone) icone = await this.iconeRepository.retornaPorId(1)
+
+        return new Tipo(
+            row.id,
             row.data_cadastro,
-            row.data_alteracao
+            row.data_alteracao,
+            row.nome,
+            icone,
         )
     }
 }

@@ -1,7 +1,7 @@
 import { IconeRepository } from "./iconeRepository"
 import { TipoRepository } from "./tipoRepository"
 import { pool } from "../config/database"
-import { Categoria } from "../models/categoriaModel"
+import { ICategoria, Categoria } from "../models/categoriaModel"
 
 export class CategoriaRepository {
     /**
@@ -29,12 +29,12 @@ export class CategoriaRepository {
             if (!icone) icone = await this.iconeRepository.retornaPorId(1)
 
             return new Categoria(
-                row.id,
                 row.nome,
-                tipo.nome,
+                tipo.getNome(),
                 icone!,
+                row.id,
                 row.data_cadastro,
-                row.data_alteracao
+                row.data_alteracao,
             )
         }))
         return categorias
@@ -57,12 +57,12 @@ export class CategoriaRepository {
         if(!icone) icone = await this.iconeRepository.retornaPorId(1)
 
         return new Categoria(
-            row.id,
             row.nome,
-            tipo.nome,
+            tipo.getNome(),
             icone!,
+            row.id,
             row.data_cadastro,
-            row.data_alteracao
+            row.data_alteracao,
         )
     }
     
@@ -82,12 +82,12 @@ export class CategoriaRepository {
             if (!icone) icone = await this.iconeRepository.retornaPorId(1)
 
             return new Categoria(
-                row.id,
                 row.nome,
-                tipo.nome,
+                tipo.getNome(),
                 icone!,
+                row.id,
                 row.data_cadastro,
-                row.data_alteracao
+                row.data_alteracao,
             )
         }))
         return categorias
@@ -110,13 +110,33 @@ export class CategoriaRepository {
         if(!icone) icone = await this.iconeRepository.retornaPorId(1)
             
         return new Categoria(
-            row.id,
             row.nome,
-            tipo.nome,
+            tipo.getNome(),
             icone!,
+            row.id,
             row.data_cadastro,
-            row.data_alteracao
+            row.data_alteracao,
         )
+    }
+
+    async salvaCategorias(categorias: ICategoria[]): Promise<void> {
+        for(const categoria of categorias) {
+            const query = `INSERT INTO categorias (nome, fk_tipo_id, fk_icone_id)
+                    VALUES ($1, $2, $3)`
+            const tipo = await this.tipoRepository.retornaPorNome(categoria.nomeTipo)
+            if(!tipo) throw new Error(`Tipo não encontrado para a categoria ${categoria.nome}`)
+            
+            await pool.query(query, [
+                categoria.nome,
+                tipo?.getId(),
+                categoria.icone?.id,
+            ])
+        }
+    }
+
+    async excluiCategoria(id: number) {
+        const query = `DELETE FROM transacoes WHERE id = $1`
+        await pool.query(query, [id])
     }
 }
         

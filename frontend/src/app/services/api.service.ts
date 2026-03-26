@@ -3,7 +3,7 @@ import { inject, Injectable } from '@angular/core'
 import { Observable } from 'rxjs'
 
 import { DataRequest } from '../../interfaces/dataRequest'
-import { Transacao, Categoria, Tipo } from '../../interfaces/models'
+import { Transacao, Categoria, Tipo, Icone } from '../../interfaces/models'
 
 @Injectable({
     providedIn: 'root'
@@ -94,6 +94,10 @@ export class ApiService {
         return this.http.get<Categoria[]>(`${this.apiUrl}/categorias/tipo/${idTipo}`)
     }
 
+    setCategorias(categorias: Categoria[]): Observable<Categoria[]> {
+        return this.http.put<Categoria[]>(`${this.apiUrl}/categorias`, categorias)
+    }
+
     // Getters para Tipos.
     /**
      * Retorna todos os Tipos.
@@ -110,5 +114,14 @@ export class ApiService {
      */
     getTipoPorId(id: number): Observable<Tipo> {
         return this.http.get<Tipo>(`${this.apiUrl}/tipos/${id}`)
+    }
+
+    // Getters para Ícones.
+    /**
+     * Retorna todos os Ícones.
+     * @returns 
+     */
+    getIcones(): Observable<Icone[]> {
+        return this.http.get<Icone[]>(`${this.apiUrl}/icones`)
     }
 }

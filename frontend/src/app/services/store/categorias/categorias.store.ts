@@ -3,6 +3,7 @@ import { catchError, map, Observable, tap } from "rxjs"
 
 import { Store } from "../Store"
 import { CategoriasState, ListaCategorias } from "./categorias.state"
+import { Categoria } from "../../../../interfaces/models"
 import { ApiService } from "../../api.service"
 import { LoadingService } from "../../loading.service"
 
@@ -55,8 +56,38 @@ export class CategoriasStore extends Store<CategoriasState> {
         return this.api.getCategoriasPorIdTipo(idTipo).pipe(
             tap(categorias => {
                 const newState = this.stateSnapshot
-                const listaCategorias: ListaCategorias = {}
-                listaCategorias[categorias[0].tipo] = categorias
+                const listaCategorias: ListaCategorias = newState.getCategorias()
+                categorias.forEach(cat => {
+                    (listaCategorias[cat.nomeTipo] ??= []).push(cat)
+                })
+                newState.setCategorias(listaCategorias)
+                newState.setLoading(false)
+                this.setState(newState)
+            }),
+            catchError(error => {
+                const errorState = this.stateSnapshot
+                errorState.setErros(error)
+                errorState.setLoading(false)
+                this.setState(errorState)
+                throw new Error(error)
+            })
+        )
+    }
+
+    /**
+     * Envia as categorias para o backend
+     * @param categorias
+     */
+    enviarCategorias(categorias: Categoria[]) {
+        this.setInitalLoading()
+
+        return this.api.setCategorias(categorias).pipe(
+            tap(novasCategorias => {
+                const newState = this.stateSnapshot
+                const listaCategorias: ListaCategorias = newState.getCategorias()
+                novasCategorias.forEach(cat => {
+                    (listaCategorias[cat.nomeTipo] ??= []).push(cat)
+                })
                 newState.setCategorias(listaCategorias)
                 newState.setLoading(false)
                 this.setState(newState)

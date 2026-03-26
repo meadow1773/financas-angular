@@ -19,9 +19,5 @@ export class CategoriasState {
         
     setErros(erro: Error) { this.erros.push(erro) }
         
-    setCategorias(listaCategorias: ListaCategorias) {
-        for (const tipo in listaCategorias) {
-            this.categorias[tipo] = [...(this.categorias[tipo] || []), ...(listaCategorias[tipo] || [])]
-        }
-    }
+    setCategorias(listaCategorias: ListaCategorias) { this.categorias = listaCategorias }
 }

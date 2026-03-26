@@ -4,20 +4,13 @@
         {{nomeTipo}}
     </span>
 </div>
-<app-categoria *ngFor="let categoria of categorias"
-    [form]="form" 
-    [categoriaNome]="categoria.nome" 
-    [iconeCategoria]="categoria.icone"
-    [tipoNome]="nomeTipo"
-    (alterou)="alterou.emit($event)" 
-    (alterou)="calculaTotais()" 
-    (updateEvento)="updateEvento.emit($event)" 
-    (transacoesOk)="calculaTotais()"
-    (transacoesOk)="transacoesOk.emit()"
->
+<app-categoria *ngFor="let categoria of categorias" [form]="form" [categoriaNome]="categoria.nome"
+    [iconeCategoria]="categoria.icone" [tipoNome]="nomeTipo" (alterou)="alterou.emit($event)"
+    (alterou)="calculaTotais()" (updateEvento)="updateEvento.emit($event)" (transacoesOk)="calculaTotais()"
+    (transacoesOk)="transacoesOk.emit()">
 </app-categoria>
 <div class="content create">
-    <button alt="Criar" tabindex="-1" (click)="criarTipo()"><mat-icon>add</mat-icon></button>
+    <button alt="Criar" tabindex="-1" (click)="criarCategoria()"><mat-icon>add</mat-icon></button>
 </div>
 <div class="content {{nomeTipoClasse}}" [formGroup]="form">
     <span class="item parcial">
@@ -25,6 +18,7 @@
         Total de {{nomeTipo}}
     </span>
     <span class="valores parcial">
-        <input type="text" name="total-{{nomeTipoClasse}}" formControlName="total-{{nomeTipoClasse}}" tabindex="-1" readonly>
+        <input type="text" name="total-{{nomeTipoClasse}}" formControlName="total-{{nomeTipoClasse}}" tabindex="-1"
+            readonly>
     </span>
 </div>

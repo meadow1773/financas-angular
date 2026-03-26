@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common'
-import { AfterViewInit, Component, inject, OnInit } from '@angular/core'
+import { AfterViewInit, Component, EventEmitter, inject, OnInit } from '@angular/core'
 import { FormControl, FormGroup } from '@angular/forms'
 import { firstValueFrom, lastValueFrom } from 'rxjs'
 
@@ -46,6 +46,12 @@ export class MainFormComponent implements OnInit, AfterViewInit {
     /** Instância do objeto DOM */
     dom = inject(DOCUMENT)
 
+    /**  */
+    proximoMes = new EventEmitter()
+
+    /**  */
+    mesAnterior = new EventEmitter()
+
     /**
      * Método construtor do componente.
      */
@@ -67,7 +73,9 @@ export class MainFormComponent implements OnInit, AfterViewInit {
     dataReceiver(recebido: DataRequest) {
         recebido.mes = this.mesStore.stateSnapshot.mesNum
 
-        const cadastrado = this.mainDataRequestArray.find(data => data.categoria === recebido.categoria)
+        const cadastrado = this.mainDataRequestArray.find(
+            data => data.categoria === recebido.categoria
+        )
         if (cadastrado) {
             cadastrado.valores = recebido.valores
         } else {
@@ -98,9 +106,20 @@ export class MainFormComponent implements OnInit, AfterViewInit {
     ngAfterViewInit() {
         // Atalhos de teclado
         this.dom.addEventListener('keydown', keyEv => {
+            // Delete
             if (keyEv.shiftKey && keyEv.key === 'Delete') {
                 keyEv.preventDefault()
                 this.limpaValores()
+            }
+
+            // Setas
+            if (keyEv.key === 'ArrowRight') {
+                keyEv.preventDefault()
+                this.proximoMes.emit()
+            }
+            if (keyEv.key === 'ArrowLeft') {
+                keyEv.preventDefault()
+                this.mesAnterior.emit()
             }
         })
     }
@@ -115,7 +134,9 @@ export class MainFormComponent implements OnInit, AfterViewInit {
 
         Object.keys(formData).forEach(key => {
             if (key.endsWith('soma')) {
-                const data = this.mainDataRequestArray.filter(data => key.includes(this.global.toClass(data.categoria))).at(0)
+                const data = this.mainDataRequestArray.filter(
+                    data => key.includes(this.global.toClass(data.categoria))
+                ).at(0)
                 const valores = data?.valores
                 const valorFormatado = this.calculadora.formataToMoeda((valores?.at(0)))
                 this.formularioPrincipal.get(key)?.setValue(valorFormatado)
@@ -143,7 +164,10 @@ export class MainFormComponent implements OnInit, AfterViewInit {
             descricao: [''],
             dataCadastro: data
         }
-        const valorFormatado = Number((this.formularioPrincipal.get('saldo-anterior')?.value as string | undefined)?.replace(',', '.') ?? '')
+        const valorFormatado = Number(
+            (this.formularioPrincipal.get('saldo-anterior')?.value as string | undefined)
+                ?.replace(',', '.') ?? ''
+        )
         dataRequestSaldo.valores.push(valorFormatado)
 
         this.enviaValores(dataRequestSaldo)

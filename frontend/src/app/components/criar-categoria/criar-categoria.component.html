@@ -1,0 +1,54 @@
+<app-loading></app-loading>
+<div cdkDrag cdkDragRootElement=".cdk-overlay-pane">
+    <div cdkDragHandle class="modal-header">
+        <h2 mat-dialog-title>Criar nova categoria</h2>
+        <mat-dialog-actions>
+            <button matButton mat-dialog-close>
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-dialog-actions>
+    </div>
+    <mat-dialog-content>
+        <form [formGroup]="formCriarCategoria">
+            <div class="campos">
+                <mat-form-field appearance="outline">
+                    <mat-label>Nome da categoria</mat-label>
+                    <input matInput formControlName="nomeCategoria" type="text" name="categoria" id="categoria">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Selecione o tipo</mat-label>
+                    <mat-select formControlName="nomeTipo">
+                        @for (tipo of listaTipos; track tipo) {
+                        <mat-option [value]="tipo.nome">{{tipo.nome}}</mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <ul class="lista-icones">
+                <li *ngFor="let icone of listaIcones" (click)="selectIcon(icone)"
+                    [class.selected]="formCriarCategoria.get('iconeCategoria')?.value === icone">
+                    @if (icone.matIcon) {
+                    <mat-icon>{{icone.link}}</mat-icon>
+                    } @else {
+                    <img [src]="icone.link" alt="" srcset="">
+                    }
+                </li>
+            </ul>
+            <mat-error
+                *ngIf="formCriarCategoria.get('iconeCategoria')?.invalid && formCriarCategoria.get('iconeCategoria')?.touched">
+                Selecione um ícone
+            </mat-error>
+
+            <div class="botoes">
+                <button type="reset" id="apagar">
+                    Limpar
+                </button>
+                <button type="send" id="submit" (click)="enviaCategoria()">
+                    Confirmar
+                </button>
+            </div>
+        </form>
+    </mat-dialog-content>
+</div>

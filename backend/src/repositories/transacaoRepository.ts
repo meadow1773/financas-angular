@@ -19,14 +19,14 @@ export class TransacaoRepository {
             const categoria = await this.categoriaRepository.retornaPorId(row.fk_categoria_id)
             if (!categoria) throw new Error(`Categoria não encontrada para a transação ${row.id}`)
             return new Transacao(
-                categoria.nome,
+                categoria.getNome(),
+                row.id,
+                row.data_cadastro,
+                row.data_alteracao,
                 row.mes,
                 row.ano,
                 row.valor,
                 row.descricao,
-                row.data_cadastro,
-                row.id,
-                row.data_alteracao
             )
         }))
         return transacoes
@@ -45,14 +45,14 @@ export class TransacaoRepository {
         const categoria = await this.categoriaRepository.retornaPorId(row.fk_categoria_id)
         if (!categoria) throw new Error(`Categoria não encontrada para a transação ${row.id}`)
         return new Transacao(
-            categoria.nome,
-            row.mes,
+            categoria.getNome(),
             row.ano,
+            row.mes,
             row.valor,
             row.descricao,
             row.data_cadastro,
             row.id,
-            row.data_alteracao
+            row.data_alteracao,
         )
     }
 
@@ -66,7 +66,7 @@ export class TransacaoRepository {
         let categoriaQuery = ''
         if (categoria) {
             const categoriaObj = await this.categoriaRepository.retornaPorNome(categoria)
-            categoriaQuery = `AND fk_categoria_id = ${categoriaObj?.id}`
+            categoriaQuery = `AND fk_categoria_id = ${categoriaObj?.getId()}`
         }
         const query = `SELECT * FROM transacoes WHERE mes = $1 ${categoriaQuery}`
         const { rows } = await pool.query(query, [mes])
@@ -74,14 +74,14 @@ export class TransacaoRepository {
             const categoria = await this.categoriaRepository.retornaPorId(row.fk_categoria_id)
             if (!categoria) throw new Error(`Categoria não encontrada para a transação ${row.id}`)
             return new Transacao(
-                categoria.nome,
+                categoria.getNome(),
                 row.mes,
                 row.ano,
-                Number(row.valor),
+                row.valor,
                 row.descricao,
                 row.data_cadastro,
                 row.id,
-                row.data_alteracao
+                row.data_alteracao,
             )
         }))
         return transacoes
@@ -92,17 +92,19 @@ export class TransacaoRepository {
      * @param data Array do objeto de Transação.
      */
     async salvaTransacao(data: Transacao[]): Promise<void> {
+        // eslint-disable-next-line max-len
         const query = `INSERT INTO transacoes (fk_categoria_id, mes, ano, valor, descricao, data_cadastro)
-        VALUES ($1, $2, $3, $4, $5, $6)`
+            VALUES ($1, $2, $3, $4, $5, $6)`
         data.forEach(async transacao => {
-            const categoria = await this.categoriaRepository.retornaPorNome(transacao.categoria)
+            const categoria = await this.categoriaRepository
+                .retornaPorNome(transacao.getNomeCategoria())
             await pool.query(query, [
-                categoria?.id, 
-                transacao.mes, 
-                transacao.ano, 
-                transacao.valor, 
-                transacao.descricao, 
-                transacao.dataCriacao
+                categoria?.getId(), 
+                transacao.getMes(), 
+                transacao.getAno(), 
+                transacao.getValor(), 
+                transacao.getDescricao(), 
+                transacao.getDataCriacao()
             ])
         })
     }

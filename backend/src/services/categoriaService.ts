@@ -1,4 +1,4 @@
-import { Categoria } from "../models/categoriaModel"
+import { Categoria, ICategoria } from "../models/categoriaModel"
 import { CategoriaRepository } from "../repositories/categoriaRepository"
 
 export class CategoriaService {
@@ -31,6 +31,24 @@ export class CategoriaService {
         } catch(error) {
             console.error(`Erro no serviço ao buscar categorias com o tipo de ID ${idTipo}:`, error)
             throw new Error(`Falha ao obter categoria com o tipo de ID ${idTipo}`)
+        }
+    }
+
+    async salvaCategorias(categorias: ICategoria[]) {
+        try {
+            await this.repository.salvaCategorias(categorias)            
+        } catch (error) {
+            console.error('Erro no serviço de registro de categorias,', error)
+            throw new Error(`Falha ao registrar categoria.`)
+        }
+    }
+
+    async deletaCategoria(id: number) {
+        try {
+            await this.repository.excluiCategoria(id)
+        } catch (error) {
+            console.error('Erro no serviço de remoção de transações', error)
+            throw new Error('Falha ao deletar entidade.')
         }
     }
 }

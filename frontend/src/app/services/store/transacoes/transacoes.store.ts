@@ -102,8 +102,9 @@ export class TransacoesStore extends Store<TransacoesState> {
                 const newState = this.stateSnapshot
                 const listaTransacoes = this.zerarTransacoes()
                 transacoes.forEach(transacao => {
-                    listaTransacoes[transacao.categoria] = listaTransacoes[transacao.categoria] || []
-                    listaTransacoes[transacao.categoria].push(transacao)
+                    listaTransacoes[transacao.nomeCategoria] = 
+                        listaTransacoes[transacao.nomeCategoria] || []
+                    listaTransacoes[transacao.nomeCategoria].push(transacao)
                 })
                 newState.setTransacoes(listaTransacoes)
                 newState.setLoading(false)
@@ -134,7 +135,7 @@ export class TransacoesStore extends Store<TransacoesState> {
                 dataRequest.forEach(data => {
                     const transacoesAtuais = listaTransacoes[data.categoria] || []
                     const novasTransacoes: Transacao[] = (response as Transacao[])
-                        .filter(transacao => transacao.categoria === data.categoria)
+                        .filter(transacao => transacao.nomeCategoria === data.categoria)
                     listaTransacoes[data.categoria] = [...transacoesAtuais, ...novasTransacoes]
                 })
                 newState.setTransacoes(listaTransacoes)
@@ -164,7 +165,8 @@ export class TransacoesStore extends Store<TransacoesState> {
                 const newState = this.stateSnapshot
                 const listaTransacoes = newState.getTransacoes()
                 for (const categoria in listaTransacoes) {
-                    const novaLista = listaTransacoes[categoria].filter(trans => trans.id !== idTransacao)
+                    const novaLista = listaTransacoes[categoria]
+                        .filter(trans => trans.id !== idTransacao)
                     listaTransacoes[categoria] = novaLista
                 }
                 newState.setTransacoes(listaTransacoes)

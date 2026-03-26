@@ -1,6 +1,8 @@
+/* eslint-disable max-len */
 import { Router } from "express"
 
 import { CategoriaController } from "../controllers/categoriaController"
+import { IconeController } from "../controllers/iconeController"
 import { TipoController } from "../controllers/tipoController"
 import { TransacaoController } from "../controllers/transacaoController"
 
@@ -27,8 +29,14 @@ const categoriaController = new CategoriaController()
 router.get('/categorias', categoriaController.getCategorias.bind(categoriaController))
 router.get('/categorias/:id', categoriaController.getCategoriaPorId.bind(categoriaController))
 router.get('/categorias/tipo/:id_tipo', categoriaController.getCategoriaPorIdTipo.bind(categoriaController))
+router.put('/categorias', categoriaController.setCategorias.bind(categoriaController))
+router.delete('/categorias/:id', categoriaController.deleteCategoriaPorId.bind(categoriaController))
 
 // Rotas para Tipos
 const tipoController = new TipoController()
 router.get('/tipos', tipoController.getTipos.bind(tipoController))
 router.get('/tipos/:id', tipoController.getTipoPorId.bind(tipoController))
+
+// Rota para Ícones
+const iconeController = new IconeController()
+router.get('/icones', iconeController.getIcones.bind(iconeController))

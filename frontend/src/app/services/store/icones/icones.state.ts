@@ -1,19 +1,19 @@
-import { Tipo } from "../../../../interfaces/models"
+import { Icone } from "../../../../interfaces/models"
 
-export class TiposState {
+export class IconesState {
     private loading: boolean = false
     private erros: Error[] = []
-    private tipos: Tipo[] = []
+    private icones: Icone[] = []
 
     getLoading() { return this.loading }
         
     getErros() { return this.erros }
     
-    getTipos() { return this.tipos }
+    getIcones() { return this.icones }
     
     setLoading(loading: boolean) { this.loading = loading }
     
     setErros(erro: Error) { this.erros.push(erro) }
     
-    setTipos(listaTipos: Tipo[]) { this.tipos.push(...listaTipos) }
+    setIcones(listaIcones: Icone[]) { this.icones.push(...listaIcones) }
 }

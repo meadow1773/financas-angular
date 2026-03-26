@@ -91,7 +91,9 @@ async function generateInterfaces() {
             // Propriedades declarados nos parâmetros do construtor
             classe.getConstructors().forEach(ctor => {
                 ctor.getParameters().forEach(param => {
-                    if (param.getScope() !== 'private' && !interfaceNova.getProperty(param.getName())) {
+                    if (param.getScope() !== 'private' 
+                    && !interfaceNova.getProperty(param.getName())
+                    ) {
                         interfaceNova.addProperty({
                             name: param.getName(),
                             type: param.getType().getText(param),

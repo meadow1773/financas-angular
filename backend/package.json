@@ -6,7 +6,7 @@
     "migrate": "tsx src/config/scripts/migrate.ts",
     "generate-interfaces": "tsx src/config/scripts/generateInterfaces.ts",
     "dev": "npm run migrate && npm run generate-interfaces && nodemon",
-    "build": "npm run migrate && tsc",
+    "build": "npm run migrate && tsup src/server.ts --format esm",
     "serve": "npm run build && node dist/server.js"
   },
   "keywords": [],

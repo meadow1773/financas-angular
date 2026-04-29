@@ -28,12 +28,14 @@ Projeto fullstack de controle financeiro pessoal. Backend em Node.js e Frontend 
 
 Crie o arquivo `.env` na raiz com variáveis do backend:
 ```
+NODE_ENV='development'
+NODE_VERSION='20.20.0'
+SERVER_PORT=3000
 DB_USER
 DB_HOST
 DB_NAME
 DB_PASSWORD
 DB_PORT
-SERVER_PORT
 ```
 
 ## Desenvolvimento
@@ -44,7 +46,7 @@ Inicie backend e frontend simultaneamente:
 npm start
 ```
 
-Ou use `node start.js` para orquestração customizada (inicia ambos com recarregamento). Acesse frontend em http://localhost:4200 e backend em http://localhost:3000. [youtube](https://www.youtube.com/watch?v=wJKVwCvwv9M)
+Ou use `node start.js` para orquestração customizada (inicia ambos com recarregamento). Acesse frontend em http://localhost:4200 e backend em http://localhost:3000.
 
 ## Scripts Úteis
 

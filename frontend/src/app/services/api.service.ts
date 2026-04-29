@@ -4,6 +4,7 @@ import { Observable } from 'rxjs'
 
 import { DataRequest } from '../../interfaces/dataRequest'
 import { Transacao, Categoria, Tipo, Icone } from '../../interfaces/models'
+import { environment } from '../../env/environment'
 
 @Injectable({
     providedIn: 'root'
@@ -11,7 +12,7 @@ import { Transacao, Categoria, Tipo, Icone } from '../../interfaces/models'
 
 export class ApiService {
     /** URL da Api. */
-    private apiUrl = '/api'
+    private apiUrl = environment.urlBase
 
     /** Instância da classe de cliente HTTP. */
     private http = inject(HttpClient)

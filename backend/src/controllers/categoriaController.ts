@@ -19,7 +19,7 @@ export class CategoriaController {
 
     async getCategoriaPorId(req: Request, res: Response): Promise<void> {
         try {
-            const id = parseInt(req.params.id)
+            const id = parseInt(req.params.id as string)
             const categoria = await this.categoriaService.getCategoriaPorId(id)
             if (categoria) res.json(categoria)
             else res.status(404).json({ error: 'Categoria não encontrada.' })
@@ -30,7 +30,7 @@ export class CategoriaController {
 
     async getCategoriaPorIdTipo(req: Request, res: Response): Promise<void> {
         try {
-            const idTipo = parseInt(req.params.id_tipo)
+            const idTipo = parseInt(req.params.id_tipo as string)
             const categoria = await this.categoriaService.getCategoriasPorIdTipo(idTipo)
             if(categoria) res.json(categoria)
             else res.status(404).json({ erro: 'Categoria não encontrada.' })
@@ -54,7 +54,7 @@ export class CategoriaController {
 
     async deleteCategoriaPorId(req: Request, res:Response): Promise<void> {
         try {
-            const id = parseInt(req.params.id)
+            const id = parseInt(req.params.id as string)
             await this.categoriaService.deletaCategoria(id)
 
             const categorias = await this.categoriaService.getAllCategorias()

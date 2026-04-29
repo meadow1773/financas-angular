@@ -21,7 +21,7 @@ export class TipoController {
 
     async getTipoPorId(req: Request, res: Response): Promise<void> {
         try {
-            const id = parseInt(req.params.id)
+            const id = parseInt(req.params.id as string)
             const tipo = await this.tipoService.getTipoPorId(id)
             if (tipo) res.json(tipo)
             else res.status(404).json({ error: 'Tipo não encontrado.' })

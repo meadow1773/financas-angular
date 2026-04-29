@@ -30,7 +30,7 @@ export class TransacaoController {
      */
     async getTransacaoPorId(req: Request, res: Response): Promise<void> {
         try {
-            const id = parseInt(req.params.id)
+            const id = parseInt(req.params.id as string)
             const transacao = await this.transacaoService.getTransacaoPorId(id)
             if (transacao) res.json(transacao)
             else res.status(404).json({ message: 'Transação não encontrada.' })
@@ -46,7 +46,7 @@ export class TransacaoController {
      */
     async getTransacoesPorMes(req: Request, res: Response): Promise<void> {
         try {
-            const mes = parseInt(req.params.mes)
+            const mes = parseInt(req.params.mes as string)
             const categoria = req.query.categoria as string
             const transacao = await this.transacaoService.getTransacoesPorMes(mes, categoria)
             if (transacao) res.json(transacao)
@@ -81,7 +81,7 @@ export class TransacaoController {
      */
     async deleteTransacaoPorId(req: Request, res: Response): Promise<void> {
         try {
-            const id = parseInt(req.params.id)
+            const id = parseInt(req.params.id as string)
             await this.transacaoService.deletaTransacao(id)
 
             res.status(204).json({ message: 'Dados removidos com sucesso' })

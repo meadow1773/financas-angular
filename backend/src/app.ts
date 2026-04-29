@@ -12,7 +12,7 @@ export function inicializaApp() {
 
     // Middlewares
     app.use(cors({
-        origin: process.env.RENDER_EXTERNAL_URL || 'http://localhost:4200',
+        origin: process.env.FRONT_URL || 'http://localhost:4200',
         methods: [ 'GET', 'POST', 'PUT', 'DELETE'],
         credentials: true
     }))

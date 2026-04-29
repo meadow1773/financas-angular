@@ -6,7 +6,7 @@
     "migrate": "npx tsx src/config/scripts/migrate.ts",
     "generate-interfaces": "tsx src/config/scripts/generateInterfaces.ts",
     "dev": "npm run migrate && npm run generate-interfaces && nodemon",
-    "build": "npm run migrate && npx tsup src/server.ts --format esm",
+    "build": "npm run migrate && tsup src/server.ts --format esm",
     "serve": "npm run build && node dist/server.js"
   },
   "keywords": [],
@@ -19,6 +19,7 @@
     "express": "^5.1.0",
     "helmet": "^8.1.0",
     "morgan": "^1.10.0",
+    "tsup": "^8.5.1",
     "pg": "^8.16.0"
   },
   "devDependencies": {
@@ -31,7 +32,6 @@
     "nodemon": "^3.1.10",
     "ts-morph": "^26.0.0",
     "tsconfig-paths": "^4.2.0",
-    "tsup": "^8.5.1",
     "tsx": "^4.21.0",
     "typescript": "^5.8.3"
   }

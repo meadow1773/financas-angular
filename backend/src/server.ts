@@ -18,5 +18,5 @@ const PORT = process.env.PORT || process.env.SERVER_PORT || 3000;
 const app = inicializaApp()
 
 app.listen(PORT, () => {
-    console.info(`Servidor rodando em: http://localhost:${PORT}`)
+    console.info('Servidor rodando com sucesso!')
 })
